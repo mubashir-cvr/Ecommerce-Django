@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
   
 # import local data
 from .serializers import CategorySerializer,SubcategorySerializer,SubSubcategorySerializer
@@ -6,6 +7,7 @@ from .models import Category, SubCategory,SubSubCategory
   
 # create a viewset
 class CategoryViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, )
     # define queryset
     queryset = Category.objects.all()
     # specify serializer to be used
