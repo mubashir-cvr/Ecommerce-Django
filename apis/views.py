@@ -2,12 +2,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
   
 # import local data
-from .serializers import CategorySerializer,SubcategorySerializer,SubSubcategorySerializer
-from .models import Category, SubCategory,SubSubCategory
+from .serializers import CategorySerializer,SubcategorySerializer,\
+    SubSubcategorySerializer,productSerializer,optionsSerializer
+from .models import Category, SubCategory,SubSubCategory,Options,Products
   
 # create a viewset
 class CategoryViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
     # define queryset
     queryset = Category.objects.all()
     # specify serializer to be used
@@ -26,4 +26,18 @@ class SubSubcategoryViewset(viewsets.ModelViewSet):
     queryset = SubSubCategory.objects.all()
     # specify serializer to bce used
     serializer_class = SubSubcategorySerializer
+
+
+class ProductsViewset(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Products.objects.all()
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
+class OptionsViewset(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Options.objects.all()
+    # specify serializer to bce used
+    serializer_class = optionsSerializer
 

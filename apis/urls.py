@@ -17,6 +17,9 @@ router = routers.DefaultRouter()
 router.register(r'categories', CategoryViewset)
 router.register(r'subcategories', SubcategoryViewset)
 router.register(r'subsubcategories', SubSubcategoryViewset)
+router.register(r'subsubcategories', SubSubcategoryViewset)
+router.register(r'products', ProductsViewset)
+router.register(r'options', OptionsViewset)
   
 # specify URL Path for rest_framework
 urlpatterns = [
