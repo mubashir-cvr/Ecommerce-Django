@@ -30,9 +30,14 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
     offerPrice=serializers.SerializerMethodField()
     offerPercentage=serializers.SerializerMethodField()
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+        ])
     class Meta:
         model = Products
-        fields = ('id','url', 'subsubcategory','name','image','price','offerPrice','offerPercentage','options')
+        fields = ('id','url','subsubcategory','name','image','price','offerPrice','offerPercentage','options','created_date')
     
     def get_offerPrice(self, obj):
         offer=Offer.objects.filter(product=obj)
@@ -45,6 +50,11 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
 
 class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
     products=productSerializer(many=True,read_only=True)
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+        ])
     class Meta:
         model = SubSubCategory
         fields = ('id','url','subcategory','name','image','products')
@@ -53,7 +63,8 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     subsubcategories=SubSubcategorySerializer(many=True,read_only=True)
     image = VersatileImageFieldSerializer(
         sizes=[
-            ('medium_square_crop', 'crop__400x600'),
+            ('medium_square_crop', 'crop__400x400'),
+            ('medium_rectangle_crop', 'crop__400x600'),
         ])
     class Meta:
         model = SubCategory

@@ -41,7 +41,6 @@ class ProductsViewset(viewsets.ModelViewSet):
     # define queryset
     
     queryset = Products.objects.all()
-    pagination_class =LargeResultsSetPagination
     # specify serializer to bce used
     serializer_class = productSerializer
 
@@ -58,9 +57,20 @@ class OffersaleViewset(viewsets.ModelViewSet):
     # define queryset
     
     queryset = Products.objects.filter(offers__offerPrice__gt=0)
-    pagination_class =LargeResultsSetPagination
     # specify serializer to bce used
     serializer_class = productSerializer
+
+
+
+
+
+class NewArrivalsViewset(viewsets.ModelViewSet):
+    time_threshold = datetime.now() - timedelta(days=5)
+    queryset = Products.objects.filter(created_date__gte=time_threshold)
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
 
 
 class NewCollectionViewset(viewsets.ModelViewSet):
@@ -71,18 +81,5 @@ class NewCollectionViewset(viewsets.ModelViewSet):
         for new in newcollection:
             productIds.append(new.product_id)
     queryset = Products.objects.filter(id__in=productIds)
-    pagination_class =LargeResultsSetPagination
     # specify serializer to bce used
     serializer_class = productSerializer
-
-
-
-class NewArrivalsViewset(viewsets.ModelViewSet):
-    time_threshold = datetime.now() - timedelta(days=5)
-    queryset = Products.objects.filter(created_date__gte=time_threshold)
-    pagination_class =LargeResultsSetPagination
-    # specify serializer to bce used
-    serializer_class = productSerializer
-
-
-

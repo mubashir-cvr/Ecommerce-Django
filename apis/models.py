@@ -72,6 +72,7 @@ class SubSubCategory(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name='subsubcategories', on_delete=models.CASCADE)
     order=models.IntegerField()
     image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
+    image_ppoi = PPOIField()
     name=models.CharField(max_length = 200)
     def __str__(self):
         return self.name
@@ -86,8 +87,9 @@ class SubSubCategory(models.Model):
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')  # char field for test
-    name=models.CharField(max_length = 200)
+    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
+    image_ppoi = PPOIField()
+    name=models.CharField(max_length = 200,default='Product Name')
     price=models.BigIntegerField()
     created_date=models.DateTimeField(auto_now=True)
 
@@ -102,7 +104,8 @@ class Products(models.Model):
 class Options(models.Model):
     product = models.ForeignKey(Products, related_name='options', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')      # char field for test
+    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
+    image_ppoi = PPOIField()
     color=models.CharField(max_length = 200)
     size=models.CharField(max_length = 200,null=True,blank=True)
     stock=models.IntegerField()
@@ -118,10 +121,11 @@ class Options(models.Model):
 class Offer(models.Model):
     product = models.OneToOneField(Products, related_name='offers', on_delete=models.CASCADE)
     offerPrice = models.BigIntegerField()
-    endDate = models.DateField(null=True)
+    endDate = models.DateTimeField(auto_now=True)
 
 
 
 
 class NewCollection(models.Model):
     product = models.OneToOneField(Products, related_name='newcollections', on_delete=models.CASCADE)
+    endDate=models.DateTimeField(auto_now=True)
