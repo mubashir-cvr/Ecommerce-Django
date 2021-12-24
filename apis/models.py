@@ -71,7 +71,7 @@ class SubCategory(models.Model):
 class SubSubCategory(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name='subsubcategories', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=models.CharField(max_length=100)  # char field for test
+    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
     name=models.CharField(max_length = 200)
     def __str__(self):
         return self.name
@@ -86,9 +86,10 @@ class SubSubCategory(models.Model):
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=models.CharField(max_length=100)  # char field for test
+    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')  # char field for test
     name=models.CharField(max_length = 200)
     price=models.BigIntegerField()
+    created_date=models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -101,7 +102,7 @@ class Products(models.Model):
 class Options(models.Model):
     product = models.ForeignKey(Products, related_name='options', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=models.CharField(max_length=100)  # char field for test
+    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')      # char field for test
     color=models.CharField(max_length = 200)
     size=models.CharField(max_length = 200,null=True,blank=True)
     stock=models.IntegerField()
@@ -120,3 +121,7 @@ class Offer(models.Model):
     endDate = models.DateField(null=True)
 
 
+
+
+class NewCollection(models.Model):
+    product = models.OneToOneField(Products, related_name='newcollections', on_delete=models.CASCADE)

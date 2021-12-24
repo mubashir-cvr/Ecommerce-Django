@@ -2,8 +2,8 @@ from rest_framework import viewsets,generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .pagination import *
 from .serializers import * 
-from .models import Category, SubCategory,SubSubCategory,Options,Products
-
+from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection
+from datetime import datetime,timedelta
 
 
 
@@ -61,3 +61,28 @@ class OffersaleViewset(viewsets.ModelViewSet):
     pagination_class =LargeResultsSetPagination
     # specify serializer to bce used
     serializer_class = productSerializer
+
+
+class NewCollectionViewset(viewsets.ModelViewSet):
+    # define queryset
+    productIds=[]
+    if NewCollection.objects.filter().exists():
+        newcollection=NewCollection.objects.all()
+        for new in newcollection:
+            productIds.append(new.product_id)
+    queryset = Products.objects.filter(id__in=productIds)
+    pagination_class =LargeResultsSetPagination
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
+
+class NewArrivalsViewset(viewsets.ModelViewSet):
+    time_threshold = datetime.now() - timedelta(days=5)
+    queryset = Products.objects.filter(created_date__gte=time_threshold)
+    pagination_class =LargeResultsSetPagination
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
+

@@ -22,6 +22,8 @@ router.register('subsubcategories', SubSubcategoryViewset)
 router.register('products', ProductsViewset)
 router.register('options', OptionsViewset)
 router.register('offersale', OffersaleViewset)
+router.register('newcollection', NewCollectionViewset)
+router.register('newarrivals', NewArrivalsViewset)
   
 # specify URL Path for rest_framework
 urlpatterns = [
