@@ -2,6 +2,7 @@ from django.urls import include, path
 # import routers
 from rest_framework import routers
 
+
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -14,12 +15,13 @@ from .views import *
 router = routers.DefaultRouter()
   
 # define the router path and viewset to be used
-router.register(r'categories', CategoryViewset)
-router.register(r'subcategories', SubcategoryViewset)
-router.register(r'subsubcategories', SubSubcategoryViewset)
-router.register(r'subsubcategories', SubSubcategoryViewset)
-router.register(r'products', ProductsViewset)
-router.register(r'options', OptionsViewset)
+router.register(    'categories', CategoryViewset)
+router.register('subcategories', SubcategoryViewset)
+router.register('subsubcategories', SubSubcategoryViewset)
+router.register('subsubcategories', SubSubcategoryViewset)
+router.register('products', ProductsViewset)
+router.register('options', OptionsViewset)
+router.register('offersale', OffersaleViewset)
   
 # specify URL Path for rest_framework
 urlpatterns = [

@@ -52,3 +52,12 @@ class OptionsViewset(viewsets.ModelViewSet):
     # specify serializer to bce used
     serializer_class = optionsSerializer
 
+
+
+class OffersaleViewset(viewsets.ModelViewSet):
+    # define queryset
+    
+    queryset = Products.objects.filter(offers__offerPrice__gt=0)
+    pagination_class =LargeResultsSetPagination
+    # specify serializer to bce used
+    serializer_class = productSerializer

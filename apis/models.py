@@ -119,5 +119,4 @@ class Offer(models.Model):
     offerPrice = models.BigIntegerField()
     endDate = models.DateField(null=True)
 
-    
-    
+
