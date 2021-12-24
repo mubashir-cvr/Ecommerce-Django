@@ -37,12 +37,7 @@ class SubSubcategoryViewset(viewsets.ModelViewSet):
     serializer_class = SubSubcategorySerializer
 
 
-class ProductsViewset(viewsets.ModelViewSet):
-    # define queryset
-    
-    queryset = Products.objects.all()
-    # specify serializer to bce used
-    serializer_class = productSerializer
+
 
 
 class OptionsViewset(viewsets.ModelViewSet):
@@ -81,5 +76,13 @@ class NewCollectionViewset(viewsets.ModelViewSet):
         for new in newcollection:
             productIds.append(new.product_id)
     queryset = Products.objects.filter(id__in=productIds)
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
+class ProductsViewset(viewsets.ModelViewSet):
+    # define queryset
+    
+    queryset = Products.objects.all()
     # specify serializer to bce used
     serializer_class = productSerializer

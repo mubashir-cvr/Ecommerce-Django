@@ -127,5 +127,5 @@ class Offer(models.Model):
 
 
 class NewCollection(models.Model):
-    product = models.OneToOneField(Products, related_name='newcollections', on_delete=models.CASCADE)
+    product = models.OneToOneField(Products, on_delete=models.CASCADE)
     endDate=models.DateTimeField(auto_now=True)
