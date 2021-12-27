@@ -1,28 +1,11 @@
 from rest_framework import serializers
+from apis.serializerhelper import *
 from django.contrib.auth import get_user_model
-from .serializerhelper import *
-from .models import Category, Offer,SubCategory,SubSubCategory,Products,Options
+from apis.models import Category, Offer,SubCategory,SubSubCategory,Products,Options
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
-
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """Serializer for the users object"""
-
-    class Meta:
-        model = get_user_model()
-        fields = ('id','email','password')
-        read_only_fields = ('id',)
-        extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
-
-    def create(self, validated_data):
-        """Create a new user with encrypted password and return it"""
-        return get_user_model().objects.create_user(**validated_data)
-
-
-class optionsSerializer(serializers.HyperlinkedModelSerializer):
+class AdminoptionsSerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -31,21 +14,17 @@ class optionsSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Options
-        fields = ('id','url','color','size','image')
-class productSerializer(serializers.HyperlinkedModelSerializer):
-    options=optionsSerializer(many=True,read_only=True)
+        fields = '__all__'
+class AdminproductSerializer(serializers.ModelSerializer):
     offerPrice=serializers.SerializerMethodField()
     offerPercentage=serializers.SerializerMethodField()
+    options=AdminoptionsSerializer(many=True,read_only=True)
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
             ('medium_rectangle_crop', 'crop__400x600'),
             ('original', 'url'),
         ])
-    class Meta:
-        model = Products
-        fields = ('id','name','image','price','offerPrice','offerPercentage','options','created_date')
-    
     def get_offerPrice(self, obj):
         offer=Offer.objects.filter(product=obj)
         if offer.exists():
@@ -54,9 +33,12 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
     def get_offerPercentage(self, obj):
         product=obj
         return CalculateOfferPercentage(product)
+    class Meta:
+        model = Products
+        fields = ('id','name','image','price','offerPrice','offerPercentage','options','created_date')
 
-class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
-    products=productSerializer(many=True,read_only=True)
+class AdminSubSubcategorySerializer(serializers.ModelSerializer):
+    products=AdminproductSerializer(many=True,read_only=True)
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -65,10 +47,10 @@ class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubSubCategory
-        fields = ('id','url','name','image','products')
+        fields = '__all__'
 
-class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
-    subsubcategories=SubSubcategorySerializer(many=True,read_only=True)
+class AdminSubcategorySerializer(serializers.ModelSerializer):
+    subsubcategories=AdminSubSubcategorySerializer(many=True,read_only=True)
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -77,11 +59,13 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubCategory
-        fields = ('id','url','name','image','subsubcategories')
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    subcategories=SubcategorySerializer(many=True,read_only=True)
+        fields = '__all__'
+
+
+class AdminCategorySerializer(serializers.ModelSerializer):
+    subcategories=AdminSubcategorySerializer(many=True,read_only=True)
     class Meta:
         model = Category
-        fields = ('url', 'id', 'name','subcategories')
+        fields = '__all__'
 
 

@@ -1,4 +1,4 @@
-{% extends 'stocks\base.html' %}
+{% extends 'stocks/base.html' %}
 {% load static %}
 {% block content%}
 
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Body: Body -->
-            <form method="POST" class="ajax reload">
+            <form method="POST" id="categoryform" name="categoryform" class="ajax reload">
                 {% csrf_token %}
             <div class="body d-flex py-3">
                 <div class="container-xxl">
@@ -51,24 +51,7 @@
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for cateregy in cateregories %}
-                                            <tr>
-                                                <td><strong>{{cateregy.id}}</strong></td>
-                                                <td>{{cateregy.name}}</td>
-                                                <td>March 13, 2021</td>
-                                                <td><span class="badge bg-success">Published</span></td>
-                                                <td>
-                                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                                        <a href="categories-edit.html" class="btn btn-outline-secondary"><i class="icofont-edit text-success"></i></a>
-                                                        <button type="button" class="btn btn-outline-secondary deleterow"><i class="icofont-ui-delete text-danger"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                           
-                                        </tbody>
+                                        </thead>  
                                     </table>
                                 </div>
                             </div>
@@ -179,4 +162,14 @@
             </div>  
         </div> 
         <form>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+<!-- Jquery Page Js -->
+<script src="{% static 'assets/template.js' %}"></script>
+<script src="{% static 'stocks/js/categorylist.js' %}"></script>
+    
 {% endblock %}

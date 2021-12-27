@@ -15,7 +15,7 @@ from .views import *
 router = routers.DefaultRouter()
   
 # define the router path and viewset to be used
-router.register(    'categories', CategoryViewset)
+router.register('categories', CategoryViewset)
 router.register('subcategories', SubcategoryViewset)
 router.register('subsubcategories', SubSubcategoryViewset)
 router.register('subsubcategories', SubSubcategoryViewset)
