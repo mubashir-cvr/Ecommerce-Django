@@ -37,7 +37,9 @@ class AdminproductSerializer(serializers.ModelSerializer):
         return CalculateOfferPercentage(product)
     class Meta:
         model = Products
-        fields = ('id','name','image','price','offerPrice','offerPercentage','options','created_date')
+        fields = ('id','name','image','price','offerPrice','offerPercentage','options','created_date','order','subsubcategory')
+
+
 
 class AdminSubSubcategorySerializer(serializers.ModelSerializer):
     products=AdminproductSerializer(many=True,read_only=True)
