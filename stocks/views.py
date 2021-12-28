@@ -25,23 +25,7 @@ def editproduct(request):
 
 def listcategories(request):
     form = CategoryForm(request.POST or None)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            response_data = {
-                "status" : "true",
-                "title" : "Successfully Submitted",
-                "message" : "Message successfully updated"
-            }
-        else:
-            print (form.errors)
-            response_data = {
-                "status" : "false",
-                "title" : "Form validation error",
-            }
-            return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     context={
-        'cateregories':Category.objects.all(),
         'form':form
         }
     return render(request,'stocks/listcategories.html',context)

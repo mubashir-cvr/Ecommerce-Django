@@ -1,7 +1,10 @@
 from rest_framework import viewsets,generics,mixins
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.views import APIView
 from .serializers import * 
 from apis.models import *
+from django.http.response import Http404
+from rest_framework.response import Response
 from datetime import datetime,timedelta
 
 
@@ -10,7 +13,7 @@ from datetime import datetime,timedelta
 
 class AdminCategoryViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     # define queryset
     queryset = Category.objects.all()
@@ -21,7 +24,7 @@ class AdminCategoryViewset(viewsets.GenericViewSet,
 
 class AdminSubcategoryViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     queryset = SubCategory.objects.all()
     # specify serializer to be used
@@ -38,7 +41,7 @@ class AdminSubcategoryViewset(viewsets.GenericViewSet,
 
 class AdminSubSubcategoryViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     queryset = SubSubCategory.objects.all()
     # specify serializer to bce used
@@ -57,7 +60,7 @@ class AdminSubSubcategoryViewset(viewsets.GenericViewSet,
 
 class AdminOptionsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     queryset = Options.objects.all()
     # specify serializer to bce used
@@ -74,7 +77,7 @@ class AdminOptionsViewset(viewsets.GenericViewSet,
 
 class AdminOffersaleViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     
     queryset = Products.objects.filter(offers__offerPrice__gt=0)
@@ -95,7 +98,7 @@ class AdminOffersaleViewset(viewsets.GenericViewSet,
 
 class AdminNewArrivalsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     time_threshold = datetime.now() - timedelta(days=5)
     queryset = Products.objects.filter(created_date__gte=time_threshold)
     # specify serializer to bce used
@@ -114,7 +117,7 @@ class AdminNewArrivalsViewset(viewsets.GenericViewSet,
 
 class AdminNewCollectionViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     productIds=[]
     if NewCollection.objects.filter().exists():
@@ -136,7 +139,7 @@ class AdminNewCollectionViewset(viewsets.GenericViewSet,
 
 class AdminProductsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
     # define queryset
     
     queryset = Products.objects.all()
@@ -150,3 +153,50 @@ class AdminProductsViewset(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """Create a new object"""
         serializer.save()
+    
+
+
+class DeleteCategory(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Category.objects.get(pk=pk)
+        except Category.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        category = self.get_object(pk)
+        category.delete()
+        return Response({"msg":"success"})
+
+
+
+class DeleteSubCategory(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return SubCategory.objects.get(pk=pk)
+        except SubCategory.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        subcategory = self.get_object(pk)
+        subcategory.delete()
+        return Response({"msg":"success"})
+
+
+class DeleteSubSubCategory(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return SubSubCategory.objects.get(pk=pk)
+        except SubSubCategory.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        subsubcategory = self.get_object(pk)
+        subsubcategory.delete()
+        return Response({"msg":"success"})

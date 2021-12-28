@@ -9,8 +9,9 @@ class CategoryForm(forms.ModelForm):
         model = Category
         exclude = ('timestamp',)
         widgets = {
-            'name': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Name'}),
-            'title': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Title'}),
-            'description': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Description'}),
+            'name': TextInput(attrs={'class': 'required form-control','id':'name', 'placeholder': 'Name'}),
+            'title': TextInput(attrs={'class': 'required form-control','id':'title', 'placeholder': 'Title'}),
+            'description': TextInput(attrs={'class': 'required form-control','id':'description', 'placeholder': 'Description'}),
         }
-        
+
+

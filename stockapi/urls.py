@@ -24,5 +24,8 @@ app_name = 'stockapi'
   
 # specify URL Path for rest_framework
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('deletecategory/<int:pk>',DeleteCategory.as_view()),
+     path('deletesubcategory/<int:pk>',DeleteSubCategory.as_view()),
+     path('deletesubsubcategory/<int:pk>',DeleteSubSubCategory.as_view())
 ]

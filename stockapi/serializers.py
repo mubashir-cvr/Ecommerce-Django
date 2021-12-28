@@ -9,6 +9,7 @@ class AdminoptionsSerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
             ('medium_rectangle_crop', 'crop__400x600'),
             ('original', 'url'),
         ])
@@ -22,6 +23,7 @@ class AdminproductSerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
             ('medium_rectangle_crop', 'crop__400x600'),
             ('original', 'url'),
         ])
@@ -42,6 +44,7 @@ class AdminSubSubcategorySerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
             ('medium_rectangle_crop', 'crop__400x600'),
             ('original', 'url'),
         ])
@@ -54,6 +57,7 @@ class AdminSubcategorySerializer(serializers.ModelSerializer):
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
             ('medium_rectangle_crop', 'crop__400x600'),
             ('original', 'url'),
         ])
