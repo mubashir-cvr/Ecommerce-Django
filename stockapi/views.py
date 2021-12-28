@@ -14,7 +14,6 @@ from datetime import datetime,timedelta
 class AdminCategoryViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
                             mixins.CreateModelMixin,mixins.RetrieveModelMixin):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
     # define queryset
     queryset = Category.objects.all()
     # specify serializer to be used

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     LoadCategories()
 });
 
@@ -37,7 +36,7 @@ function LoadCategories() {
             }
             table.draw();
             $('#pageHeadButton').html('<a href="#addcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Categories</a>')
-            $('#pageHeading').html('Main Categorie List')
+            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>')
 
         },
         error: function (jqXHR) {
@@ -137,8 +136,9 @@ function loadsubcategories(id) {
             $('#addsubcategory').show()
             $('#subcatorder').val(subcategories.length + 1)
             $('#categoryID').val(id)
+            $('#categoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Sub Categories</a>')
-            $('#pageHeading').html(response['name'])
+            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >'+'<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+ $('#categoryName').val()+'</a>')
             return 0;
 
         },
@@ -241,8 +241,10 @@ function loadsubsubcategories(id) {
             $('#addsubsubcategory').show()
             $('#subcatorder').val(subsubcategories.length + 1)
             $('#subcategoryID').val(id)
+            $('#subcategoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Sub Categories</a>')
-            $('#pageHeading').append('> ' + response['name'] + '>')
+            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >'+'<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+$("#categoryName").val()+'</a>\
+            >  '+'<a href="#" onclick=loadsubsubcategories('+$("#subcategoryID").val()+')>'+$("#subcategoryName").val()+'</a>')
             return 0;
 
         },
@@ -344,8 +346,11 @@ function loadproducts(id) {
             $('#addproduct').show()
             $('#productorder').val(products.length + 1)
             $('#subsubcategoryID').val(id)
+            $('#subsubcategoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Sub Categories</a>')
-            $('#pageHeading').append('> ' + response['name'] + '>')
+            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >'+'<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+$("#categoryName").val()+'</a> >  \
+            '+'<a href="#" onclick=loadsubsubcategories('+$("#subcategoryID").val()+')>'+$("#subcategoryName").val()+'</a>\
+            >  '+'<a href="#" onclick=loadproducts('+$("#subsubcategoryID").val()+')>'+$("#subsubcategoryName").val()+'</a>')
             return 0;
 
         },
