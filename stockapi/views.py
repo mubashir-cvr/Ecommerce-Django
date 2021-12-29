@@ -199,3 +199,19 @@ class DeleteSubSubCategory(APIView):
         subsubcategory = self.get_object(pk)
         subsubcategory.delete()
         return Response({"msg":"success"})
+    
+
+
+class DeleteProduct(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Products.objects.get(pk=pk)
+        except Products.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        product = self.get_object(pk)
+        product.delete()
+        return Response({"msg":"success"})
