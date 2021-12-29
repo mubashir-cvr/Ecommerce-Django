@@ -82,7 +82,7 @@ $('#productform').submit(function (event) {
     });
 });
 
-function deleteproduct(id) {
+function dleteproduct(id) {
 
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deleteproduct/" + id,
