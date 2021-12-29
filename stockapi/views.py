@@ -215,3 +215,17 @@ class DeleteProduct(APIView):
         product = self.get_object(pk)
         product.delete()
         return Response({"msg":"success"})
+
+class DeleteOption(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Options.objects.get(pk=pk)
+        except Options.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        option = self.get_object(pk)
+        option.delete()
+        return Response({"msg":"success"})
