@@ -28,5 +28,6 @@ urlpatterns = [
     path('deletecategory/<int:pk>',DeleteCategory.as_view()),
      path('deletesubcategory/<int:pk>',DeleteSubCategory.as_view()),
      path('deletesubsubcategory/<int:pk>',DeleteSubSubCategory.as_view()),
-     path('deleteproduct/<int:pk>',DeleteProduct.as_view())
+     path('deleteproduct/<int:pk>',DeleteProduct.as_view()),
+     path('deleteoption/<int:pk>',DeleteOption.as_view())
 ]

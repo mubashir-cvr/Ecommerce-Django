@@ -10,6 +10,10 @@ function hideforms() {
     $('#addoption').hide()
 
 }
+
+
+//Main Category Start
+//Display Category
 function LoadCategories() {
     hideforms();
     $('#addcategory').show()
@@ -45,7 +49,7 @@ function LoadCategories() {
     });
 }
 
-
+//ADD Category
 $('#categoryform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
@@ -74,7 +78,7 @@ $('#categoryform').submit(function (event) {
     });
 });
 
-
+//Delete Category
 function deletecategory(id) {
 
     $.ajax({
@@ -99,6 +103,11 @@ function deletecategory(id) {
 
 
 }
+
+//Main Category END
+
+//Sub Category Start
+//Display Sub Category of Main Category
 function loadsubcategories(id) {
 
 
@@ -149,7 +158,7 @@ function loadsubcategories(id) {
 
 }
 
-
+//create
 $('#subcategoryform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
@@ -178,7 +187,7 @@ $('#subcategoryform').submit(function (event) {
     });
 });
 
-
+//delete
 function deletesubcategory(id) {
 
     $.ajax({
@@ -203,7 +212,10 @@ function deletesubcategory(id) {
 
 
 }
+//Sub Category END
 
+//Sub Sub Category Start
+//List
 function loadsubsubcategories(id) {
 
     $.ajax({
@@ -254,7 +266,7 @@ function loadsubsubcategories(id) {
 
 
 }
-
+//create
 $('#subsubcategoryform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
@@ -283,7 +295,7 @@ $('#subsubcategoryform').submit(function (event) {
     });
 });
 
-
+//Delete
 function deletesubsubcategory(id) {
 
     $.ajax({
@@ -308,9 +320,10 @@ function deletesubsubcategory(id) {
 
 
 }
+//Sub Sub Category End
 
-
-
+//Product Start
+//List
 function loadproducts(id) {
 
     $.ajax({
@@ -336,7 +349,7 @@ function loadproducts(id) {
                 table.row.add([products[i].id, products[i].name,
                 '<img src="' + products[i].image['extrsmall_square_crop'] + '">', 'Published',
                 ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadoptions(' + products[i].id + ')><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ products[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=dleteproduct(' + products[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                        <button id='+ products[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deleteproduct(' + products[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
 
@@ -361,9 +374,7 @@ function loadproducts(id) {
 
 }
 
-
-
-
+//Create
 $('#productform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
@@ -393,7 +404,7 @@ $('#productform').submit(function (event) {
 
     });
 });
-
+//Delete
 function deleteproduct(id) {
 
     $.ajax({
@@ -419,8 +430,11 @@ function deleteproduct(id) {
 
 }
 
+// Product END
 
 
+// Options Start
+//list
 function loadoptions(id) {
 
     $.ajax({
@@ -446,7 +460,7 @@ function loadoptions(id) {
                 table.row.add([options[i].id, options[i].color,
                 '<img src="' + options[i].image['extrsmall_square_crop'] + '">', 'Published',
                 ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadproducts(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=dleteproduct(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                        <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deleteoption(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
 
@@ -471,7 +485,7 @@ function loadoptions(id) {
 
 }
 
-
+//create
 $('#optionform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
@@ -503,3 +517,33 @@ $('#optionform').submit(function (event) {
 
     });
 });
+
+//delete
+function deleteoption(id) {
+
+    $.ajax({
+        url: "http://127.0.0.1:8000/stockapi/deleteoption/" + id,
+        type: 'DELETE',
+        dataType: "JSON",
+
+        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        success: function (response) {
+            var tablename = $('#' + id).closest('table').DataTable();
+            tablename
+                .row($('#' + id)
+                    .parents('tr'))
+                .remove()
+                .draw();
+
+        },
+        error: function (jqXHR) {
+        }
+    });
+
+
+
+}
+
+
+
+// Options End

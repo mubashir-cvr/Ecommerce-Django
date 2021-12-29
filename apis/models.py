@@ -71,7 +71,7 @@ class SubCategory(models.Model):
 class SubSubCategory(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name='subsubcategories', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
+    image=VersatileImageField(blank=True,null=True,upload_to="SubSubcategory/",ppoi_field='image_ppoi')
     image_ppoi = PPOIField()
     name=models.CharField(max_length = 200)
     def __str__(self):
@@ -87,7 +87,7 @@ class SubSubCategory(models.Model):
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
+    image=VersatileImageField(blank=True,null=True,upload_to="Products/",ppoi_field='image_ppoi')
     image_ppoi = PPOIField()
     name=models.CharField(max_length = 200,default='Product Name')
     price=models.BigIntegerField()
@@ -104,8 +104,12 @@ class Products(models.Model):
 class Options(models.Model):
     product = models.ForeignKey(Products, related_name='options', on_delete=models.CASCADE)
     order=models.IntegerField()
-    image=VersatileImageField(blank=True,null=True,upload_to="Subcategory/",ppoi_field='image_ppoi')
-    image_ppoi = PPOIField()
+    image_one=VersatileImageField(blank=True,null=True,upload_to="Options/",ppoi_field='image_one_ppoi')
+    image_one_ppoi = PPOIField()
+    image_two=VersatileImageField(blank=True,null=True,upload_to="Options/",ppoi_field='image_two_ppoi')
+    image_two_ppoi = PPOIField()
+    image_three=VersatileImageField(blank=True,null=True,upload_to="Options/",ppoi_field='image_three_ppoi')
+    image_three_ppoi = PPOIField()
     color=models.CharField(max_length = 200)
     size=models.CharField(max_length = 200,null=True,blank=True)
     stock=models.IntegerField()
