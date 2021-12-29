@@ -92,6 +92,14 @@
                 </button>
             </div>
         </div>
+        <input type="hidden" class="required form-control" id="categoryID" name="categoryID">
+        <input type="hidden" class="required form-control" id="categoryName" name="categoryName">
+        <input type="hidden" class="required form-control" id="subcategoryID" name="subcategoryID">
+        <input type="hidden" class="required form-control" id="subcategoryName" name="subcategoryName">
+        <input type="hidden" class="required form-control" id="subsubcategoryID" name="subcategoryID">
+        <input type="hidden" class="required form-control" id="subsubcategoryName" name="subcategoryName">
+        <input type="hidden" class="required form-control" id="productID" name="subcategoryID">
+        <input type="hidden" class="required form-control" id="productName" name="subcategoryName">
 
         {% block content %}
         
@@ -106,6 +114,7 @@
     <!-- Plugin Js -->
     <script src="{% static 'assets/bundles/apexcharts.bundle.js' %}"></script>
     <script src="{% static 'assets/bundles/dataTables.bundle.js' %}"></script>  
+    <script src="{% static 'stocks/js/categorylist.js' %}"></script>
 
     <!-- Jquery Page Js -->
     <script src="{% static 'assets/page/template.js' %}"></script>
