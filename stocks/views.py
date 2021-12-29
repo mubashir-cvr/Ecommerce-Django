@@ -42,3 +42,23 @@ def orderlist(request):
 
 def orderdetails(request):
     return render(request,'stocks/orderdetails.html')
+
+def listsubcategories(request,**args):
+    
+    return render(request,'stocks/listsubcategories.html')
+
+def listsubsubcategories(request,**args):
+    
+    return render(request,'stocks/listsubsubcategories.html')
+
+
+
+def listproductsone(request,**args):
+    
+    return render(request,'stocks/listproductsone.html')
+
+
+
+def listoptions(request,**args):
+    
+    return render(request,'stocks/listoptions.html')
