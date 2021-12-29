@@ -67,15 +67,17 @@
                 </div>
             </div>
             <div id="pageforms">
-            <form method="POST" id="categoryform" name="categoryform" class="ajax reload" enctype="multipart/form-data">
-                    {% csrf_token %}
-                <div class="body py-3" id="addcategory">
-                    <div class="container-xxl">
 
+            {% comment %} ADD OPTION FORM {% endcomment %}
+            <form method="POST" id="optionform" name="optionform" class="ajax reload" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="body py-3" id="addoption">
+                    <div class="container-xxl">
+            
                         <div class="row align-items-center">
                             <div class="border-0 mb-4">
                                 <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                                    <h3 class="fw-bold mb-0">Main Category Add</h3>
+                                    <h3 class="fw-bold mb-0">Add Product Options Add</h3>
                                     <button type="submit" class="btn btn-primary py-2 px-5 text-uppercase btn-set-task w-sm-100">Save</button>
                                 </div>
                             </div>
@@ -128,11 +130,11 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-header py-3 bg-transparent border-bottom-0">
-                                            <h6 class="m-0 fw-bold">Main Categories Image Upload</h6>
+                                            <h6 class="m-0 fw-bold">Option Image Upload</h6>
                                             <small>With event and default file try to remove the image</small>
                                         </div>
                                         <div class="card-body">
-                                            <input type="file" id="dropify-event" data-default-file="{% static 'assets/images/product/cropimg-upload.jpg' %}">
+                                            <input type="file" name="optionimage" id="optionimage" data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
                                         </div>
                                     </div>
                                 </div>
@@ -143,21 +145,33 @@
                                         <h6 class="mb-0 fw-bold ">Basic information</h6>
                                     </div>
                                     <div class="card-body">
-
+            
                                             <div class="row g-3 align-items-center">
                                                 <div class="col-md-6">
-                                                    <label  class="form-label">Name</label>
-                                                    {{form.name}}
+                                                    <label class="form-label">Order</label>
+                                                    <input type="number" class="required form-control" id="optionorder" name="optionorder">
+                                                   
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label class="form-label">Main Category Title</label>
-                                                    {{form.title}}
+                                                    <label class="form-label">Color</label>
+                                                    <input type="text" class="required form-control" id="optioncolor" name="optioncolor">
+                                                   
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Size</label>
+                                                    <input type="text" class="required form-control" id="optionsize" name="optionsize">
+                                                   
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Stock</label>
+                                                    <input type="text" class="required form-control" id="optionstock" name="optionstock">
+                                                   
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <label class="form-label">Product Description</label>
+                                                    <label class="form-label">Price</label>
                                                     <div id="editor">
-                                                        <h4>Please add Category Description here</h4>
-                                                        {{form.description}}
+                                                        <h4>Please add Option Description here</h4>
+                                                        
                                                 </div>      
                                                     </div>
                                                 </div>
@@ -180,5 +194,5 @@
 <!-- Jquery Page Js -->
 <script src="{% static 'assets/template.js' %}"></script>
 <script src="{% static 'stocks/js/categorylist.js' %}"></script>
-    
+<script src="{% static 'stocks/js/optionlist.js' %}"></script>
 {% endblock %}

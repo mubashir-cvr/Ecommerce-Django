@@ -14,4 +14,8 @@ urlpatterns = [
     path('editcategory',editcategory,name="editcategory"),
     path('orderdetails',orderdetails,name="orderdetails"),
     path('orderlist',orderlist,name="orderlist"),
+    path('listsubcategories/<int:id>/<str:category>',listsubcategories,name="listsubcategories"),
+    path('listsubsubcategories/<int:id>',listsubsubcategories,name="listsubsubcategories"),
+    path('listproducts/<int:id>',listproductsone,name="listproducts"),
+    path('listoptions/<int:id>',listoptions,name="listoptions"),
 ]
