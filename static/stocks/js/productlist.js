@@ -10,7 +10,7 @@ function Loadproducts(){
         type: 'GET',
         dataType: "JSON",
     
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             console.log(response)
             table = $('#myDataTable').DataTable();
@@ -71,7 +71,7 @@ $('#productform').submit(function (event) {
         data: formData,
         processData: false,
         contentType: false,
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Token ' + localStorage.getItem('token')); },
+        
         success: function (response) {
             Loadproducts()
         },
@@ -89,7 +89,7 @@ function dleteproduct(id) {
         type: 'DELETE',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             var tablename = $('#' + id).closest('table').DataTable();
             tablename

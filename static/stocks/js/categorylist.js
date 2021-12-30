@@ -15,7 +15,7 @@ function LoadCategories() {
         type: 'GET',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             const categories = JSON.parse(JSON.stringify(response));
             for (let i = 0; i < categories.length; i++) {
@@ -57,7 +57,7 @@ $('#categoryform').submit(function (event) {
         dataType: "JSON",
         data: data,
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Token ' + localStorage.getItem('token')); },
+        
         success: function (response) {
             LoadCategories()
         },
@@ -74,7 +74,7 @@ function deletecategory(id) {
         type: 'DELETE',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             var tablename = $('#' + id).closest('table').DataTable();
             tablename

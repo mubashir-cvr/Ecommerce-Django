@@ -70,15 +70,17 @@ class NewArrivalsViewset(viewsets.ModelViewSet):
 
 class NewCollectionViewset(viewsets.ModelViewSet):
     # define queryset
-    productIds=[]
-    if NewCollection.objects.filter().exists():
-        newcollection=NewCollection.objects.all()
-        for new in newcollection:
-            productIds.append(new.product_id)
-    queryset = Products.objects.filter(id__in=productIds)
+    
+    queryset = Products.objects.all()
     # specify serializer to bce used
     serializer_class = productSerializer
-
+    def get_queryset(self):
+        productIds=[]
+        if NewCollection.objects.filter().exists():
+            newcollection=NewCollection.objects.all()
+            for new in newcollection:
+                productIds.append(new.product_id)
+        return self.queryset.filter(id__in=productIds)
 
 class ProductsViewset(viewsets.ModelViewSet):
     # define queryset

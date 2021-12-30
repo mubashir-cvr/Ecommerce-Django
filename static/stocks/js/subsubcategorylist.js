@@ -10,7 +10,7 @@ function Loadsubsubcategories(){
         type: 'GET',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             console.log(response)
             $('#addsubsubcategory').show()
@@ -68,7 +68,7 @@ $('#subsubcategoryform').submit(function (event) {
         data: formData,
         processData: false,
         contentType: false,
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Token ' + localStorage.getItem('token')); },
+        
         success: function (response) {
             Loadsubsubcategories()
         },
@@ -87,7 +87,7 @@ function deletesubsubcategory(id) {
         type: 'DELETE',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             var tablename = $('#' + id).closest('table').DataTable();
             tablename

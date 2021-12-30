@@ -10,7 +10,7 @@ function LoadOptions(){
         url: "http://127.0.0.1:8000/stockapi/adminproducts/" + id,
         type: 'GET',
         dataType: "JSON",
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             table = $('#myDataTable').DataTable();
             table
@@ -71,7 +71,7 @@ $('#optionform').submit(function (event) {
         data: formData,
         processData: false,
         contentType: false,
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Token ' + localStorage.getItem('token')); },
+        
         success: function (response) {
           LoadOptions()
         },
@@ -83,14 +83,14 @@ $('#optionform').submit(function (event) {
 });
 
 
-function deleteoption(id) {
+function dleteoption(id) {
 
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deleteoption/" + id,
         type: 'DELETE',
         dataType: "JSON",
 
-        beforeSend: function (xhr) { xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('admin')); },
+        
         success: function (response) {
             var tablename = $('#' + id).closest('table').DataTable();
             tablename
