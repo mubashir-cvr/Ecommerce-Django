@@ -6,7 +6,21 @@ from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
 class AdminoptionsSerializer(serializers.ModelSerializer):
-    image = VersatileImageFieldSerializer(
+    image_one = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+            ('original', 'url'),
+        ])
+    image_two = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('extrsmall_square_crop', 'crop__50x50'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+            ('original', 'url'),
+        ])
+    image_three = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
             ('extrsmall_square_crop', 'crop__50x50'),

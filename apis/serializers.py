@@ -23,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class optionsSerializer(serializers.HyperlinkedModelSerializer):
-    image = VersatileImageFieldSerializer(
+    image_one = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
             ('medium_rectangle_crop', 'crop__400x600'),
@@ -31,7 +31,7 @@ class optionsSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Options
-        fields = ('id','url','color','size','image')
+        fields = ('id','url','color','size','image_one')
 class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
     offerPrice=serializers.SerializerMethodField()

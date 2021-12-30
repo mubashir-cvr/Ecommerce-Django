@@ -11,22 +11,26 @@ from datetime import datetime,timedelta
 
 
 
-class AdminCategoryViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
-    # define queryset
+class AdminCategoryViewset(viewsets.ModelViewSet):
+
     queryset = Category.objects.all()
-    # specify serializer to be used
-    
     serializer_class = AdminCategorySerializer
 
+    def get_queryset(self):
+        """Return objects for the current authenticated user only"""
+        return self.queryset.all()
 
-class AdminSubcategoryViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
-    # define queryset
+    def perform_create(self, serializer):
+        """Create a new object"""
+        serializer.save()
+    
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class AdminSubcategoryViewset(viewsets.ModelViewSet):
+
     queryset = SubCategory.objects.all()
-    # specify serializer to be used
     serializer_class = AdminSubcategorySerializer
 
     def get_queryset(self):
@@ -36,11 +40,12 @@ class AdminSubcategoryViewset(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """Create a new object"""
         serializer.save()
+    
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
 
-
-class AdminSubSubcategoryViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
+class AdminSubSubcategoryViewset(viewsets.ModelViewSet):
     # define queryset
     queryset = SubSubCategory.objects.all()
     # specify serializer to bce used
@@ -53,13 +58,15 @@ class AdminSubSubcategoryViewset(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """Create a new object"""
         serializer.save()
+    
+        
 
 
 
 
 class AdminOptionsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
     # define queryset
     queryset = Options.objects.all()
     # specify serializer to bce used
@@ -76,7 +83,7 @@ class AdminOptionsViewset(viewsets.GenericViewSet,
 
 class AdminOffersaleViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
     # define queryset
     
     queryset = Products.objects.filter(offers__offerPrice__gt=0)
@@ -97,10 +104,9 @@ class AdminOffersaleViewset(viewsets.GenericViewSet,
 
 class AdminNewArrivalsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
     time_threshold = datetime.now() - timedelta(days=5)
     queryset = Products.objects.filter(created_date__gte=time_threshold)
-    # specify serializer to bce used
     serializer_class = AdminproductSerializer
 
     def get_queryset(self):
@@ -110,22 +116,26 @@ class AdminNewArrivalsViewset(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """Create a new object"""
         serializer.save()
+    
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
 
 
 
 
 class AdminNewCollectionViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
-    # define queryset
-    productIds=[]
-    if NewCollection.objects.filter().exists():
-        newcollection=NewCollection.objects.all()
-        for new in newcollection:
-            productIds.append(new.product_id)
-    queryset = Products.objects.filter(id__in=productIds)
-    # specify serializer to bce used
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+    
+    queryset = Products.objects.all()
     serializer_class = AdminproductSerializer
+    def get_queryset(self):
+        productIds=[]
+        if NewCollection.objects.filter().exists():
+            newcollection=NewCollection.objects.all()
+            for new in newcollection:
+                productIds.append(new.product_id)
+        return self.queryset.filter(id__in=productIds)
 
     def get_queryset(self):
         """Return objects for the current authenticated user only"""
@@ -138,11 +148,9 @@ class AdminNewCollectionViewset(viewsets.GenericViewSet,
 
 class AdminProductsViewset(viewsets.GenericViewSet,
                             mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin):
-    # define queryset
+                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
     
     queryset = Products.objects.all()
-    # specify serializer to bce used
     serializer_class = AdminproductSerializer
 
     def get_queryset(self):
