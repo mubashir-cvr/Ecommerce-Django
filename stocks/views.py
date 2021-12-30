@@ -31,7 +31,7 @@ def listcategories(request):
     return render(request,'stocks/listcategories.html',context)
 
 def addcategory(request):
-    return render(request,'stocks/addcategory.html')
+    return render(request,'stocks/editsubcategory.html')
 
 def editcategory(request):
     return render(request,'stocks/editcategory.html')
@@ -62,3 +62,8 @@ def listproductsone(request,**args):
 def listoptions(request,**args):
     
     return render(request,'stocks/listoptions.html')
+
+
+
+def editsubcategory(request,id):
+    return render(request,'stocks/editsubcategory.html')
