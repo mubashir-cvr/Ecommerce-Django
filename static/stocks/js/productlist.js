@@ -13,11 +13,12 @@ function Loadproducts(){
         
         success: function (response) {
             console.log(response)
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableListProduct').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Product')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();

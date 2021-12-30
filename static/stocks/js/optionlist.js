@@ -12,11 +12,12 @@ function LoadOptions(){
         dataType: "JSON",
         
         success: function (response) {
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableListOptions').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Options')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();

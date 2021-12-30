@@ -11,16 +11,18 @@ function Loadsubcategories(){
 
         
         success: function (response) {
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableSubCategory').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Categories')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
             console.log(response['subcategories'])
             const subcategories = response['subcategories'];
+            console.log(subcategories)
             for (let i = 0; i < subcategories.length; i++) {
 
                 table.row.add([subcategories[i].id, subcategories[i].name,

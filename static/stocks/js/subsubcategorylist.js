@@ -13,12 +13,12 @@ function Loadsubsubcategories(){
         
         success: function (response) {
             console.log(response)
-            $('#addsubsubcategory').show()
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableSubSubCategory').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Sub Categories')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
