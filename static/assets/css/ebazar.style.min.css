@@ -16350,7 +16350,7 @@ fieldset:disabled .btn {
   --primary-gradient: linear-gradient(45deg, #5a2ee2, #484c7f);
 }
 [class="theme-blue"] {
-  --primary-color: #c7c6ca;
+  --primary-color: #000000;
   --secondary-color: #ffd55d;
   --chart-color1: #ed5782;
   --chart-color2: #e5df88;

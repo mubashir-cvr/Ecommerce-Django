@@ -195,23 +195,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card mb-3">
-                                    <div class="card-header py-3 d-flex justify-content-between align-items-center bg-transparent border-bottom-0">
-                                        <h6 class="m-0 fw-bold">Categories</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <label  class="form-label">Parent category Select</label>
-                                        <select class="form-select" size="3" aria-label="size 3 select example">
-                                            <option selected>Watch</option>
-                                            <option value="2">Clothes</option>
-                                            <option value="3">Toy</option>
-                                            <option value="4">Cosmetic</option>
-                                            <option value="5">Laptop</option>
-                                            <option value="6">Mobile</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="card">
+                                {% comment %} <div class="card">
                                     <div class="card-header py-3 bg-transparent border-bottom-0">
                                         <h6 class="m-0 fw-bold">Categories Image Upload</h6>
                                         <small>With event and default file try to remove the image</small>
@@ -219,7 +203,7 @@
                                     <div class="card-body">
                                         <input type="file" id="dropify-event" data-default-file="{% static 'assets/images/product/Cropimg.jpg' %}">
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -237,14 +221,7 @@
                                             <div class="col-md-6">
                                                 <label class="form-label">Page Title</label>
                                                 <input type="text" class="form-control" value="Fossil Watch">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label class="form-label">Product Identifier URL</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text">https://eBazar.com</span>
-                                                    <input type="text" class="form-control" value="/product/Fossilsmart">
-                                                </div>
-                                            </div>
+                                            </div> 
                                             <div class="col-md-12">
                                                 <label class="form-label">Product Description</label>
                                                 <div id="editor">
