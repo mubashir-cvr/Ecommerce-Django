@@ -93,6 +93,7 @@ function deleteproduct(id) {
     })
         .then((willDelete) => {
             if (willDelete) {
+
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deleteproduct/" + id,
         type: 'DELETE',
@@ -110,11 +111,10 @@ function deleteproduct(id) {
         },
         error: function (jqXHR) {
         }
+    });}else {
+        swal("Safe");
+    }
     });
-}else {
-    swal("Safe");
-}
-});
 
 
 
@@ -123,7 +123,9 @@ function deleteproduct(id) {
 
 
 
-
+function editproduct(id) {
+    window.location="http://127.0.0.1:8000/stocks/listoptions/"+id
+}
 
 function loadoptions(id) {
     window.location="http://127.0.0.1:8000/stocks/listoptions/"+id
@@ -139,8 +141,3 @@ $("#productimage").change(function () {
         reader.readAsDataURL(this.files[0]);
     }
 });
-
-
-function editproduct(id) {
-    window.location="http://127.0.0.1:8000/stocks/editproducts/"+id
-}

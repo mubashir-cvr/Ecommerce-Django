@@ -111,6 +111,7 @@ class Options(models.Model):
     image_three=VersatileImageField(blank=True,null=True,upload_to="Options/",ppoi_field='image_three_ppoi')
     image_three_ppoi = PPOIField()
     color=models.CharField(max_length = 200)
+    colorhash=models.CharField(max_length = 200)
     size=models.CharField(max_length = 200,null=True,blank=True)
     stock=models.IntegerField()
     def __str__(self):

@@ -171,7 +171,7 @@
     </div>
 
     <!-- Body: Body -->
-    <form method="POST" name="editsubcategory" id="editsubcategory" enctype="multipart/form-data">
+    <form method="POST" name="editsubsubcategory" id="editsubsubcategory" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="body d-flex py-3">
             <div class="container-xxl">
@@ -245,13 +245,13 @@
                                     <div class="row g-3 align-items-center">
                                         <div class="col-md-6">
                                             <label class="form-label">Name</label>
-                                            <input type="text" name="subcatname" id="subcatname" class="form-control">
+                                            <input type="text" name="subsubcatname" id="subsubcatname" class="form-control">
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Category Order</label>
-                                            <input type="text" name="subcatorder" id="subcatorder" class="form-control">
+                                            <input type="text" name="subsubcatorder" id="subsubcatorder" class="form-control">
+                                            <input type="hidden" name="subsubcatID" id="subsubcatID" class="form-control">
                                             <input type="hidden" name="subcatID" id="subcatID" class="form-control">
-                                            <input type="hidden" name="catID" id="catID" class="form-control">
                                         </div>
                                         {% comment %} 
                                         <div class="col-md-12">
@@ -312,7 +312,7 @@
                                     <div class="row g-3 align-items-center">
                                         
                                         <div class="col-md-6">
-                                            <label class="form-label">Number of Subcategories</label>
+                                            <label class="form-label">Number of subSubcategories</label>
                                            <p id="nummberofproducts"></p>
                                             
                                         </div>
@@ -320,10 +320,10 @@
                                             <table style="width:100%">
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>SUB Category</th>
+                                                    <th>Products</th>
                                                     <th>Status</th>
                                                 </tr>
-                                                <tbody id="subsubcategoryrows">
+                                                <tbody id="productrows">
 
                                                 </tbody>
                                             </table>
@@ -548,5 +548,5 @@
 
 
 {% block javascript %}
-<script src="{% static 'stocks/js/edit-subcategory.js' %}"></script>
+<script src="{% static 'stocks/js/edit-subsubcategory.js' %}"></script>
 {% endblock %}

@@ -25,9 +25,9 @@ function Loadsubcategories(){
             console.log(subcategories)
             for (let i = 0; i < subcategories.length; i++) {
 
-                table.row.add([subcategories[i].id, subcategories[i].name,
-                '<img src="' + subcategories[i].image['extrsmall_square_crop'] + '">', 'Published',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadsubsubcategories('+subcategories[i].id+')><i class="icofont-edit text-success"></i></a>\
+                table.row.add(['<div onclick=loadsubsubcategories(' +subcategories[i].id +')>'+subcategories[i].id+'</div>','<div onclick=loadsubsubcategories(' +subcategories[i].id +')>'+subcategories[i].name+'</div>',
+                '<img src="' + subcategories[i].image['extrsmall_square_crop'] + '">', '<div onclick=loadsubsubcategories(' +subcategories[i].id +')>Published</div>',
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editsubsubcategories('+subcategories[i].id+')><i class="icofont-edit text-success"></i></a>\
                         <button id='+ subcategories[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletesubcategory(' + subcategories[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
@@ -78,7 +78,15 @@ $('#subcategoryform').submit(function (event) {
 
 
 function deletesubcategory(id) {
-
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover datas",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deletesubcategory/" + id,
         type: 'DELETE',
@@ -97,6 +105,10 @@ function deletesubcategory(id) {
         error: function (jqXHR) {
         }
     });
+}else {
+    swal("Safe");
+}
+});
 
 
 
@@ -107,3 +119,17 @@ function loadsubsubcategories(id) {
     window.location="http://127.0.0.1:8000/stocks/listsubsubcategories/"+id
 }
 
+function editsubsubcategories(id){
+    window.location="http://127.0.0.1:8000/stocks/editsubcategory/"+id
+
+}
+
+$("#subcatimage").change(function () {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imageone').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});

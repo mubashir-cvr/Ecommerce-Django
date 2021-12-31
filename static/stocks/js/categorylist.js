@@ -68,7 +68,15 @@ $('#categoryform').submit(function (event) {
 
 
 function deletecategory(id) {
-
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover datas",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deletecategory/" + id,
         type: 'DELETE',
@@ -87,6 +95,10 @@ function deletecategory(id) {
         error: function (jqXHR) {
         }
     });
+}else {
+    swal("Safe");
+}
+});
 
 
 

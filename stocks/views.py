@@ -67,3 +67,14 @@ def listoptions(request,**args):
 
 def editsubcategory(request,id):
     return render(request,'stocks/editsubcategory.html')
+
+
+def editsubsubcategory(request,id):
+    return render(request,'stocks/editsubsubcategory.html')
+
+
+
+def editproducts(request,id):
+    return render(request,'stocks/editproducts.html')
+
+
