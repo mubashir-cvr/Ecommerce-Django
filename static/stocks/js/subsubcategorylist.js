@@ -13,12 +13,12 @@ function Loadsubsubcategories(){
         
         success: function (response) {
             console.log(response)
-            $('#addsubsubcategory').show()
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableSubSubCategory').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Sub Categories')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
@@ -26,9 +26,9 @@ function Loadsubsubcategories(){
             const subsubcategories = response['subsubcategories'];
             for (let i = 0; i < subsubcategories.length; i++) {
 
-                table.row.add([subsubcategories[i].id, subsubcategories[i].name,
-                '<img src="' + subsubcategories[i].image['extrsmall_square_crop'] + '">', 'Published',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadproducts(' + subsubcategories[i].id + ')><i class="icofont-edit text-success"></i></a>\
+                table.row.add(['<div onclick=loadproducts('+subsubcategories[i].id+')>'+subsubcategories[i].id+'</div>','<div onclick=loadproducts(' +subsubcategories[i].id +')>'+ subsubcategories[i].name+'</div>',
+                '<img src="' + subsubcategories[i].image['extrsmall_square_crop'] + '">', '<div onclick=loadproducts('+subsubcategories[i].id+')>Published</div>',
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editsubsubcategory(' + subsubcategories[i].id + ')><i class="icofont-edit text-success"></i></a>\
                         <button id='+ subsubcategories[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletesubsubcategory(' + subsubcategories[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
@@ -81,7 +81,15 @@ $('#subsubcategoryform').submit(function (event) {
 
 
 function deletesubsubcategory(id) {
-
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover datas",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deletesubsubcategory/" + id,
         type: 'DELETE',
@@ -100,6 +108,15 @@ function deletesubsubcategory(id) {
         error: function (jqXHR) {
         }
     });
+}else {
+    swal("Safe");
+}
+});
+
+}
+
+function editsubsubcategory(id) {
+    window.location="http://127.0.0.1:8000/stocks/editsubsubcategory/"+id
 
 }
 
@@ -109,6 +126,17 @@ function loadproducts(id) {
     window.location="http://127.0.0.1:8000/stocks/listproducts/"+id
 
 }
+
+$("#subsubcatimage").change(function () {
+    $('#submitbutton').show()
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imageone').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});
 
 
 

@@ -64,9 +64,7 @@ class AdminSubSubcategoryViewset(viewsets.ModelViewSet):
 
 
 
-class AdminOptionsViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+class AdminOptionsViewset(viewsets.ModelViewSet):
     # define queryset
     queryset = Options.objects.all()
     # specify serializer to bce used
@@ -81,9 +79,7 @@ class AdminOptionsViewset(viewsets.GenericViewSet,
 
 
 
-class AdminOffersaleViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+class AdminOffersaleViewset(viewsets.ModelViewSet):
     # define queryset
     
     queryset = Products.objects.filter(offers__offerPrice__gt=0)
@@ -102,9 +98,7 @@ class AdminOffersaleViewset(viewsets.GenericViewSet,
 
 
 
-class AdminNewArrivalsViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+class AdminNewArrivalsViewset(viewsets.ModelViewSet):
     time_threshold = datetime.now() - timedelta(days=5)
     queryset = Products.objects.filter(created_date__gte=time_threshold)
     serializer_class = AdminproductSerializer
@@ -123,9 +117,7 @@ class AdminNewArrivalsViewset(viewsets.GenericViewSet,
 
 
 
-class AdminNewCollectionViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+class AdminNewCollectionViewset(viewsets.ModelViewSet):
     
     queryset = Products.objects.all()
     serializer_class = AdminproductSerializer
@@ -146,9 +138,7 @@ class AdminNewCollectionViewset(viewsets.GenericViewSet,
         serializer.save()
 
 
-class AdminProductsViewset(viewsets.GenericViewSet,
-                            mixins.ListModelMixin,
-                            mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin):
+class AdminProductsViewset(viewsets.ModelViewSet):
     
     queryset = Products.objects.all()
     serializer_class = AdminproductSerializer

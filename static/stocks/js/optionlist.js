@@ -12,11 +12,12 @@ function LoadOptions(){
         dataType: "JSON",
         
         success: function (response) {
-            table = $('#myDataTable').DataTable();
+            table = $('#myDataTableListOptions').DataTable();
             table
                 .rows()
                 .remove()
                 .draw();
+            table.draw();
             table.columns(1).header().to$().text('Options')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
@@ -26,8 +27,8 @@ function LoadOptions(){
 
                 table.row.add([options[i].id, options[i].color,
                 '<img src="' + options[i].image_one['extrsmall_square_crop'] + '">', 'Published',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadproducts(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=dleteoption(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editoption(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
+                        <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deleteoption(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
             }
@@ -53,10 +54,11 @@ $('#optionform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
     var formData = new FormData(document.getElementById("optionform"));
-    formData.append("image_one", $("#optionimage")[0].files[0]);
-    formData.append("image_two", $("#optionimage")[0].files[0]);
-    formData.append("image_three", $("#optionimage")[0].files[0]);
+    formData.append("image_one", $("#optionimageone")[0].files[0]);
+    formData.append("image_two", $("#optionimagetwo")[0].files[0]);
+    formData.append("image_three", $("#optionimagethree")[0].files[0]);
     formData.append("name", $("#optionname").val());
+    formData.append("colorhash", $("#optioncolorhash").val());
     formData.append("color", $("#optioncolor").val());
     formData.append("order", $("#optionorder").val());
     formData.append("size", $("#optionsize").val());
@@ -82,9 +84,19 @@ $('#optionform').submit(function (event) {
     });
 });
 
-
-function dleteoption(id) {
-
+function editoption(id){
+    window.location="http://127.0.0.1:8000/stocks/editoptions/"+id;
+}
+function deleteoption(id) {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover datas",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/deleteoption/" + id,
         type: 'DELETE',
@@ -103,7 +115,41 @@ function dleteoption(id) {
         error: function (jqXHR) {
         }
     });
-
+}else {
+    swal("Safe");
+}
+});
 
 
 }
+
+$("#optionimageone").change(function () {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imageone').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+$("#optionimagetwo").change(function () {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imagetwo').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+
+
+$("#optionimagethree").change(function () {
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imagethree').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+
