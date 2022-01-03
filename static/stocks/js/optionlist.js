@@ -74,11 +74,34 @@ $('#optionform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
-            console.log(response)
+            console.log(response.id)
             $('#sizes').find('tr').each(function (i, el) {
-                productId = $(this).find("td:eq(0) input[type='text']").val();
-                product =$(this).find("td:eq(1) input[type='text']").val();
-                console.log(productId+""+product)
+                
+                size = $(this).find("td:eq(0) input[type='text']").val();
+                stock =$(this).find("td:eq(1) input[type='text']").val();
+                data={
+                    "stock":stock,
+                    "size":size,
+                    "option":response.id
+                }
+            $.ajax({
+                url: "http://127.0.0.1:8000/stockapi/sizeslist/",
+                type: 'POST',
+                data: data,
+                dataType: "JSON",
+                data: data,
+                
+                success: function (response) {
+                    
+                     console.log(response)
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR.responseText)
+                }
+        
+            });
+          
+                console.log("Added")
              }
              );
           LoadOptions()
