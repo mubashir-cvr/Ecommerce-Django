@@ -78,3 +78,7 @@ def editproducts(request,id):
     return render(request,'stocks/editproducts.html')
 
 
+def editoptions(request,id):
+    return render(request,'stocks/editoptions.html')
+
+

@@ -83,7 +83,6 @@ class SubSubCategory(models.Model):
 
 
 
-
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
     order=models.IntegerField()

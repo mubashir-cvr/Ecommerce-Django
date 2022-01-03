@@ -27,7 +27,7 @@ function LoadOptions(){
 
                 table.row.add([options[i].id, options[i].color,
                 '<img src="' + options[i].image_one['extrsmall_square_crop'] + '">', 'Published',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=loadproducts(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editoption(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
                         <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deleteoption(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
@@ -84,7 +84,9 @@ $('#optionform').submit(function (event) {
     });
 });
 
-
+function editoption(id){
+    window.location="http://127.0.0.1:8000/stocks/editoptions/"+id;
+}
 function deleteoption(id) {
     swal({
         title: "Are you sure?",
