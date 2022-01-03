@@ -197,30 +197,47 @@
                                                     <img id="imageone" style="width: 100%;" src="https://dummyimage.com/150x200.gif" class="img-responsive"
                                                         alt="Picture">
                                                 </div>
+                                                <input type="file" name="optionimageone" id="optionimageone"
+                                                data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="img-container">
                                                     <img id="imagetwo" style="width: 100%;" src="https://dummyimage.com/150x200.gif" class="img-responsive"
                                                         alt="Picture">
                                                 </div>
+                                                
+                                    <input type="file" name="optionimagetwo" id="optionimagetwo"
+                                    data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="img-container">
                                                     <img id="imagethree" style="width: 100%;" src="https://dummyimage.com/150x200.gif" class="img-responsive"
                                                         alt="Picture">
                                                 </div>
+                                                
+                                   
+                                    <input type="file" name="optionimagethree" id="optionimagethree"
+                                    data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
                                             </div>
                                             
                                         </div><!-- Row end  -->
                                     </div>
                                 </div>
                                 <div class="card-body col-lg-12">
-                                    <input type="file" name="optionimageone" id="optionimageone"
-                                        data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
-                                    <input type="file" name="optionimagetwo" id="optionimagetwo"
-                                        data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
-                                    <input type="file" name="optionimagethree" id="optionimagethree"
-                                        data-default-file="{% static 'assets/images/option/cropimg-upload.jpg' %}">
+                                </div>
+                                <div class="border-0 mb-4">
+                                    <h6 class="m-0 fw-bold">Size Available</h6>
+                                </div>
+                                <div class="border-0 mb-4 col-md-12">
+                                    <table id="sizes" class="col-md-12">
+                                        <tr>
+                                            <td><input type="text" class="form-control" placeholder="Size"></td>
+                                            <td><input type="text" class="form-control" placeholder="Stock"></td>
+                                            <td><i class="icofont-plus me-2 fs-6"id="addRow" ></i></td>
+                                            <td><i class="icofont-minus me-2 fs-6" id="removeRow"></i></td>
+                                        </tr>
+
+                                    </table>
                                 </div>
 
                                 <div class="border-0 mb-4">
@@ -259,6 +276,21 @@
                 { targets: [-1, -3], className: 'dt-body-right' }
             ]
         });
+        $(document).on('click', '#addRow', function ()  {
+        var html = '';
+        html += `<tr>
+                                            <td><input type="text" class="form-control" placeholder="Size"></td>
+                                            <td><input type="text" class="form-control" placeholder="Stock"></td>
+                                            <td><i class="icofont-plus me-2 fs-6" id="addRow"></i></td>
+                                            <td><i class="icofont-minus me-2 fs-6" id="removeRow"></i></td>
+                                        </tr>`;
+
+        $('#sizes').append(html);
+    });
+        $(document).on('click', '#removeRow', function () {
+           
+        $(this).closest('tr').remove();
+    });
 
 </script>
 {% endblock %}

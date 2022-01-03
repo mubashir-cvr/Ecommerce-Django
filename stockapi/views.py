@@ -227,3 +227,21 @@ class DeleteOption(APIView):
         option = self.get_object(pk)
         option.delete()
         return Response({"msg":"success"})
+
+
+
+
+class AdminBrandViewSet(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Brand.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = AdminBrandSerializer
+
+
+class AdminSizeViewSet(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Sizes.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = AdminSizesSerializer

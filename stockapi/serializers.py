@@ -5,7 +5,14 @@ from apis.models import Category, Offer,SubCategory,SubSubCategory,Products,Opti
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
+
+
+class AdminSizesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sizes
+        fields = ('id','stock','size',"option")
 class AdminoptionsSerializer(serializers.ModelSerializer):
+    sizes=AdminSizesSerializer(many=True,read_only=True)
     image_one = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -89,3 +96,9 @@ class AdminCategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class AdminBrandSerializer(serializers.HyperlinkedModelSerializer):
+    products=AdminproductSerializer(many=True,read_only=True)
+    class Meta:
+        model=Brand
+        fields = ('id','url','name','products')

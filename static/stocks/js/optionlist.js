@@ -21,7 +21,6 @@ function LoadOptions(){
             table.columns(1).header().to$().text('Options')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
-            console.log(response['options'])
             const options = response['options'];
             for (let i = 0; i < options.length; i++) {
 
@@ -75,6 +74,13 @@ $('#optionform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
+            console.log(response)
+            $('#sizes').find('tr').each(function (i, el) {
+                productId = $(this).find("td:eq(0) input[type='text']").val();
+                product =$(this).find("td:eq(1) input[type='text']").val();
+                console.log(productId+""+product)
+             }
+             );
           LoadOptions()
         },
         error: function (jqXHR) {
@@ -83,6 +89,7 @@ $('#optionform').submit(function (event) {
 
     });
 });
+
 
 function editoption(id){
     window.location="http://127.0.0.1:8000/stocks/editoptions/"+id;
