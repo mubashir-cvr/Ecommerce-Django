@@ -38,9 +38,7 @@ function Loadproducts(){
             $('#subsubcategoryID').val(id)
             $('#subsubcategoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addproduct" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Product</a>')
-            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >'+'<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+$("#categoryName").val()+'</a> >  \
-            '+'<a href="#" onclick=loadsubsubcategories('+$("#subcategoryID").val()+')>'+$("#subcategoryName").val()+'</a>\
-            >  '+'<a href="#" onclick=loadproducts('+$("#subsubcategoryID").val()+')>'+$("#subsubcategoryName").val()+'</a>')
+            $('#pageHeading').html('<a href="#" onclick=loadproducts('+$("#subsubcategoryID").val()+')>'+$("#subsubcategoryName").val()+'</a>')
             return 0;
     
         },
@@ -104,7 +102,8 @@ $('#productform').submit(function (event) {
                 dataType:'JSON',
                 
                 success: function (response) {
-                    
+                    $('#productform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
                     Loadproducts()
                 },
                 error: function (jqXHR) {
@@ -114,9 +113,12 @@ $('#productform').submit(function (event) {
             });
         }
         else{
-            
+            $('#productform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
         Loadproducts()
         }
+        $('#productform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
         Loadproducts()
         },
         error: function (jqXHR) {

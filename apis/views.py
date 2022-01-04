@@ -99,6 +99,7 @@ class BrandViewSet(viewsets.ModelViewSet):
     serializer_class = BrandSerializer
 
 
+
 class SizeViewSet(viewsets.ModelViewSet):
     # define queryset
     queryset = Sizes.objects.all()

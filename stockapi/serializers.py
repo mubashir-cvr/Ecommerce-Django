@@ -98,10 +98,9 @@ class AdminCategorySerializer(serializers.ModelSerializer):
 
 
 class AdminBrandSerializer(serializers.HyperlinkedModelSerializer):
-    products=AdminproductSerializer(many=True,read_only=True)
     class Meta:
         model=Brand
-        fields = ('id','url','name','products')
+        fields = ('id','url','name','products','is_popular')
 
 
     

@@ -4,7 +4,7 @@ from .views import *
 app_name="stock"
 
 urlpatterns = [
-    path('',home,name="home"),
+    path('',listcategories,name="listcategories"),
     path('addproduct',addproduct,name="addproduct"),
     path('listProducts',listProduct,name="listProduct"),
     path('listproductgrid',listproductgrid,name="listproductgrid"),
@@ -23,4 +23,5 @@ urlpatterns = [
     path('editproducts/<int:id>',editproducts,name="editproducts"),
     path('editoptions/<int:id>',editoptions,name="editoptions"),
     path('listsizes/<int:id>',listsizes,name="listsizes"),
+    path('listbrands',listbrands,name="listbrands"),
 ]

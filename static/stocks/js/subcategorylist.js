@@ -38,7 +38,7 @@ function Loadsubcategories(){
             $("#categoryID").val(params[params.length-2])
             $('#categoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Categories</a>')
-            $('#pageHeading').html('<a href="http://127.0.0.1:8000/stocks/listcategories">Categorie List</a>  >'+'<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+ $('#categoryName').val()+'</a>')
+            $('#pageHeading').html('<a href="http://127.0.0.1:8000/stocks/listsubcategories/'+$('#categoryID').val()+'/'+$('#categoryName').val()+'">'+$('#categoryName').val()+'</a>')
             return 0;
 
         },
@@ -67,6 +67,8 @@ $('#subcategoryform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
+            $('#subcategoryform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsubcategories();
         },
         error: function (jqXHR) {

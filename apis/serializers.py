@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class BrandSerializerforProduct(serializers.ModelSerializer):
     class Meta:
         model=Brand
-        fields = ('id','name')
+        fields = ('id','name','is_popular')
 class SizesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sizes
@@ -80,6 +80,7 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
 
 class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
     products=productSerializer(many=True,read_only=True)
+    availablebrands=serializers.SerializerMethodField()
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -88,7 +89,12 @@ class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubSubCategory
-        fields = ('id','url','name','image','products')
+        fields = ('id','url','name','image','products','availablebrands')
+    def get_availablebrands(self,subsubcategory):
+        products=Products.objects.filter(subsubcategory=subsubcategory)
+        brands=Brand.objects.filter(products__in=products)
+        serializer = BrandSerializerforProduct(brands,many=True)
+        return serializer.data
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     subsubcategories=SubSubcategorySerializer(many=True,read_only=True)

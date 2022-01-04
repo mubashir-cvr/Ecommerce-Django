@@ -40,8 +40,7 @@ function Loadsubsubcategories(){
             $('#subcategoryID').val(id)
             $('#subcategoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Sub Categories</a>')
-            $('#pageHeading').html('<a href="#" onclick=loadsubcategories('+$("#categoryID").val()+')>'+$("#categoryName").val()+'</a>\
-            >  '+'<a href="#" onclick=loadsubsubcategories('+$("#subcategoryID").val()+')>'+$("#subcategoryName").val()+'</a>')
+            $('#pageHeading').html( '<a href="#" onclick=loadsubsubcategories('+$("#subcategoryID").val()+')>'+$("#subcategoryName").val()+'</a>')
             return 0;
 
         },
@@ -70,6 +69,8 @@ $('#subsubcategoryform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
+            $('#subsubcategoryform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsubsubcategories()
         },
         error: function (jqXHR) {

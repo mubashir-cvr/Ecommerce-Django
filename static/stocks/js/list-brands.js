@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    LoadCategories()
+    LoadBrands()
 });
 
 
-function LoadCategories() {
+function LoadBrands() {
     $('#addcategory').show()
     table = $('#myDataTable').DataTable();
     table
@@ -11,25 +11,26 @@ function LoadCategories() {
         .remove()
         .draw();
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "http://127.0.0.1:8000/stockapi/brandlist/",
         type: 'GET',
         dataType: "JSON",
 
 
         success: function (response) {
-            const categories = JSON.parse(JSON.stringify(response));
-            for (let i = 0; i < categories.length; i++) {
+            const brands = JSON.parse(JSON.stringify(response));
+            console.log(brands)
+            for (let i = 0; i < brands.length; i++) {
 
-                table.row.add(['<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].id + '</div>', '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].name + '</div>',
-                '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>March 13, 2021', 'Published</div>',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editcategories(' + categories[i].id + ',"' + categories[i].name + '")><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ categories[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletecategory(' + categories[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                table.row.add(['<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>' + brands[i].id + '</div>', '<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>' + brands[i].name + '</div>',
+                '<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>March 13, 2021</div>',brands[i].is_popular,
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editbrands(' + brands[i].id + ',"' + brands[i].name + '")><i class="icofont-edit text-success"></i></a>\
+                        <button id='+ brands[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletecategory(' + brands[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
             }
             table.draw();
-            $('#pageHeadButton').html('<a href="#addcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Categories</a>')
-            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>')
+            $('#pageHeadButton').html('<a href="#addcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add brands</a>')
+            $('#pageHeading').html('<a href="#" onclick="LoadBrands()">Brand List</a>')
 
         },
         error: function (jqXHR) {
@@ -52,7 +53,7 @@ $('#categoryform').submit(function (event) {
         csrfmiddlewaretoken: csrf_token1
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "http://127.0.0.1:8000/stockapi/brandlist/",
         type: 'POST',
         dataType: "JSON",
         data: data,
@@ -61,7 +62,7 @@ $('#categoryform').submit(function (event) {
         success: function (response) {
             $('#categoryform').get(0).reset()
             $("img").attr("src", "")
-            LoadCategories()
+            LoadBrands()
         },
         error: function (jqXHR) {
             console.log(jqXHR)
@@ -106,8 +107,8 @@ function deletecategory(id) {
 
 
 }
-function loadsubcategories(id, name) {
-    window.location = "http://127.0.0.1:8000/stocks/listsubcategories/" + id + "/" + name
+function loadsubbrands(id, name) {
+    // window.location = "http://127.0.0.1:8000/stocks/listsubbrands/" + id + "/" + name
 }
 
 

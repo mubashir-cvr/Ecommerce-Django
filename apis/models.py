@@ -84,6 +84,7 @@ class SubSubCategory(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length = 225)
+    is_popular =models.BooleanField(default=False)
 
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
