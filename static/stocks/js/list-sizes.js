@@ -1,13 +1,14 @@
 $(document).ready(function () {
-    LoadOptions()
+    Loadsizes()
 });
-function LoadOptions() {
+function Loadsizes() {
+    $('.absolutepos').hide()
     var url = window.location.href;
     var params = url.split('/');
     id = params[params.length - 1]
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/" + id,
+        url: "http://127.0.0.1:8000/stockapi/adminoptions/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -18,27 +19,25 @@ function LoadOptions() {
                 .remove()
                 .draw();
             table.draw();
-            table.columns(1).header().to$().text('Options')
-            table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
-            const options = response['options'];
-            for (let i = 0; i < options.length; i++) {
+            const sizes = response['sizes'];
+            for (let i = 0; i < sizes.length; i++) {
 
-                table.row.add(['<div onclick=loadsizes(' + options[i].id + ')>' + options[i].id + '</div>', '<div onclick=loadsizes(' + options[i].id + ')>' + options[i].color + '</div>',
-                '<img src="' + options[i].image_one['extrsmall_square_crop'] + '">', 'Published',
-                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editoption(' + options[i].id + ')><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ options[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deleteoption(' + options[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                table.row.add(['<div onclick=loadsizes(' + sizes[i].id + ')>' + sizes[i].id + '</div>', '<div onclick=loadsizes(' + sizes[i].id + ')>' + sizes[i].size + '</div>',
+                sizes[i].stock, 'Published',
+                ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editsize(' + sizes[i].id + ')><i class="icofont-edit text-success"></i></a>\
+                        <button id='+ sizes[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletesize(' + sizes[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
             }
             table.draw();
-            $('#optionorder').val(options.length + 1)
+            $('#optionorder').val(sizes.length + 1)
             $('#productID').val(id)
             $('#productName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addproduct" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Product</a>')
             $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >' + '<a href="#" onclick=loadsubcategories(' + $("#categoryID").val() + ')>' + $("#categoryName").val() + '</a> >  \
             '+ '<a href="#" onclick=loadsubsubcategories(' + $("#subcategoryID").val() + ')>' + $("#subcategoryName").val() + '</a>\
-            >  '+ '<a href="#" onclick=loadproducts(' + $("#subsubcategoryID").val() + ')>' + $("#subsubcategoryName").val() + '</a>  >  ' + '<a href="#" onclick=loadoptions(' + $("#productID").val() + ')>' + $("#productName").val() + '</a>')
+            >  '+ '<a href="#" onclick=loadproducts(' + $("#subsubcategoryID").val() + ')>' + $("#subsubcategoryName").val() + '</a>  >  ' + '<a href="#" onclick=loadsizes(' + $("#productID").val() + ')>' + $("#productName").val() + '</a>')
 
         },
         error: function (jqXHR) {
@@ -74,7 +73,7 @@ $('#optionform').submit(function (event) {
         contentType: false,
 
         success: function (response) {
-            
+            console.log(response.id)
             $('#sizes').find('tr').each(function (i, el) {
 
                 size = $(this).find("td:eq(0) input[type='text']").val();
@@ -92,15 +91,19 @@ $('#optionform').submit(function (event) {
                     data: data,
 
                     success: function (response) {
+
+                        console.log(response)
                     },
                     error: function (jqXHR) {
                         console.log(jqXHR.responseText)
                     }
 
                 });
+
+                console.log("Added")
             }
             );
-            LoadOptions()
+            Loadsizes()
         },
         error: function (jqXHR) {
             console.log(jqXHR.responseText)
@@ -110,10 +113,57 @@ $('#optionform').submit(function (event) {
 });
 
 
-function editoption(id) {
-    window.location = "http://127.0.0.1:8000/stocks/editoptions/" + id;
+
+
+function editsize(id) {
+    $.ajax({
+        url: "http://127.0.0.1:8000/stockapi/sizeslist/" + id,
+        type: 'GET',
+        dataType: "JSON",
+
+        success: function (response) {
+            $('.absolutepos').fadeIn()
+            $('#editsizeID').val(id)
+            $('#editsize').val(response.size)
+            $('#editstock').val(response.stock)
+        },
+        error: function (jqXHR) {
+        }
+    });
+    
 }
-function deleteoption(id) {
+$('#sizeeditform').submit(function (event) {
+    event.preventDefault()
+    var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
+    
+    var formData = new FormData(document.getElementById("sizeeditform"));
+    
+    formData.append("stock", $("#editstock").val());
+    formData.append("size", $("#editsize").val());
+    formData.append("csrfmiddlewaretoken", csrf_token1);
+    data = formData
+    id=$('#editsizeID').val()
+    $.ajax({
+        url: "http://127.0.0.1:8000/stockapi/sizeslist/"+id+"/",
+        type: 'PATCH',
+        data: formData,
+        processData: false,
+        contentType: false,
+        
+        success: function (response) {
+            $('.absolutepos').hide()
+            Loadsizes()
+        },
+        error: function (jqXHR) {
+            console.log(JSON.stringify(jqXHR))
+        }
+
+    });
+});
+
+
+
+function deletesize(id) {
     swal({
         title: "Are you sure?",
         text: "Once deleted, you will not be able to recover datas",
@@ -124,10 +174,9 @@ function deleteoption(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deleteoption/" + id,
+                    url: "http://127.0.0.1:8000/stockapi/deletesize/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
-
 
                     success: function (response) {
                         var tablename = $('#' + id).closest('table').DataTable();
@@ -179,10 +228,37 @@ $("#optionimagethree").change(function () {
     }
 });
 
-function loadsizes(id) {
-    window.location = "http://127.0.0.1:8000/stocks/listsizes/" + id
-}
 
+$('#sizesform').submit(function (event) {
+    var url = window.location.href;
+    var params = url.split('/');
+    id = params[params.length - 1]
+$('#sizes').find('tr').each(function (i, el) {
+
+    size = $(this).find("td:eq(0) input[type='text']").val();
+    stock = $(this).find("td:eq(1) input[type='text']").val();
+    data = {
+        "stock": stock,
+        "size": size,
+        "option": id
+    }
+    $.ajax({
+        url: "http://127.0.0.1:8000/stockapi/sizeslist/",
+        type: 'POST',
+        data: data,
+        dataType: "JSON",
+        data: data,
+
+        success: function (response) {
+        },
+        error: function (jqXHR) {
+            console.log(jqXHR.responseText)
+        }
+
+    });
+}
+);
+});
 
 
 

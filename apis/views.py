@@ -88,3 +88,20 @@ class ProductsViewset(viewsets.ModelViewSet):
     queryset = Products.objects.all()
     # specify serializer to bce used
     serializer_class = productSerializer
+
+
+
+class BrandViewSet(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Brand.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = BrandSerializer
+
+
+class SizeViewSet(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Sizes.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = SizesSerializer

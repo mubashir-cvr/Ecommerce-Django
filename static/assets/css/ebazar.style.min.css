@@ -80,6 +80,12 @@
     scroll-behavior: smooth;
   }
 }
+
+.absolutepos{
+  position: fixed;
+  top: 40%;
+  left: 25%;
+}
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -20737,11 +20743,22 @@ table.dataTable > tbody > tr.child ul.dtr-details {
   }
 }
 @media only screen and (max-width: 767px) {
+  .absolutepos{
+    position: fixed;
+    top: 50%;
+    left: 5%;
+  }
   #myProjectTable_paginate ul.pagination,
   #myDataTable_paginate ul.pagination,
   #patient-table_paginate ul.pagination {
     justify-content: start !important;
   }
+}
+.rounded-alert{
+ border-radius: 5px;
+ background-color: #bebebf;
+ padding: 10px;
+
 }
 #myCartTable_length,
 #myCartTable_filter,

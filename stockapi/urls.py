@@ -20,6 +20,9 @@ router.register('adminoptions', AdminOptionsViewset)
 router.register('adminoffersale', AdminOffersaleViewset)
 router.register('adminnewcollection', AdminNewCollectionViewset)
 router.register('adminnewarrivals', AdminNewArrivalsViewset)
+router.register('brandlist', AdminBrandViewSet)
+router.register('sizeslist', AdminSizeViewSet)
+router.register('addoffers', AdminAddOfferViewSet)
 app_name = 'stockapi'
   
 # specify URL Path for rest_framework
@@ -29,5 +32,6 @@ urlpatterns = [
      path('deletesubcategory/<int:pk>',DeleteSubCategory.as_view()),
      path('deletesubsubcategory/<int:pk>',DeleteSubSubCategory.as_view()),
      path('deleteproduct/<int:pk>',DeleteProduct.as_view()),
+     path('deletesize/<int:pk>',DeleteSize.as_view()),
      path('deleteoption/<int:pk>',DeleteOption.as_view()),
 ]

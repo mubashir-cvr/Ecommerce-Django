@@ -82,3 +82,6 @@ def editoptions(request,id):
     return render(request,'stocks/editoptions.html')
 
 
+def listsizes(request,id):
+    return render(request,'stocks/listsizes.html')
+

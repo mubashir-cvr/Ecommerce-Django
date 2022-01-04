@@ -49,6 +49,9 @@ function Loadproducts(){
         error: function (jqXHR) {
         }
     });
+
+   
+    
 }
 
 

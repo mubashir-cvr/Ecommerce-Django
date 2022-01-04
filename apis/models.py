@@ -2,6 +2,7 @@
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils import tree
 from versatileimagefield.fields import VersatileImageField, \
     PPOIField
 
@@ -81,16 +82,19 @@ class SubSubCategory(models.Model):
         unique_together = ['subcategory', 'order']
         ordering = ['order']
 
-
+class Brand(models.Model):
+    name = models.CharField(max_length = 225)
 
 class Products(models.Model):
     subsubcategory = models.ForeignKey(SubSubCategory, related_name='products', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, related_name='products', on_delete=models.CASCADE,null=True)
     order=models.IntegerField()
     image=VersatileImageField(blank=True,null=True,upload_to="Products/",ppoi_field='image_ppoi')
     image_ppoi = PPOIField()
     name=models.CharField(max_length = 200,default='Product Name')
     price=models.BigIntegerField()
     created_date=models.DateTimeField(auto_now=True)
+    stock=models.IntegerField(null=True)
 
     def __str__(self):
         return self.name
@@ -111,15 +115,17 @@ class Options(models.Model):
     image_three_ppoi = PPOIField()
     color=models.CharField(max_length = 200)
     colorhash=models.CharField(max_length = 200)
-    size=models.CharField(max_length = 200,null=True,blank=True)
-    stock=models.IntegerField()
+    stock=models.IntegerField(null=True)
     def __str__(self):
         return self.color
 
     class Meta:
         ordering = ['order']
 
-
+class Sizes(models.Model):
+    option = models.ForeignKey(Options, related_name='sizes', on_delete=models.CASCADE)
+    size=models.CharField(max_length = 200,null=True,blank=True)
+    stock=models.IntegerField(null=True)
 
 
 class Offer(models.Model):

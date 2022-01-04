@@ -16,8 +16,8 @@ function Loadsubsubcategories(id){
         success: function (response) {
             console.log(response)
             $('#imageone').attr("src",response.image.original)
-            $('#subcatname').val(response.name)
-            $('#subcatorder').val(response.order)
+            $('#subsubcatname').val(response.name)
+            $('#subsubcatorder').val(response.order)
             $('#subsubcatID').val(response.id)
             $('#subcatID').val(response.subcategory)
             $('#nummberofproducts').html(response.products.length)
@@ -57,7 +57,7 @@ $('#editsubsubcategory').submit(function (event) {
     data = formData
     id=$('#subsubcatID').val()
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/subcategories/"+id+"/",
+        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/"+id+"/",
         type: 'PATCH',
         data: formData,
         processData: false,
@@ -65,7 +65,7 @@ $('#editsubsubcategory').submit(function (event) {
         
         success: function (response) {
             $('#submitbutton').hide()
-            Loadsubcategories(id)
+            Loadsubsubcategories(id)
         },
         error: function (jqXHR) {
             console.log(JSON.stringify(jqXHR))

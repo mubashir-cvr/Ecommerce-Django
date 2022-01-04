@@ -12,7 +12,6 @@ function Loadproducts(){
     
         
         success: function (response) {
-            console.log(response)
             table = $('#myDataTableListProduct').DataTable();
             table
                 .rows()
@@ -22,7 +21,6 @@ function Loadproducts(){
             table.columns(1).header().to$().text('Product')
             table.columns(2).header().to$().text('Photo')
             table.columns.adjust().draw();
-            console.log(response['products'])
             const products = response['products'];
             for (let i = 0; i < products.length; i++) {
     
@@ -49,6 +47,23 @@ function Loadproducts(){
         error: function (jqXHR) {
         }
     });
+    $.ajax({
+        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        type: 'GET',
+        dataType: "JSON",
+    
+        
+        success: function (response) {
+            
+            for (let i = 0; i < response.length; i++) {
+    
+                $('#priductbrand').append("<option value="+response[i].id+">"+response[i].name+"</option>")
+    
+            }
+        },
+        error: function (jqXHR) {
+        }
+    });
 }
 
 
@@ -60,11 +75,13 @@ $('#productform').submit(function (event) {
     formData.append("image", $("#productimage")[0].files[0]);
     formData.append("name", $("#productname").val());
     formData.append("price", $("#productprice").val());
+    if( $('#priductbrand').val()!=0){
+        formData.append("brand", $("#priductbrand").val());
+    }
     formData.append("order", $("#productorder").val());
     formData.append("subsubcategory", $("#subsubcategoryID").val());
     formData.append("csrfmiddlewaretoken", csrf_token1);
     data = formData
-    console.log($("#productorder").val())
 
     $.ajax({
         url: "http://127.0.0.1:8000/stockapi/adminproducts/",
@@ -74,13 +91,41 @@ $('#productform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
-            Loadproducts()
+            if($('#productofferprice').val()!=''){
+            var offprice=$('#productofferprice').val()
+            var data={
+                "offerPrice":offprice,
+                "product":response.id,
+            }
+            $.ajax({
+                url: "http://127.0.0.1:8000/stockapi/addoffers/",
+                type: 'POST',
+                data: data,
+                dataType:'JSON',
+                
+                success: function (response) {
+                    
+                    Loadproducts()
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR.responseText)
+                }
+        
+            });
+        }
+        else{
+            
+        Loadproducts()
+        }
+        Loadproducts()
         },
         error: function (jqXHR) {
             console.log(jqXHR.responseText)
         }
 
     });
+
+    
 });
 
 function deleteproduct(id) {

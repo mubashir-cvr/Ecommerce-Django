@@ -154,6 +154,12 @@
                                                 id="productname">
                                         </div>
                                         <div class="col-md-6">
+                                            <label class="form-label">Brand</label>
+                                            <select class="form-control" id="priductbrand" name="productbrand">
+                                                <option value=0>--Select Brand ----</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
                                             <label class="form-label">Order</label>
                                             <input type="number" class="required form-control" id="productorder"
                                                 name="productorder">
@@ -162,13 +168,14 @@
                                         <div class="col-md-6">
                                             <label class="form-label">Price</label>
                                             <input type="number" class="required form-control" id="productprice"
-                                                name="productprice">
+                                                name="productprice"  placeholder="Product Price">
 
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="form-label">Price</label>
+                                            <label class="form-label">Offer Price</label>
                                             <div id="editor">
-                                                <h4>Please add Sub Category Description here</h4>
+                                                <input type="number" class="form-control" id="productofferprice"
+                                                name="productofferprice" placeholder="Price after offer added">
 
                                             </div>
                                         </div>

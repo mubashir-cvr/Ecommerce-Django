@@ -10,6 +10,9 @@ admin.site.register(Products)
 admin.site.register(Options)
 admin.site.register(Offer)
 admin.site.register(NewCollection)
+admin.site.register(Brand)
+admin.site.register(Sizes)
+
 
 
 

@@ -22,8 +22,30 @@ class UserSerializer(serializers.ModelSerializer):
         return get_user_model().objects.create_user(**validated_data)
 
 
+
+class BrandSerializerforProduct(serializers.ModelSerializer):
+    class Meta:
+        model=Brand
+        fields = ('id','name')
+class SizesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Sizes
+        fields = ('id','url','stock','size')
 class optionsSerializer(serializers.HyperlinkedModelSerializer):
+    sizes=SizesSerializer(many=True,read_only=True)
     image_one = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+            ('original', 'url'),
+        ])
+    image_two = VersatileImageFieldSerializer(
+        sizes=[
+            ('medium_square_crop', 'crop__400x400'),
+            ('medium_rectangle_crop', 'crop__400x600'),
+            ('original', 'url'),
+        ])
+    image_three = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
             ('medium_rectangle_crop', 'crop__400x600'),
@@ -31,11 +53,12 @@ class optionsSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Options
-        fields = ('id','url','color','size','image_one')
+        fields = ('id','url','color','stock','image_one','image_two','image_three','sizes')
 class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
     offerPrice=serializers.SerializerMethodField()
     offerPercentage=serializers.SerializerMethodField()
+    brand=BrandSerializerforProduct()
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -44,7 +67,7 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Products
-        fields = ('id','name','image','price','offerPrice','offerPercentage','options','created_date')
+        fields = ('id','name','image','brand','price','offerPrice','offerPercentage','options','created_date')
     
     def get_offerPrice(self, obj):
         offer=Offer.objects.filter(product=obj)
@@ -85,3 +108,9 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'id', 'name','subcategories')
 
 
+
+class BrandSerializer(serializers.HyperlinkedModelSerializer):
+    products=productSerializer(many=True,read_only=True)
+    class Meta:
+        model=Brand
+        fields = ('id','url','name','products')
