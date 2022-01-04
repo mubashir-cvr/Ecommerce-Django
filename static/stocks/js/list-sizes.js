@@ -33,11 +33,8 @@ function Loadsizes() {
             table.draw();
             $('#optionorder').val(sizes.length + 1)
             $('#productID').val(id)
-            $('#productName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addproduct" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Product</a>')
-            $('#pageHeading').html('<a href="#" onclick="LoadCategories()">Categorie List</a>  >' + '<a href="#" onclick=loadsubcategories(' + $("#categoryID").val() + ')>' + $("#categoryName").val() + '</a> >  \
-            '+ '<a href="#" onclick=loadsubsubcategories(' + $("#subcategoryID").val() + ')>' + $("#subcategoryName").val() + '</a>\
-            >  '+ '<a href="#" onclick=loadproducts(' + $("#subsubcategoryID").val() + ')>' + $("#subsubcategoryName").val() + '</a>  >  ' + '<a href="#" onclick=loadsizes(' + $("#productID").val() + ')>' + $("#productName").val() + '</a>')
+            $('#pageHeading').html('<a href="#" onclick=loadsizes(' + $("#productID").val() + ')>' + response['color'] + '</a>')
 
         },
         error: function (jqXHR) {
@@ -103,6 +100,8 @@ $('#optionform').submit(function (event) {
                 console.log("Added")
             }
             );
+            $('#optionform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsizes()
         },
         error: function (jqXHR) {
@@ -152,6 +151,8 @@ $('#sizeeditform').submit(function (event) {
         
         success: function (response) {
             $('.absolutepos').hide()
+            $('#sizeeditform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsizes()
         },
         error: function (jqXHR) {
@@ -250,6 +251,8 @@ $('#sizes').find('tr').each(function (i, el) {
         data: data,
 
         success: function (response) {
+            $('#sizesform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
         },
         error: function (jqXHR) {
             console.log(jqXHR.responseText)

@@ -65,6 +65,8 @@ $('#editsubsubcategory').submit(function (event) {
         
         success: function (response) {
             $('#submitbutton').hide()
+            $('#editsubsubcategory').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsubsubcategories(id)
         },
         error: function (jqXHR) {

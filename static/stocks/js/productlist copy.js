@@ -77,6 +77,8 @@ $('#productform').submit(function (event) {
         contentType: false,
         
         success: function (response) {
+            $('#productform').get(0).reset()
+$("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadproducts()
         },
         error: function (jqXHR) {
