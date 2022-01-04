@@ -102,3 +102,12 @@ class AdminBrandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Brand
         fields = ('id','url','name','products')
+
+
+    
+
+
+class AdminAddOfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields ='__all__'

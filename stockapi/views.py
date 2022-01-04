@@ -229,6 +229,21 @@ class DeleteOption(APIView):
         return Response({"msg":"success"})
 
 
+class DeleteSize(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Sizes.objects.get(pk=pk)
+        except Sizes.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        size = self.get_object(pk)
+        size.delete()
+        return Response({"msg":"success"})
+
+
 
 
 class AdminBrandViewSet(viewsets.ModelViewSet):
@@ -245,3 +260,10 @@ class AdminSizeViewSet(viewsets.ModelViewSet):
     # specify serializer to be used
     
     serializer_class = AdminSizesSerializer
+
+class AdminAddOfferViewSet(viewsets.ModelViewSet):
+    # define queryset
+    queryset = Offer.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = AdminAddOfferSerializer

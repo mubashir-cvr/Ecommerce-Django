@@ -22,4 +22,5 @@ urlpatterns = [
     path('editsubsubcategory/<int:id>',editsubsubcategory,name="editsubsubcategory"),
     path('editproducts/<int:id>',editproducts,name="editproducts"),
     path('editoptions/<int:id>',editoptions,name="editoptions"),
+    path('listsizes/<int:id>',listsizes,name="listsizes"),
 ]

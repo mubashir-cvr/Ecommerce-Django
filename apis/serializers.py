@@ -21,6 +21,12 @@ class UserSerializer(serializers.ModelSerializer):
         """Create a new user with encrypted password and return it"""
         return get_user_model().objects.create_user(**validated_data)
 
+
+
+class BrandSerializerforProduct(serializers.ModelSerializer):
+    class Meta:
+        model=Brand
+        fields = ('id','name')
 class SizesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sizes
@@ -40,6 +46,7 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
     offerPrice=serializers.SerializerMethodField()
     offerPercentage=serializers.SerializerMethodField()
+    brand=BrandSerializerforProduct()
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -87,6 +94,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
         fields = ('url', 'id', 'name','subcategories')
+
 
 
 class BrandSerializer(serializers.HyperlinkedModelSerializer):
