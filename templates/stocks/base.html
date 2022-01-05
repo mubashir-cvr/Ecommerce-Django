@@ -19,7 +19,7 @@
     <div id="ebazar-layout" class="theme-blue">
         
         <!-- sidebar -->
-        <div class="sidebar px-4 py-4 py-md-4 me-0">
+        <div class="sidebar px-4 py-4 py-md-4 me-0" id="closedNavbar">
             <div class="d-flex flex-column h-100">
                 <a href="index.html" class="mb-0 brand-icon">
                     <span class="logo-icon">
@@ -121,7 +121,19 @@
     <script src="{% static 'assets/page/index.js' %}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1Jr7axGGkwvHRnNfoOzoVRFV3yOPHJEU&amp;callback=myMap"></script>  
-    
+    <script>
+        $('.openbutton').click(function(){
+            if( $('#closedNavbar').hasClass("open")){
+                $('#closedNavbar').removeClass("open")
+            
+            }
+            else{
+                $('#closedNavbar').addClass("open")
+
+            }
+
+        })
+    </script>
     {% block javascript %}
     {% endblock %}
 </body>

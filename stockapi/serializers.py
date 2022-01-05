@@ -100,7 +100,7 @@ class AdminCategorySerializer(serializers.ModelSerializer):
 class AdminBrandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Brand
-        fields = ('id','url','name','products','is_popular')
+        fields = ('id','url','name','is_popular')
 
 
     
