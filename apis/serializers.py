@@ -53,7 +53,7 @@ class optionsSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Options
-        fields = ('id','url','color','stock','image_one','image_two','image_three','sizes')
+        fields = ('id','url','color','colorhash','stock','image_one','image_two','image_three','sizes')
 class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
     offerPrice=serializers.SerializerMethodField()
@@ -98,6 +98,7 @@ class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     subsubcategories=SubSubcategorySerializer(many=True,read_only=True)
+    availablebrands=serializers.SerializerMethodField()
     image = VersatileImageFieldSerializer(
         sizes=[
             ('medium_square_crop', 'crop__400x400'),
@@ -106,7 +107,13 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubCategory
-        fields = ('id','url','name','image','subsubcategories')
+        fields = ('id','url','name','availablebrands','image','subsubcategories')
+    def get_availablebrands(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        brands=Brand.objects.filter(products__in=products)
+        serializer = BrandSerializerforProduct(brands,many=True)
+        return serializer.data
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     subcategories=SubcategorySerializer(many=True,read_only=True)
     class Meta:

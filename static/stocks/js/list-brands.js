@@ -11,7 +11,7 @@ function LoadBrands() {
         .remove()
         .draw();
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        url: "https://voui.geany.website/stockapi/brandlist/",
         type: 'GET',
         dataType: "JSON",
 
@@ -24,7 +24,7 @@ function LoadBrands() {
                 table.row.add(['<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>' + brands[i].id + '</div>', '<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>' + brands[i].name + '</div>',
                 '<div onclick=loadsubbrands(' + brands[i].id + ',"' + brands[i].name + '")>March 13, 2021</div>',brands[i].is_popular,
                 ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editbrands(' + brands[i].id + ',"' + brands[i].name + '")><i class="icofont-edit text-success"></i></a>\
-                        <button id='+ brands[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletecategory(' + brands[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
+                        <button id='+ brands[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletebrand(' + brands[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
                 ]
                 )
             }
@@ -39,29 +39,25 @@ function LoadBrands() {
 }
 
 
-$('#categoryform').submit(function (event) {
+$('#brandform').submit(function (event) {
     event.preventDefault();
     var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
-    var name = $('#name').val();
-    var title = $('#title').val();
-    var description = $('#description').val();
-
+    var name = $('#brandName').val()
+    var popular = ($('#Popular').is(
+        ":checked"))
+    console.log(name)
     data = {
         "name": name,
-        "title": title,
-        "description": "description",
+        "is_popular": popular,
         csrfmiddlewaretoken: csrf_token1
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        url: "https://voui.geany.website/stockapi/brandlist/",
         type: 'POST',
+        data:data,
         dataType: "JSON",
-        data: data,
-
-
         success: function (response) {
-            $('#categoryform').get(0).reset()
-            $("img").attr("src", "")
+            $('#brandform').get(0).reset()
             LoadBrands()
         },
         error: function (jqXHR) {
@@ -71,7 +67,7 @@ $('#categoryform').submit(function (event) {
 });
 
 
-function deletecategory(id) {
+function deletebrand(id) {
     swal({
         title: "Are you sure?",
         text: "Once deleted, you will not be able to recover datas",
@@ -82,7 +78,7 @@ function deletecategory(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deletecategory/" + id,
+                    url: "https://voui.geany.website/stockapi/deletebrand/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -108,7 +104,7 @@ function deletecategory(id) {
 
 }
 function loadsubbrands(id, name) {
-    // window.location = "http://127.0.0.1:8000/stocks/listsubbrands/" + id + "/" + name
+    // window.location = "https://voui.geany.website/stocks/listsubbrands/" + id + "/" + name
 }
 
 

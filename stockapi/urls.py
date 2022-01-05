@@ -34,4 +34,5 @@ urlpatterns = [
      path('deleteproduct/<int:pk>',DeleteProduct.as_view()),
      path('deletesize/<int:pk>',DeleteSize.as_view()),
      path('deleteoption/<int:pk>',DeleteOption.as_view()),
+     path('deletebrand/<int:pk>',DeleteBrand.as_view()),
 ]

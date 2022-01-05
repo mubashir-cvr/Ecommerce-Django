@@ -244,6 +244,19 @@ class DeleteSize(APIView):
         return Response({"msg":"success"})
 
 
+class DeleteBrand(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Brand.objects.get(pk=pk)
+        except Brand.DoesNotExist:
+            raise Http404
+    def delete(self, request, pk, format=None):
+        brand = self.get_object(pk)
+        brand.delete()
+        return Response({"msg":"success"})
 
 
 class AdminBrandViewSet(viewsets.ModelViewSet):
