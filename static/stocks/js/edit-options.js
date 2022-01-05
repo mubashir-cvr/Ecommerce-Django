@@ -2,7 +2,7 @@
         var url      = window.location.href;
         var params = url.split('/');
         var id=params[params.length-1]
-        $('#submitbutton').hide()
+        $('#final_msg').hide()
         Loadoptions(id)
     
     });
@@ -42,7 +42,7 @@
         var formData = new FormData(document.getElementById("editoptionform"));
         formData.append("name", $("#productname").val());
         formData.append("order", $("#optionorder").val());
-        formData.append("size", $("#optionsize").val());
+        formData.append("stock", $("#optionstock").val());
         formData.append("product", $("#productID").val());
         formData.append("color", $("#optioncolor").val());
         formData.append("colorhash", $("#optioncolorhash").val());
@@ -66,9 +66,10 @@
             contentType: false,
             
             success: function (response) {
-                $('#submitbutton').hide()
+                
                 $('#editoptionform').get(0).reset()
-$("img").attr("src","https://dummyimage.com/150x200.gif")
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
+                $("img").attr("src","https://dummyimage.com/150x200.gif")
                 Loadoptions(id)
             },
             error: function (jqXHR) {
@@ -99,20 +100,16 @@ $("img").attr("src","https://dummyimage.com/150x200.gif")
             reader.readAsDataURL(this.files[0]);
         }
     });
-   
-    $("#optionorder").change(function () {
-        $('#submitbutton').show()
-    });
-    $("#optioncolor").change(function () {
-        $('#submitbutton').show()
-    });
-    $("#optioncolorhash").change(function () {
-        $('#submitbutton').show()
-    });
-    $("#optionsize").change(function () {
-        $('#submitbutton').show()
-    });
 
-    $("#optionstock").change(function () {
+    $("#optionimagethree").change(function () {
         $('#submitbutton').show()
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imagethree').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
     });
+   
+ 
