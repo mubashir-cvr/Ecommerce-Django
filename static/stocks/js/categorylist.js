@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#final_msg').hide()
     LoadCategories()
 });
 
@@ -60,6 +61,7 @@ $('#categoryform').submit(function (event) {
 
         success: function (response) {
             $('#categoryform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
             $("img").attr("src", "")
             LoadCategories()
         },

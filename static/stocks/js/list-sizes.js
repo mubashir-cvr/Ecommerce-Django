@@ -1,5 +1,7 @@
 $(document).ready(function () {
+    $('#final_msg').hide()
     Loadsizes()
+
 });
 function Loadsizes() {
     $('.absolutepos').hide()
@@ -101,6 +103,7 @@ $('#optionform').submit(function (event) {
             }
             );
             $('#optionform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
 $("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsizes()
         },
@@ -152,6 +155,7 @@ $('#sizeeditform').submit(function (event) {
         success: function (response) {
             $('.absolutepos').hide()
             $('#sizeeditform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
 $("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsizes()
         },
@@ -252,6 +256,7 @@ $('#sizes').find('tr').each(function (i, el) {
 
         success: function (response) {
             $('#sizesform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
 $("img").attr("src","https://dummyimage.com/150x200.gif")
         },
         error: function (jqXHR) {

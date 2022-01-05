@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#final_msg').hide()
     LoadBrands()
 });
 
@@ -58,6 +59,7 @@ $('#brandform').submit(function (event) {
         dataType: "JSON",
         success: function (response) {
             $('#brandform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
             LoadBrands()
         },
         error: function (jqXHR) {

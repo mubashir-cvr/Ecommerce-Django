@@ -36,22 +36,30 @@
                             <!-- Menu: Sub menu ul -->
                             <ul class="sub-menu collapse" id="categories">
                                 <li><a class="ms-link" href=" {% url 'stock:listcategories' %}">Categories List</a></li>
-                                <li><a class="ms-link" href=" {% url 'stock:editcategory' %}">Categories Edit</a></li>
-                                <li><a class="ms-link" href=" {% url 'stock:addcategory' %}">Categories Add</a></li>
+                                <!-- <li><a class="ms-link" href=" {% url 'stock:editcategory' %}">Categories Edit</a></li>
+                                <li><a class="ms-link" href=" {% url 'stock:addcategory' %}">Categories Add</a></li> -->
                             </ul>
                     </li>
-                    
+                    <li class="collapsed">
+                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-inventory" href="#">
+                            <i class="icofont-brand-general-electric"></i> <span>Brand</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+                        <!-- Menu: Sub menu ul -->
+                        <ul class="sub-menu collapse" id="menu-inventory">
+                            <li><a class="ms-link"  href=" {% url 'stock:listbrands' %}">Add Brand</a></li>
+                        </ul>
+                    </li> 
+<!--                     
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
                             <i class="icofont-truck-loaded fs-5"></i> <span>Products</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
-                            <!-- Menu: Sub menu ul -->
+                        
                             <ul class="sub-menu collapse" id="menu-product">
                                 <li><a class="ms-link" href=" {% url 'stock:listproductgrid' %}">Product Grid</a></li>
                                 <li><a class="ms-link" href=" {% url 'stock:listProduct' %}">Product List</a></li>
                                 <li><a class="ms-link" href=" {% url 'stock:editproduct' %}">Product Edit</a></li>
                                 <li><a class="ms-link" href=" {% url 'stock:addproduct' %}">Product Add</a></li>
                             </ul>
-                    </li>
+                    </li> -->
                     
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-order" href="#">
@@ -72,14 +80,7 @@
                         </ul>
                     </li>
                     
-                     <li class="collapsed">
-                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-inventory" href="#">
-                            <i class="icofont-brand-general-electric"></i> <span>Brand</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
-                        <!-- Menu: Sub menu ul -->
-                        <ul class="sub-menu collapse" id="menu-inventory">
-                            <li><a class="ms-link"  href=" {% url 'stock:listbrands' %}">Add Brand</a></li>
-                        </ul>
-                    </li> 
+                    
                    
                 </ul>
                 <!-- Menu: menu collepce btn -->

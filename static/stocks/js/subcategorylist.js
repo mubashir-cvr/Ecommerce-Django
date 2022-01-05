@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#final_msg').hide()
     Loadsubcategories()
 });
 function Loadsubcategories(){
@@ -68,6 +69,7 @@ $('#subcategoryform').submit(function (event) {
         
         success: function (response) {
             $('#subcategoryform').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
 $("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsubcategories();
         },

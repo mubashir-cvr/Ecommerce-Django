@@ -2,7 +2,7 @@ $(document).ready(function () {
     var url      = window.location.href;
     var params = url.split('/');
     var id=params[params.length-1]
-    $('#submitbutton').hide()
+    $('#final_msg').hide()
     Loadsubcategories(id)
 });
 
@@ -63,8 +63,9 @@ $('#editsubcategory').submit(function (event) {
         contentType: false,
         
         success: function (response) {
-            $('#submitbutton').hide()
+            
             $('#editsubcategory').get(0).reset()
+                $('#final_msg').fadeIn().delay(1000).fadeOut();
 $("img").attr("src","https://dummyimage.com/150x200.gif")
             Loadsubcategories(id)
         },
@@ -84,10 +85,4 @@ $("#dropify-event").change(function () {
         }
         reader.readAsDataURL(this.files[0]);
     }
-});
-$("#subcatname").change(function () {
-    $('#submitbutton').show()
-});
-$("#subcatorder").change(function () {
-    $('#submitbutton').show()
 });
