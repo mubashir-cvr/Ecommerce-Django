@@ -6,5 +6,5 @@ def CalculateOfferPercentage(product):
     if offer.exists():
         offPrice=product.price-offer.first().offerPrice
         percentage=(offPrice)*100/product.price
-        return str(int(percentage))+'%'
+        return int(percentage)
     return 0
