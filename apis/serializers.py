@@ -186,3 +186,18 @@ class BrandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model=Brand
         fields = ('id','url','name','products')
+    
+
+class WishListSerializer(serializers.HyperlinkedModelSerializer):
+    product=productSerializer()
+    user=UserSerializer(read_only=True)
+    class Meta:
+        model = WishList
+        fields = ('id','user','product','date')
+
+
+class WishListPostSerializer(serializers.ModelSerializer):
+    user=UserSerializer(read_only=True)
+    class Meta:
+        model = WishList
+        fields = ('id','user','product','date')

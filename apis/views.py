@@ -1,5 +1,7 @@
+import re
 from rest_framework import viewsets,generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.serializers import Serializer
 from .pagination import *
 from .serializers import * 
 from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection
@@ -106,3 +108,25 @@ class SizeViewSet(viewsets.ModelViewSet):
     # specify serializer to be used
     
     serializer_class = SizesSerializer
+
+
+
+class WhishListViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    # define queryset
+    queryset = WishList.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = WishListSerializer
+
+    def get_serializer_class(self):
+        if self.action=="create":
+            return WishListPostSerializer
+        return self.serializer_class
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+    
+
+    def perform_create(self,serializer):
+        serializer.save(user=self.request.user)
