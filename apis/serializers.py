@@ -210,9 +210,4 @@ class AddressesOfUserSerializer(serializers.ModelSerializer):
 
     
 
-class ContactDetailsOfUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContactDetailsOfUser
-        fields = '__all__'
-        read_only_fields = ('user',)
-    
+

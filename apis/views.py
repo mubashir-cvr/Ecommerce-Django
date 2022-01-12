@@ -163,18 +163,18 @@ class AddressesViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class ContactViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    # define queryset
-    queryset = AddressesOfUser.objects.all()
-    # specify serializer to be used
+# class ContactViewSet(viewsets.ModelViewSet):
+#     permission_classes = (IsAuthenticated,)
+#     # define queryset
+#     queryset = AddressesOfUser.objects.all()
+#     # specify serializer to be used
     
-    serializer_class = ContactDetailsOfUserSerializer
+#     serializer_class = ContactDetailsOfUserSerializer
 
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+#     def get_queryset(self):
+#         return self.queryset.filter(user=self.request.user)
     
 
-    def perform_create(self,serializer):
-        serializer.save(user=self.request.user)
+#     def perform_create(self,serializer):
+#         serializer.save(user=self.request.user)

@@ -48,19 +48,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return str(self.email)
 
-
-class ContactDetailsOfUser(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=225)
-    last_name = models.CharField(max_length=225)
-    phone = models.CharField(max_length=225)
-
 class AddressesOfUser(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     address = models.CharField(max_length=225)
     city = models.CharField(max_length=225)
     country = models.CharField(max_length=225)
     pincode = models.CharField(max_length=225)
+    first_name = models.CharField(max_length=225)
+    last_name = models.CharField(max_length=225)
+    phone = models.CharField(max_length=225)
 
 class Category(models.Model):
     name=models.CharField(max_length = 200)
