@@ -111,6 +111,8 @@ class SizeViewSet(viewsets.ModelViewSet):
 
 
 
+
+
 class WhishListViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     # define queryset
@@ -130,3 +132,49 @@ class WhishListViewSet(viewsets.ModelViewSet):
 
     def perform_create(self,serializer):
         serializer.save(user=self.request.user)
+
+
+
+
+class OffersaleViewset(viewsets.ModelViewSet):
+    # define queryset
+    
+    queryset = Products.objects.filter(offers__offerPrice__gt=0)
+    # specify serializer to bce used
+    serializer_class = productSerializer
+
+
+
+
+class AddressesViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    # define queryset
+    queryset = AddressesOfUser.objects.all()
+    
+    # specify serializer to be used
+    
+    serializer_class = AddressesOfUserSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+    
+
+    def perform_create(self,serializer):
+        serializer.save(user=self.request.user)
+
+
+# class ContactViewSet(viewsets.ModelViewSet):
+#     permission_classes = (IsAuthenticated,)
+#     # define queryset
+#     queryset = AddressesOfUser.objects.all()
+#     # specify serializer to be used
+    
+#     serializer_class = ContactDetailsOfUserSerializer
+
+
+#     def get_queryset(self):
+#         return self.queryset.filter(user=self.request.user)
+    
+
+#     def perform_create(self,serializer):
+#         serializer.save(user=self.request.user)

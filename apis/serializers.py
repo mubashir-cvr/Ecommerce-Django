@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id','email','password')
+        fields = ('id','name','email','password')
         read_only_fields = ('id',)
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
@@ -201,3 +201,13 @@ class WishListPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishList
         fields = ('id','user','product','date')
+
+class AddressesOfUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddressesOfUser
+        fields = '__all__'
+        read_only_fields = ('user',)
+
+    
+
+
