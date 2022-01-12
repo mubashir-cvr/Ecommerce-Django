@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .serializerhelper import *
-from .models import Category, Offer,SubCategory,SubSubCategory,Products,Options
+from .models import Category, Offer,SubCategory,SubSubCategory,Products,Options,cart
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
@@ -208,6 +208,10 @@ class AddressesOfUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('user',)
 
-    
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = cart
+        fields = '__all__'
+        read_only_fields = ('user',)    
 
 

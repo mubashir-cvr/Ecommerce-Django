@@ -1,7 +1,9 @@
 import re
 from rest_framework import viewsets,generics
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.serializers import Serializer
+from rest_framework.utils import serializer_helpers
 from .pagination import *
 from .serializers import * 
 from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection
@@ -163,18 +165,12 @@ class AddressesViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-# class ContactViewSet(viewsets.ModelViewSet):
-#     permission_classes = (IsAuthenticated,)
-#     # define queryset
-#     queryset = AddressesOfUser.objects.all()
-#     # specify serializer to be used
-    
-#     serializer_class = ContactDetailsOfUserSerializer
+class CartViewSet(viewsets.ModelViewSet):
+    permission_classes(IsAuthenticated,)
+    queryset = cart.objects.all()
+    serializer_class = CartSerializer
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
 
-
-#     def get_queryset(self):
-#         return self.queryset.filter(user=self.request.user)
-    
-
-#     def perform_create(self,serializer):
-#         serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

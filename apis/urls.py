@@ -1,6 +1,6 @@
 from django.urls import include, path
 # import routers
-from rest_framework import routers
+from rest_framework import routers, views
 
 
 from rest_framework_simplejwt.views import (
@@ -28,6 +28,7 @@ router.register('brandlist', BrandViewSet)
 router.register('sizeslist', SizeViewSet)
 router.register('wishlists', WhishListViewSet)
 router.register('adressofuser', AddressesViewSet)
+router.register('cart',CartViewSet)
   
 # specify URL Path for rest_framework
 urlpatterns = [

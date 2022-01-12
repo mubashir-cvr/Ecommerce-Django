@@ -164,3 +164,15 @@ class WishList(models.Model):
 
     class Meta:
         unique_together = ['user', 'product']
+
+
+class cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes,on_delete=models.CASCADE,null=True,blank=True)
+    color = models.ForeignKey(Options,on_delete=models.CASCADE,null=True,blank=True)
+    quantity = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['user', 'product','size']
