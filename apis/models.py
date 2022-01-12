@@ -2,6 +2,7 @@
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db.models.fields.related import ForeignKey
 from django.utils import tree
 from versatileimagefield.fields import VersatileImageField, \
     PPOIField
@@ -140,3 +141,14 @@ class Offer(models.Model):
 class NewCollection(models.Model):
     product = models.OneToOneField(Products, on_delete=models.CASCADE)
     endDate=models.DateTimeField(auto_now=True)
+
+
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(User,related_name='users', on_delete=models.CASCADE)
+    product = models.ForeignKey(Products,related_name='users', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['user', 'product']

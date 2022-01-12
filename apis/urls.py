@@ -26,12 +26,13 @@ router.register('newcollection', NewCollectionViewset)
 router.register('newarrivals', NewArrivalsViewset)
 router.register('brandlist', BrandViewSet)
 router.register('sizeslist', SizeViewSet)
+router.register('wishlists', WhishListViewSet)
   
 # specify URL Path for rest_framework
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('createuser/', CreateUserView.as_view(), name='createuser'),
 ]

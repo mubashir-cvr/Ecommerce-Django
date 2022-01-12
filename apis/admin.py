@@ -12,6 +12,8 @@ admin.site.register(Offer)
 admin.site.register(NewCollection)
 admin.site.register(Brand)
 admin.site.register(Sizes)
+admin.site.register(WishList)
+
 
 
 
