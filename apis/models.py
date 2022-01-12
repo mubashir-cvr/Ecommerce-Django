@@ -57,6 +57,7 @@ class AddressesOfUser(models.Model):
     first_name = models.CharField(max_length=225)
     last_name = models.CharField(max_length=225)
     phone = models.CharField(max_length=225)
+    email = models.EmailField(null=True,blank=True)
 
 class Category(models.Model):
     name=models.CharField(max_length = 200)
