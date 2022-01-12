@@ -27,6 +27,8 @@ router.register('newarrivals', NewArrivalsViewset)
 router.register('brandlist', BrandViewSet)
 router.register('sizeslist', SizeViewSet)
 router.register('wishlists', WhishListViewSet)
+router.register('usercontact', ContactViewSet)
+router.register('adressofuser', AddressesViewSet)
   
 # specify URL Path for rest_framework
 urlpatterns = [

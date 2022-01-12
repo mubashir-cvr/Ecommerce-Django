@@ -2,6 +2,7 @@
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey
 from django.utils import tree
 from versatileimagefield.fields import VersatileImageField, \
@@ -24,6 +25,7 @@ class UserManager(BaseUserManager):
         """Create and Save a super User"""
         user = self.model(email=email)
         user.set_password(password)
+        user.name="admin"
         user.save(using=self.db)
         user.is_staff = True
         user.is_superuser = True
@@ -35,6 +37,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """"Custom Model"""
     email = models.EmailField(max_length=225, unique=True)
+    name=models.CharField(max_length=225)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -46,6 +49,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         return str(self.email)
 
 
+class ContactDetailsOfUser(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=225)
+    last_name = models.CharField(max_length=225)
+    phone = models.CharField(max_length=225)
+
+class AddressesOfUser(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    address = models.CharField(max_length=225)
+    city = models.CharField(max_length=225)
+    country = models.CharField(max_length=225)
+    pincode = models.CharField(max_length=225)
 
 class Category(models.Model):
     name=models.CharField(max_length = 200)
