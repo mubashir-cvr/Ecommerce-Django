@@ -1,8 +1,11 @@
+import re
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.utils import field_mapping
 from .serializerhelper import *
 from .models import Category, Offer,SubCategory,SubSubCategory,Products,Options,cart
 from versatileimagefield.serializers import VersatileImageFieldSerializer
+from django.forms.models import model_to_dict
 
 
 
@@ -21,6 +24,21 @@ class UserSerializer(serializers.ModelSerializer):
         """Create a new user with encrypted password and return it"""
         return get_user_model().objects.create_user(**validated_data)
 
+
+class GetUserSerailizer(serializers.ModelSerializer):
+    address = serializers.SerializerMethodField()
+    class Meta:
+        model = get_user_model()
+        fields = ('id','name','address')
+        read_only_fields = ('address',)
+
+    def get_address(self,obj):
+        if AddressesOfUser.objects.filter(user=obj).exists():
+            queryset = AddressesOfUser.objects.filter(user = obj.id)
+            serializer = AddressesOfUserSerializer(queryset,many=True)
+            return serializer.data
+        else:
+            return False
 
 
 class BrandSerializerforProduct(serializers.ModelSerializer):
@@ -208,10 +226,24 @@ class AddressesOfUserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('user',)
 
+class GetAddressesOfUserSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = AddressesOfUser
+        fields = '__all__'
+        read_only_fields = ('user',)
+
+
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = cart
         fields = '__all__'
         read_only_fields = ('user',)    
 
-
+class GetCartSerializer(serializers.ModelSerializer):
+    product = productSerializer(read_only=True)
+    size = SizesSerializer(read_only=True)
+    color = optionsSerializer(read_only=True)
+    class Meta:
+        model = cart
+        fields = '__all__'
