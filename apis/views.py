@@ -1,10 +1,19 @@
 
+
 import json
 from unicodedata import category
 from rest_framework import viewsets,generics
 from rest_framework.views import APIView
+import re
+from django.http import response
+from rest_framework import viewsets,generics
+from rest_framework import views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework.serializers import Serializer
+from rest_framework.utils import serializer_helpers
+from rest_framework.views import APIView
 from .pagination import *
 from .serializers import * 
 from rest_framework.response import Response
@@ -165,23 +174,29 @@ class AddressesViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
     
-
     def perform_create(self,serializer):
         serializer.save(user=self.request.user)
 
 
-# class ContactViewSet(viewsets.ModelViewSet):
-#     permission_classes = (IsAuthenticated,)
-#     # define queryset
-#     queryset = AddressesOfUser.objects.all()
-#     # specify serializer to be used
-    
-#     serializer_class = ContactDetailsOfUserSerializer
+class CartViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = cart.objects.all()
+    serializer_class = CartSerializer
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return GetCartSerializer
+        if self.action == 'retrieve':
+            return GetCartSerializer
+
+        return CartSerializer
 
 
-#     def get_queryset(self):
-#         return self.queryset.filter(user=self.request.user)
-    
 
 #     def perform_create(self,serializer):
 #         serializer.save(user=self.request.user)
@@ -213,3 +228,12 @@ class SearchView(APIView):
             }
             
         return Response(searchdata)
+
+class UserDetails(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = GetUserSerailizer
+    queryset = get_user_model().objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(id=self.request.user.id)
+
