@@ -1,9 +1,14 @@
-import re
+
+import json
+from unicodedata import category
 from rest_framework import viewsets,generics
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.serializers import Serializer
 from .pagination import *
 from .serializers import * 
+from rest_framework.response import Response
+
 from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection
 from datetime import datetime,timedelta
 
@@ -15,6 +20,8 @@ from datetime import datetime,timedelta
 class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
     serializer_class = UserSerializer
+
+
 # create a viewset
 class CategoryViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -178,3 +185,31 @@ class AddressesViewSet(viewsets.ModelViewSet):
 
 #     def perform_create(self,serializer):
 #         serializer.save(user=self.request.user)
+
+
+class SearchView(APIView):
+    """Create a new user in the system"""
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        searchdata=[]
+        if self.request.query_params.get('key'):
+            key=self.request.query_params.get('key')
+            products=Products.objects.filter(name__icontains=key)
+            subcategories=SubCategory.objects.filter(name__icontains=key)
+            categories=Category.objects.filter(name__icontains=key)
+            subsubcategories=SubSubCategory.objects.filter(name__icontains=key)
+            
+            productserializer = ProductSearchSerializer(products,many=True)
+            subcategoryserializer = SubCategorySearchSerializer(subcategories,many=True)
+            categoryserializer = CategorySearchSerializer(categories,many=True)
+            subSubcategorySerializer = SubSubCategorySearchSerializer(subsubcategories,many=True)
+            searchdata={
+            "products":productserializer.data,
+            "subcategory":subcategoryserializer.data,
+            "Category":categoryserializer.data,
+            "subsubcategory":subSubcategorySerializer.data,
+            }
+            
+        return Response(searchdata)

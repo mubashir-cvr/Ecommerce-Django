@@ -211,3 +211,43 @@ class AddressesOfUserSerializer(serializers.ModelSerializer):
     
 
 
+
+
+
+
+class ProductSearchSerializer(serializers.ModelSerializer):
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('original', 'url'),
+        ])
+    class Meta:
+        model = Products
+        fields = ('id','name','image','subsubcategory')
+    
+
+class SubCategorySearchSerializer(serializers.ModelSerializer):
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('original', 'url'),
+        ])
+    class Meta:
+        model = SubCategory
+        fields = ('id','name','image','category')
+
+
+
+class SubSubCategorySearchSerializer(serializers.ModelSerializer):
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            ('original', 'url'),
+        ])
+    class Meta:
+        model = SubSubCategory
+        fields = ('id','name','image','subcategory')
+    
+class CategorySearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id','name')
+
+
