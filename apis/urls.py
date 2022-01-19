@@ -39,4 +39,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('createuser/', CreateUserView.as_view(), name='createuser'),
     path('search/', SearchView.as_view(), name='search'),
+    path('checkoutproduct/', PayementView.as_view(), name='checkoutproduct'),
+    path('checkoutcart/', CheckoutCart.as_view(), name='CheckoutCart'),
+    path('success/', PaymentSuccessView.as_view(), name='success'),
+    path('failed/', PayementView.as_view(), name='failed'),
 ]

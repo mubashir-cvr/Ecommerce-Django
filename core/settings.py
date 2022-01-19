@@ -122,6 +122,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 CORS_ORIGIN_ALLOW_ALL=True
 
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_ED9cjwAaAIi6XvKCXzwGOu6100MabxSaDJ'
+STRIPE_SECRET_KEY = 'sk_test_UE3TvVSx3UfH6m1h7cHEnB8G000iOTdM1b'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

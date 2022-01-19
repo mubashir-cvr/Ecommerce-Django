@@ -24,4 +24,5 @@ urlpatterns = [
     path('editoptions/<int:id>',editoptions,name="editoptions"),
     path('listsizes/<int:id>',listsizes,name="listsizes"),
     path('listbrands',listbrands,name="listbrands"),
+    path('paymenttest',paymenttest,name="paymenttest"),
 ]
