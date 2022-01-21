@@ -40,7 +40,7 @@ def editcategory(request):
 def orderlist(request):
     return render(request,'stocks/orderlist.html')
 
-def orderdetails(request):
+def orderdetails(request,id):
     return render(request,'stocks/orderdetails.html')
 
 def listsubcategories(request,**args):

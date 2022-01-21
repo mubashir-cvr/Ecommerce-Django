@@ -310,6 +310,10 @@ class CheckoutCart(APIView):
             order.product=item.product
             order.quantity=item.quantity
             order.parentcart=item
+            if item.size:
+                order.selectedsize=item.size
+            if item.color:
+                order.selectedcolor=item.color
             order.address=address
             order.city=city
             order.country=country
