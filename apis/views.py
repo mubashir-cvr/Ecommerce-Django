@@ -6,7 +6,7 @@ from unicodedata import category
 from rest_framework import viewsets,generics
 from rest_framework.views import APIView
 from django.http import Http404
-
+from django.shortcuts import get_object_or_404
 import re
 from django.http.response import HttpResponseNotFound, JsonResponse
 from django.conf import settings
@@ -431,4 +431,8 @@ class PaymentSuccessView(APIView):
         
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = stripe.checkout.Session.retrieve(session_id)
+
+        order = get_object_or_404(Order, stripe_payment_intent=session.payment_intent)
+        order.has_paid=True
+        order.save()
         return JsonResponse({'payment':"Success"})
