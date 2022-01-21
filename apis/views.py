@@ -1,10 +1,31 @@
-import re
+
+
+import json
+from locale import currency
+from unicodedata import category
 from rest_framework import viewsets,generics
+from rest_framework.views import APIView
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+import re
+from django.http.response import HttpResponseNotFound, JsonResponse
+from django.conf import settings
+import stripe
+from django.urls import reverse
+from django.http import response
+from rest_framework import viewsets,generics
+from rest_framework import views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework.serializers import Serializer
+from rest_framework.utils import serializer_helpers
+from rest_framework.views import APIView
 from .pagination import *
 from .serializers import * 
-from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection
+from rest_framework.response import Response
+
+from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection,cart
 from datetime import datetime,timedelta
 
 
@@ -15,6 +36,8 @@ from datetime import datetime,timedelta
 class CreateUserView(generics.CreateAPIView):
     """Create a new user in the system"""
     serializer_class = UserSerializer
+
+
 # create a viewset
 class CategoryViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -50,12 +73,7 @@ class OptionsViewset(viewsets.ModelViewSet):
 
 
 
-class OffersaleViewset(viewsets.ModelViewSet):
-    # define queryset
-    
-    queryset = Products.objects.filter(offers__offerPrice__gt=0)
-    # specify serializer to bce used
-    serializer_class = productSerializer
+
 
 
 
@@ -139,7 +157,7 @@ class WhishListViewSet(viewsets.ModelViewSet):
 class OffersaleViewset(viewsets.ModelViewSet):
     # define queryset
     
-    queryset = Products.objects.filter(offers__offerPrice__gt=0)
+    queryset = Products.objects.filter(offers__OfferEuro__gt=0)
     # specify serializer to bce used
     serializer_class = productSerializer
 
@@ -158,23 +176,263 @@ class AddressesViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
     
-
     def perform_create(self,serializer):
         serializer.save(user=self.request.user)
 
 
-# class ContactViewSet(viewsets.ModelViewSet):
-#     permission_classes = (IsAuthenticated,)
-#     # define queryset
-#     queryset = AddressesOfUser.objects.all()
-#     # specify serializer to be used
-    
-#     serializer_class = ContactDetailsOfUserSerializer
+class CartViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = cart.objects.all()
+    serializer_class = CartSerializer
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return GetCartSerializer
+        if self.action == 'retrieve':
+            return GetCartSerializer
+
+        return CartSerializer
 
 
-#     def get_queryset(self):
-#         return self.queryset.filter(user=self.request.user)
-    
 
 #     def perform_create(self,serializer):
 #         serializer.save(user=self.request.user)
+
+
+class SearchView(APIView):
+    """Create a new user in the system"""
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        searchdata=[]
+        if self.request.query_params.get('key'):
+            key=self.request.query_params.get('key')
+            products=Products.objects.filter(name__icontains=key)
+            subcategories=SubCategory.objects.filter(name__icontains=key)
+            categories=Category.objects.filter(name__icontains=key)
+            subsubcategories=SubSubCategory.objects.filter(name__icontains=key)
+            
+            productserializer = ProductSearchSerializer(products,many=True)
+            subcategoryserializer = SubCategorySearchSerializer(subcategories,many=True)
+            categoryserializer = CategorySearchSerializer(categories,many=True)
+            subSubcategorySerializer = SubSubCategorySearchSerializer(subsubcategories,many=True)
+            searchdata={
+            "products":productserializer.data,
+            "subcategory":subcategoryserializer.data,
+            "Category":categoryserializer.data,
+            "subsubcategory":subSubcategorySerializer.data,
+            }
+            
+        return Response(searchdata)
+
+class UserDetails(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = GetUserSerailizer
+    queryset = get_user_model().objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(id=self.request.user.id)
+
+class CheckoutCart(APIView):
+    def post(self, request, format=None):
+        cartitems=cart.objects.filter(is_placed=False)
+        
+        if not cartitems.exists():
+            raise Http404
+        itemsPriceDetails=[]
+        address=request.data['address']
+        email=request.data['email']
+        city=request.data['city']
+        pincode=request.data['pincode']
+        country=request.data['country']
+        first_name=request.data['first_name']
+        last_name=request.data['last_name']
+        phone=request.data['phone']
+        currency=request.data['currency']
+        for item in cartitems:
+            unitprice=0
+            if Offer.objects.filter(product=item.product).exists():
+                if currency=='USD':
+                    unitprice= Offer.objects.get(product=item.product).OfferEuro
+                elif currency=='SAR':
+                    unitprice= Offer.objects.get(product=item.product).OfferSAR
+                elif currency=='GBP':
+                    unitprice= Offer.objects.get(product=item.product).OfferSterling
+                elif currency=='EUR':
+                    unitprice= Offer.objects.get(product=item.product).OfferEuro
+                elif currency=='AED':
+                    unitprice= Offer.objects.get(product=item.product).OfferDirham
+                else:
+                    pass
+            else:
+                if currency=='USD':
+                    unitprice= item.product.productpriceDollar
+                elif currency=='SAR':
+                    unitprice= item.product.productpriceSar
+                elif currency=='GBP':
+                    unitprice= item.product.productpriceSterling
+                elif currency=='EUR':
+                    unitprice= item.product.productpriceEuro
+                elif currency=='AED':
+                    unitprice= item.product.productpriceDirham
+            pricedict= {
+                    'price_data': {
+                        'currency': currency,
+                        'product_data': {
+                        'name': item.product.name,
+                        },
+                        'unit_amount': unitprice,
+                    },
+                    'quantity': item.quantity,
+                }
+            itemsPriceDetails.append(pricedict)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        checkout_session = stripe.checkout.Session.create(
+            customer_email = request.data['email'],
+            payment_method_types=['card'],
+                shipping_options=[],
+                            
+            line_items=itemsPriceDetails,
+            mode='payment',
+            success_url=request.build_absolute_uri(
+                reverse('success')
+            ) + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=request.build_absolute_uri(reverse('failed')),)
+        
+        for item in cartitems:
+            order=Order()
+            order.product=item.product
+            order.quantity=item.quantity
+            order.parentcart=item
+            order.address=address
+            order.city=city
+            order.country=country
+            order.first_name=first_name
+            order.phone=phone
+            order.email=email
+            order.pincode=pincode
+            order.last_name=last_name
+            order.stripe_payment_intent=checkout_session['payment_intent']
+            order.amount=unitprice*item.quantity
+            order.currency=currency
+            
+            # order.user=
+            order.save()
+            item.is_placed=True
+            item.save()
+
+
+        return JsonResponse({'sessionId': checkout_session.id})
+         
+class PayementView(APIView):
+    #    permission_classes = (IsAuthenticated,)
+       def get(self, request, format=None):
+           pass
+       def post(self, request, format=None):
+
+            address=request.data['address']
+            email=request.data['email']
+            city=request.data['city']
+            pincode=request.data['pincode']
+            country=request.data['country']
+            first_name=request.data['first_name']
+            last_name=request.data['last_name']
+            phone=request.data['phone']
+            currency=request.data['currency']
+            product=request.data['product']
+            color=request.data['color']
+            size=request.data['size']
+            quantity=request.data['quantity']
+            unitprice=0
+            # cartitems=cart.objects.all()  ##Users
+           
+            
+            if Offer.objects.filter(product_id=product).exists():
+                if currency=='USD':
+                    unitprice= Offer.objects.get(product_id=product).OfferEuro
+                elif currency=='SAR':
+                    unitprice= Offer.objects.get(product_id=product).OfferSAR
+                elif currency=='GBP':
+                    unitprice= Offer.objects.get(product_id=product).OfferSterling
+                elif currency=='EUR':
+                    unitprice= Offer.objects.get(product_id=product).OfferEuro
+                elif currency=='AED':
+                    unitprice= Offer.objects.get(product_id=product).OfferDirham
+                else:
+                    pass
+            else:
+                if currency=='USD':
+                    unitprice= Products.objects.get(id=product).productpriceDollar
+                elif currency=='SAR':
+                    unitprice= Products.objects.get(id=product).productpriceSar
+                elif currency=='GBP':
+                    unitprice= Products.objects.get(id=product).productpriceSterling
+                elif currency=='EUR':
+                    unitprice= Products.objects.get(id=product).productpriceEuro
+                elif currency=='AED':
+                    unitprice= Products.objects.get(id=product).productpriceDirham
+            productobj=Products.objects.get(id=product)
+            itemsPriceDetails=[]
+            pricedict=   {
+                        'price_data': {
+                            'currency': currency,
+                            'product_data': {
+                            'name': productobj.name,
+                            },
+                            'unit_amount': unitprice,
+                        },
+                        'quantity': quantity,
+                    }
+            itemsPriceDetails.append(pricedict)
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            checkout_session = stripe.checkout.Session.create(
+                customer_email = request.data['email'],
+                payment_method_types=['card'],
+                 shipping_options=[],
+                                
+                line_items=itemsPriceDetails,
+                mode='payment',
+                success_url=request.build_absolute_uri(
+                    reverse('success')
+                ) + "?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url=request.build_absolute_uri(reverse('failed')),)
+            order=Order()
+            order.product=productobj
+            order.quantity=quantity
+            order.selectedsize=Sizes.objects.get(id=size)
+            order.selectedcolor=Options.objects.get(id=color)
+            order.address=address
+            order.city=city
+            order.country=country
+            order.first_name=first_name
+            order.phone=phone
+            order.email=email
+            order.pincode=pincode
+            order.last_name=last_name
+            order.stripe_payment_intent=checkout_session['payment_intent']
+            order.amount=unitprice*quantity
+            order.currency=currency
+            return JsonResponse({'sessionId': checkout_session.id})
+
+
+
+class PaymentSuccessView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        session_id = request.GET.get('session_id')
+        if session_id is None:
+            return HttpResponseNotFound()
+        
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        order = get_object_or_404(Order, stripe_payment_intent=session.payment_intent)
+        order.has_paid=True
+        order.save()
+        return JsonResponse({'payment':"Success"})

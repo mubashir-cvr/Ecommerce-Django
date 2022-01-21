@@ -89,3 +89,8 @@ def listsizes(request,id):
 
 def listbrands(request):
     return render(request,'stocks/listbrands.html')
+
+
+def paymenttest(request):
+    return render(request,'stocks/stripe.html')
+

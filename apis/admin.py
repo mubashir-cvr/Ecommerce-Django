@@ -13,6 +13,10 @@ admin.site.register(NewCollection)
 admin.site.register(Brand)
 admin.site.register(Sizes)
 admin.site.register(WishList)
+admin.site.register(User)
+admin.site.register(cart)
+admin.site.register(Order)
+
 
 
 

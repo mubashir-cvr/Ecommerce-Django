@@ -82,7 +82,7 @@ class AdminOptionsViewset(viewsets.ModelViewSet):
 class AdminOffersaleViewset(viewsets.ModelViewSet):
     # define queryset
     
-    queryset = Products.objects.filter(offers__offerPrice__gt=0)
+    queryset = Products.objects.filter(offers__OfferEuro__gt=0)
     # specify serializer to bce used
     serializer_class = AdminproductSerializer
 

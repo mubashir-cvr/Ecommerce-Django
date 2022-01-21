@@ -1,4 +1,5 @@
 
+from locale import currency
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -57,6 +58,7 @@ class AddressesOfUser(models.Model):
     first_name = models.CharField(max_length=225)
     last_name = models.CharField(max_length=225)
     phone = models.CharField(max_length=225)
+    email = models.EmailField(null=True,blank=True)
 
 class Category(models.Model):
     name=models.CharField(max_length = 200)
@@ -105,7 +107,11 @@ class Products(models.Model):
     image=VersatileImageField(blank=True,null=True,upload_to="Products/",ppoi_field='image_ppoi')
     image_ppoi = PPOIField()
     name=models.CharField(max_length = 200,default='Product Name')
-    price=models.BigIntegerField()
+    productpriceEuro=models.BigIntegerField(default=0)
+    productpriceDollar=models.BigIntegerField(default=0)
+    productpriceSterling=models.BigIntegerField(default=0)
+    productpriceDirham=models.BigIntegerField(default=0)
+    productpriceSar=models.BigIntegerField(default=0)
     created_date=models.DateTimeField(auto_now=True)
     stock=models.IntegerField(null=True)
 
@@ -143,7 +149,11 @@ class Sizes(models.Model):
 
 class Offer(models.Model):
     product = models.OneToOneField(Products, related_name='offers', on_delete=models.CASCADE)
-    offerPrice = models.BigIntegerField()
+    OfferEuro = models.BigIntegerField(default=0)
+    OfferDollar = models.BigIntegerField(default=0)
+    OfferSterling = models.BigIntegerField(default=0)
+    OfferDirham = models.BigIntegerField(default=0)
+    OfferSAR = models.BigIntegerField(default=0)
     endDate = models.DateTimeField(auto_now=True)
 
 
@@ -163,3 +173,55 @@ class WishList(models.Model):
 
     class Meta:
         unique_together = ['user', 'product']
+
+
+class cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    size = models.ForeignKey(Sizes,on_delete=models.CASCADE,null=True,blank=True)
+    color = models.ForeignKey(Options,on_delete=models.CASCADE,null=True,blank=True)
+    quantity = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
+    is_placed=models.BooleanField(
+        default=False,
+        verbose_name='Cart Status'
+    )
+
+    class Meta:
+        unique_together = ['user', 'product','size']
+
+
+class Order(models.Model):
+    product = models.ForeignKey(Products,related_name="orderedproducts", on_delete=models.CASCADE)
+    selectedsize = models.ForeignKey(Sizes,related_name="orderedsize",on_delete=models.CASCADE,null=True,blank=True)
+    selectedcolor = models.ForeignKey(Options,related_name="orderedcolor",on_delete=models.CASCADE,null=True,blank=True)
+    quantity = models.IntegerField()
+    parentcart=models.OneToOneField(cart, on_delete=models.PROTECT,null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.PROTECT,null=True,blank=True)
+    address = models.CharField(max_length=225,null=True,blank=True)
+    city = models.CharField(max_length=225,null=True,blank=True)
+    country = models.CharField(max_length=225,null=True,blank=True)
+    pincode = models.CharField(max_length=225,null=True,blank=True)
+    first_name = models.CharField(max_length=225,null=True,blank=True)
+    last_name = models.CharField(max_length=225,null=True,blank=True)
+    phone = models.CharField(max_length=225,null=True,blank=True)
+    email = models.EmailField(null=True,blank=True)
+    stripe_payment_intent=models.CharField(
+        max_length=200,null=True,blank=True
+    )
+    has_paid = models.BooleanField(
+        default=False,
+        verbose_name='Payment Status',null=True,blank=True
+    )
+    created_on = models.DateTimeField(
+        auto_now_add=True,null=True,blank=True
+    )
+
+    updated_on = models.DateTimeField(
+        auto_now_add=True,null=True,blank=True
+    )
+    status=models.CharField(max_length=50,default='Open',null=True,blank=True)
+    amount = models.IntegerField(
+        verbose_name='Amount'
+    )
+    currency=models.CharField(max_length=225,null=True,blank=True)
