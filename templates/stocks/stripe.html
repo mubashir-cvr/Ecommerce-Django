@@ -24,8 +24,7 @@
             dataType: "JSON",
             data: data,
             success: function (response) {
-                return stripe.redirectToCheckout({ sessionId: response.sessionId });
-                alert(JSON.stringify(response.sessionId))
+                window.location.href=response.url
             },
             error:function(response){
                 alert("There is no Items In Cart")

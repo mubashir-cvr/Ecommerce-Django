@@ -196,7 +196,7 @@ class Order(models.Model):
     selectedsize = models.ForeignKey(Sizes,related_name="orderedsize",on_delete=models.CASCADE,null=True,blank=True)
     selectedcolor = models.ForeignKey(Options,related_name="orderedcolor",on_delete=models.CASCADE,null=True,blank=True)
     quantity = models.IntegerField()
-    parentcart=models.OneToOneField(cart, on_delete=models.PROTECT,null=True,blank=True)
+    parentcart=models.ForeignKey(cart, on_delete=models.PROTECT,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.PROTECT,null=True,blank=True)
     address = models.CharField(max_length=225,null=True,blank=True)
     city = models.CharField(max_length=225,null=True,blank=True)
@@ -225,3 +225,6 @@ class Order(models.Model):
         verbose_name='Amount'
     )
     currency=models.CharField(max_length=225,null=True,blank=True)
+
+
+
