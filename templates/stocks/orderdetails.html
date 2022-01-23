@@ -209,32 +209,32 @@
                             <div class="card auth-detailblock">
                                 <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                     <h6 class="mb-0 fw-bold ">Delivery Address</h6>
-                                    <a href="#" class="text-muted">Edit</a>
+                                    {% comment %} <a href="#" class="text-muted">Edit</a> {% endcomment %}
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
-                                        <div class="col-12">
+                                        {% comment %} <div class="col-12">
                                             <label class="form-label col-6 col-sm-5">Block Number:</label>
                                             <span><strong>A-510</strong></span>
-                                        </div>
+                                        </div> {% endcomment %}
                                         <div class="col-12">
                                             <label class="form-label col-6 col-sm-5">Address:</label>
-                                            <span><strong>81 Fulton London</strong></span>
+                                            <span><strong id="address"></strong></span>
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label col-6 col-sm-5">Pincode:</label>
-                                            <span><strong>385467</strong></span>
+                                            <span><strong id="pincode"></strong></span>
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label col-6 col-sm-5">Phone:</label>
-                                            <span><strong>202-458-4568</strong></span>
+                                            <span><strong id="phone"></strong></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="card">
+                            {% comment %} <div class="card">
                                 <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                     <h6 class="mb-0 fw-bold ">Billing Address</h6>
                                     <a href="#" class="text-muted">Edit</a>
@@ -259,31 +259,31 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                         </div>
                         <div class="col">
-                            <div class="card">
-                                <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                    <h6 class="mb-0 fw-bold ">Invoice Deatil</h6>
-                                    <a href="#" class="text-muted">Download</a>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <label class="form-label col-6 col-sm-5">Number:</label>
-                                            <span><strong>#78414</strong></span>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label col-6 col-sm-5">Seller GST :</label>
-                                            <span><strong>AFQWEPX17390VJ</strong></span>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label col-6 col-sm-5">Purchase GST :</label>
-                                            <span><strong>NVFQWEPX1730VJ</strong></span>
+                                {% comment %} <div class="card">
+                                    <div class="card-header py-3 d-flex justify-content-between bg-transparent border-bottom-0">
+                                        <h6 class="mb-0 fw-bold ">Invoice Deatil</h6>
+                                        <a href="#" class="text-muted">Download</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label col-6 col-sm-5">Number:</label>
+                                                <span><strong>#78414</strong></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label col-6 col-sm-5">Seller GST :</label>
+                                                <span><strong>AFQWEPX17390VJ</strong></span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label col-6 col-sm-5">Purchase GST :</label>
+                                                <span><strong>NVFQWEPX1730VJ</strong></span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div> {% endcomment %}
                         </div>
                     </div> <!-- Row end  -->
                     <div class="row g-3 mb-3">
@@ -307,64 +307,24 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            <img src="{% static 'assets/images/product/product-1.jpg' %}" class="avatar rounded lg" alt="Product">
+                                                            <img id="productImg" class="avatar rounded lg" alt="Product">
                                                         </td>
                                                         <td>
-                                                            <h6 class="title">Oculus VR <span class="d-block fs-6 text-primary">Pr-1204</span></h6>
+                                                            <div id="nameofproduct"></div>
+                                                            
                                                         </td>
                                                         <td>
-                                                            1
+                                                            <div id="quantity"></div>
                                                         </td>
                                                         <td>
-                                                            <p class="price">$149.00</p>
+                                                            <p class="price" id="unitprice"></p>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="{% static 'assets/images/product/product-2.jpg' %}" class="avatar rounded lg" alt="Product">
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="title">Wall Clock <span class="d-block fs-6 text-primary">Pr-1004</span></h6>
-                                                        </td>
-                                                        <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            <p class="price">$399.00</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="{% static 'assets/images/product/product-3.jpg' %}" class="avatar rounded lg" alt="Product">
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="title">Note Diaries <span class="d-block fs-6 text-primary">Pr-1224</span></h6>
-                                                        </td>
-                                                        <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            <p class="price">$149.00</p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="{% static 'assets/images/product/product-4.jpg' %}" class="avatar rounded lg" alt="Product">
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="title">Flower Port  <span class="d-block fs-6 text-primary">Pr-1414</span></h6>
-                                                        </td>
-                                                        <td>
-                                                            1
-                                                        </td>
-                                                        <td>
-                                                            <p class="price">$399.00</p>
-                                                        </td>
-                                                    </tr>
+                                                   
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="checkout-coupon-total checkout-coupon-total-2 d-flex flex-wrap justify-content-end">
+                                        {% comment %} <div class="checkout-coupon-total checkout-coupon-total-2 d-flex flex-wrap justify-content-end">
                                             <div class="checkout-total">
                                                 <div class="single-total">
                                                     <p class="value">Subotal Price:</p>
@@ -387,7 +347,7 @@
                                                     <p class="price">$1296.00</p>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> {% endcomment %}
                                     </div>     
                                 </div>
                             </div>
@@ -400,33 +360,32 @@
                                 <div class="card-body">
                                     <form>
                                         <div class="row g-3 align-items-center">
-                                            <div class="col-md-12">
+                                            {% comment %} <div class="col-md-12">
                                                 <label  class="form-label">Order ID</label>
                                                 <input type="text" class="form-control" value="78414">
+                                            </div> {% endcomment %}
+                                            
+                                            <div class="col-md-12">
+                                                <label  class="form-label">Order Transection</label>
+                                                <select id="paymentStatus" class="form-select" aria-label="Transection">
+                                                    <option  value="Completed">Completed</option>
+                                                    <option value="Fail">Fail</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-12">
                                                 <label  class="form-label">Order Status</label>
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option  value="1">Progress</option>
-                                                    <option value="2">Completed</option>
-                                                    <option selected value="3">Pending</option>
+                                                <select class="form-select" id="orderstatus" aria-label="Default select example">
+                                                    <option  value="Attempted">Attempted</option>
+                                                    <option  value="Ordered">Ordered</option>
+                                                    <option value="In Progress">In Progress</option>
+                                                    <option selected value="Out For Delivery">Out For Delivery</option>
+                                                    <option selected value="Delivered">Delivered</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="form-label">Quantity</label>
-                                                <input type="text" class="form-control" value="4">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label  class="form-label">Order Transection</label>
-                                                <select class="form-select" aria-label="Transection">
-                                                    <option  value="1">Completed</option>
-                                                    <option value="2">Fail</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-12">
+                                            {% comment %} <div class="col-md-12">
                                                 <label for="comment" class="form-label">Comment</label>
-                                                <textarea  class="form-control" id="comment" rows="4">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea>
-                                            </div>
+                                                <textarea  class="form-control" id="comment" rows="4"></textarea>
+                                            </div> {% endcomment %}
                                         </div>
                                         <button type="button" class="btn btn-primary mt-4 text-uppercase">Submit</button>
                                     </form>

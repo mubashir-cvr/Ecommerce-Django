@@ -225,6 +225,10 @@ class Order(models.Model):
         verbose_name='Amount'
     )
     currency=models.CharField(max_length=225,null=True,blank=True)
+    
+    expected_delivery=models.DateTimeField(
+        auto_now_add=True,null=True,blank=True
+    )
 
 
 
