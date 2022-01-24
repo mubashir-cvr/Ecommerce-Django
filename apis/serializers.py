@@ -458,3 +458,121 @@ class CheckoutCartSerilizer(serializers.Serializer):
     phone = models.CharField(max_length=225)
     email = models.EmailField(null=True,blank=True)
 
+
+class optionsOrderSerializer(serializers.HyperlinkedModelSerializer):
+    image_one = VersatileImageFieldSerializer(
+        sizes=[
+            
+            ('original', 'url'),
+        ])
+    class Meta:
+        model = Options
+        fields = ('id','url','stock','image_one')
+class productToOrderSerializer(serializers.HyperlinkedModelSerializer):
+
+    OfferEuro=serializers.SerializerMethodField()
+    OfferPecentageEuro=serializers.SerializerMethodField()
+
+    OfferDollar=serializers.SerializerMethodField()
+    OfferPecentageDollar=serializers.SerializerMethodField()
+
+    OfferSterling=serializers.SerializerMethodField()
+    OfferPecentageSterling=serializers.SerializerMethodField()
+
+    OfferDirham=serializers.SerializerMethodField()
+    OfferPecentageDirham=serializers.SerializerMethodField()
+
+    OfferSAR=serializers.SerializerMethodField()
+    OfferPecentageSAR=serializers.SerializerMethodField()
+
+
+    brand=BrandSerializerforProduct()
+    image = VersatileImageFieldSerializer(
+        sizes=[
+            
+            ('original', 'url'),
+        ])
+    class Meta:
+        model = Products
+        fields = ('id','name','image','brand',
+            'productpriceEuro',
+            'OfferEuro',
+            'OfferPecentageEuro',
+            'productpriceDollar',
+            'OfferDollar',
+            'OfferPecentageDollar',
+            'productpriceSterling',
+            'OfferSterling',
+            'OfferPecentageSterling',
+            'productpriceDirham',
+            'OfferDirham',
+            'OfferPecentageDirham',
+            'productpriceSar',
+            'OfferSAR',
+            'OfferPecentageSAR',
+            'created_date',
+            )
+    
+    def get_OfferEuro(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            return offer.first().OfferEuro
+        return 0
+    def get_OfferPecentageEuro(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            euroOffPrice=offer.first().OfferEuro
+            return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
+        return 0
+    def get_OfferDollar(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            return offer.first().OfferDollar
+        return 0
+    def get_OfferPecentageDollar(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            euroOffPrice=offer.first().OfferDollar
+            return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
+        return 0
+    def get_OfferSterling(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            return offer.first().OfferSterling
+        return 0
+    def get_OfferPecentageSterling(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            euroOffPrice=offer.first().OfferSterling
+            return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
+        return 0
+    def get_OfferDirham(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            return offer.first().OfferDirham
+        return 0
+    def get_OfferPecentageDirham(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            euroOffPrice=offer.first().OfferDirham
+            return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
+        return 0
+    def get_OfferSAR(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            return offer.first().OfferSAR
+        return 0
+    def get_OfferPecentageSAR(self, obj):
+        offer=Offer.objects.filter(product=obj)
+        if offer.exists():
+            euroOffPrice=offer.first().OfferSAR
+            return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
+        return 0
+
+class OrdersSerializer(serializers.ModelSerializer):
+    product=productToOrderSerializer()
+    selectedsize=SizesSerializer()
+    selectedcolor=optionsOrderSerializer()
+    class Meta:
+        model = Order
+        fields ='__all__' 

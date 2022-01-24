@@ -280,3 +280,18 @@ class AdminAddOfferViewSet(viewsets.ModelViewSet):
     # specify serializer to be used
     
     serializer_class = AdminAddOfferSerializer
+
+
+class AdminOrderViewSet(viewsets.ModelViewSet):
+     queryset = Order.objects.all()
+    # specify serializer to be used
+    
+     serializer_class = OrderListSerializer
+
+
+     def get_serializer_class(self):
+        if self.action == 'list':
+            return OrderListSerializer
+        ## Need Optimization
+
+        return OrderListSerializer

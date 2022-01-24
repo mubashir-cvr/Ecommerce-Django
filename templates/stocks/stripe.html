@@ -16,16 +16,15 @@
         data={"email":"mbshrcvr@gmail.com",
         "address":"Vettuvedichalil","city":"Malappuram","country":"India",
         "pincode":"673645","first_name":"Mubashir","last_name":"V",
-        "phone":"9656248731","currency":"EUR","product":27,"color":4,"size":12,"quantity":1,
+        "phone":"9656248731","currency":"USD","product":27,"color":4,"size":12,"quantity":1,
         }
         $.ajax({
-            url: "http://127.0.0.1:8000/api/checkoutproduct/",
+            url: "/api/checkoutcart/",
             type: 'POST',
             dataType: "JSON",
             data: data,
             success: function (response) {
-                return stripe.redirectToCheckout({ sessionId: response.sessionId });
-                alert(JSON.stringify(response.sessionId))
+                window.location.href=response.url
             },
             error:function(response){
                 alert("There is no Items In Cart")

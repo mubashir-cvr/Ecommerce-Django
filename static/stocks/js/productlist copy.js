@@ -6,7 +6,7 @@ function Loadproducts(){
     var params = url.split('/');
     id= params[params.length-1]
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/" + id,
+        url: "/stockapi/adminsubsubcategories/" + id,
         type: 'GET',
         dataType: "JSON",
     
@@ -70,7 +70,7 @@ $('#productform').submit(function (event) {
     console.log($("#productorder").val())
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/",
+        url: "/stockapi/adminproducts/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -101,7 +101,7 @@ function deleteproduct(id) {
             if (willDelete) {
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/deleteproduct/" + id,
+        url: "/stockapi/deleteproduct/" + id,
         type: 'DELETE',
         dataType: "JSON",
 
@@ -130,11 +130,11 @@ function deleteproduct(id) {
 
 
 function editproduct(id) {
-    window.location="http://127.0.0.1:8000/stocks/listoptions/"+id
+    window.location="/listoptions/"+id
 }
 
 function loadoptions(id) {
-    window.location="http://127.0.0.1:8000/stocks/listoptions/"+id
+    window.location="/listoptions/"+id
 }
 
 $("#productimage").change(function () {

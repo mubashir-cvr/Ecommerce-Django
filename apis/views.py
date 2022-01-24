@@ -1,12 +1,12 @@
 
-
+from asgiref.sync import sync_to_async
 import json
 from locale import currency
 from unicodedata import category
 from rest_framework import viewsets,generics
 from rest_framework.views import APIView
 from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 import re
 from django.http.response import HttpResponseNotFound, JsonResponse
 from django.conf import settings
@@ -240,24 +240,34 @@ class UserDetails(viewsets.ModelViewSet):
         return self.queryset.filter(id=self.request.user.id)
 
 class CheckoutCart(APIView):
+    permission_classes = (IsAuthenticated,)
     def post(self, request, format=None):
-        cartitems=cart.objects.filter(is_placed=False)
+        cartitems=cart.objects.filter(is_placed=False,user=self.request.user)
         
         if not cartitems.exists():
             raise Http404
+        print("Cart Item Exist")
         itemsPriceDetails=[]
-        address=request.data['address']
-        email=request.data['email']
-        city=request.data['city']
-        pincode=request.data['pincode']
-        country=request.data['country']
-        first_name=request.data['first_name']
-        last_name=request.data['last_name']
-        phone=request.data['phone']
-        currency=request.data['currency']
+        try :
+            address=request.data['address']
+            email=request.data['email']
+            city=request.data['city']
+            pincode=request.data['pincode']
+            country=request.data['country']
+            first_name=request.data['first_name']
+            last_name=request.data['last_name']
+            phone=request.data['phone']
+            currency=request.data['currency']
+            print("Data Good")
+        except:
+            print("Data Fail")
+            pass
         for item in cartitems:
             unitprice=0
+            print("Collecting  Data..........")
+            
             if Offer.objects.filter(product=item.product).exists():
+                print("Collecting Offer Data..........")
                 if currency=='USD':
                     unitprice= Offer.objects.get(product=item.product).OfferEuro
                 elif currency=='SAR':
@@ -271,6 +281,7 @@ class CheckoutCart(APIView):
                 else:
                     pass
             else:
+                print("Collecting Normal Data..........")
                 if currency=='USD':
                     unitprice= item.product.productpriceDollar
                 elif currency=='SAR':
@@ -292,6 +303,7 @@ class CheckoutCart(APIView):
                     'quantity': item.quantity,
                 }
             itemsPriceDetails.append(pricedict)
+        print(itemsPriceDetails)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         checkout_session = stripe.checkout.Session.create(
             customer_email = request.data['email'],
@@ -310,6 +322,10 @@ class CheckoutCart(APIView):
             order.product=item.product
             order.quantity=item.quantity
             order.parentcart=item
+            if item.size:
+                order.selectedsize=item.size
+            if item.color:
+                order.selectedcolor=item.color
             order.address=address
             order.city=city
             order.country=country
@@ -321,21 +337,18 @@ class CheckoutCart(APIView):
             order.stripe_payment_intent=checkout_session['payment_intent']
             order.amount=unitprice*item.quantity
             order.currency=currency
-            
-            # order.user=
+            order.user=self.request.user
+            order.status="Attempted"
             order.save()
-            item.is_placed=True
-            item.save()
-
-
-        return JsonResponse({'sessionId': checkout_session.id})
+        return JsonResponse({'sessionId': checkout_session.id,'url':checkout_session.url})
          
 class PayementView(APIView):
-    #    permission_classes = (IsAuthenticated,)
+       permission_classes = (IsAuthenticated,)
        def get(self, request, format=None):
            pass
        def post(self, request, format=None):
-
+            color=0
+            size=0
             address=request.data['address']
             email=request.data['email']
             city=request.data['city']
@@ -346,8 +359,11 @@ class PayementView(APIView):
             phone=request.data['phone']
             currency=request.data['currency']
             product=request.data['product']
-            color=request.data['color']
-            size=request.data['size']
+            try:
+                color=request.data['color']
+                size=request.data['size']
+            except:
+                pass
             quantity=request.data['quantity']
             unitprice=0
             # cartitems=cart.objects.all()  ##Users
@@ -405,8 +421,10 @@ class PayementView(APIView):
             order=Order()
             order.product=productobj
             order.quantity=quantity
-            order.selectedsize=Sizes.objects.get(id=size)
-            order.selectedcolor=Options.objects.get(id=color)
+            if size!=0:
+                order.selectedsize=Sizes.objects.get(id=size)
+            if color!=0:
+                order.selectedcolor=Options.objects.get(id=color)
             order.address=address
             order.city=city
             order.country=country
@@ -418,7 +436,10 @@ class PayementView(APIView):
             order.stripe_payment_intent=checkout_session['payment_intent']
             order.amount=unitprice*quantity
             order.currency=currency
-            return JsonResponse({'sessionId': checkout_session.id})
+            order.status="Attempted"
+            order.save()
+            
+            return JsonResponse({'sessionId': checkout_session.id,'url':checkout_session.url})
 
 
 
@@ -432,7 +453,22 @@ class PaymentSuccessView(APIView):
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = stripe.checkout.Session.retrieve(session_id)
 
-        order = get_object_or_404(Order, stripe_payment_intent=session.payment_intent)
-        order.has_paid=True
-        order.save()
-        return JsonResponse({'payment':"Success"})
+        order = Order.objects.filter(stripe_payment_intent=session.payment_intent)
+        for o in order:
+            o.has_paid=True
+            o.status="Ordered"
+            if o.parentcart: 
+                o.parentcart.is_placed=True
+                o.parentcart.save()         
+            o.save()
+        return redirect("http://localhost:4200/settings/orders")
+
+
+
+
+class CustomerOrderViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = Order.objects.all()
+    serializer_class = OrdersSerializer
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
