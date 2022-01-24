@@ -7,7 +7,7 @@ function Loadsubsubcategories(){
     var params = url.split('/');
     id= params[params.length-1]
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/subcategories/" + id,
+        url: "/stockapi/subcategories/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -63,7 +63,7 @@ $('#subsubcategoryform').submit(function (event) {
     data = formData
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/",
+        url: "/stockapi/adminsubsubcategories/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -94,7 +94,7 @@ function deletesubsubcategory(id) {
         .then((willDelete) => {
             if (willDelete) {
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/deletesubsubcategory/" + id,
+        url: "/stockapi/deletesubsubcategory/" + id,
         type: 'DELETE',
         dataType: "JSON",
 
@@ -119,14 +119,14 @@ function deletesubsubcategory(id) {
 }
 
 function editsubsubcategory(id) {
-    window.location="http://127.0.0.1:8000/stocks/editsubsubcategory/"+id
+    window.location="/editsubsubcategory/"+id
 
 }
 
 
 function loadproducts(id) {
     
-    window.location="http://127.0.0.1:8000/stocks/listproducts/"+id
+    window.location="/listproducts/"+id
 
 }
 

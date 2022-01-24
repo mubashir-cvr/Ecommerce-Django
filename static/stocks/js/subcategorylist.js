@@ -6,7 +6,7 @@ function Loadsubcategories(){
     var url      = window.location.href;
     var params = url.split('/');
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/"+params[params.length-2],
+        url: "/stockapi/admincategories/"+params[params.length-2],
         type: 'GET',
         dataType: "JSON",
 
@@ -39,7 +39,7 @@ function Loadsubcategories(){
             $("#categoryID").val(params[params.length-2])
             $('#categoryName').val(response['name'])
             $('#pageHeadButton').html('<a href="#addsubcategory" class="btn btn-primary py-2 px-5 btn-set-task w-sm-100"><i class="icofont-plus-circle me-2 fs-6"></i> Add Categories</a>')
-            $('#pageHeading').html('<a href="http://127.0.0.1:8000/stocks/listsubcategories/'+$('#categoryID').val()+'/'+$('#categoryName').val()+'">'+$('#categoryName').val()+'</a>')
+            $('#pageHeading').html('<a href="/listsubcategories/'+$('#categoryID').val()+'/'+$('#categoryName').val()+'">'+$('#categoryName').val()+'</a>')
             return 0;
 
         },
@@ -61,7 +61,7 @@ $('#subcategoryform').submit(function (event) {
     data = formData
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/subcategories/",
+        url: "/stockapi/subcategories/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -92,7 +92,7 @@ function deletesubcategory(id) {
         .then((willDelete) => {
             if (willDelete) {
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/deletesubcategory/" + id,
+        url: "/stockapi/deletesubcategory/" + id,
         type: 'DELETE',
         dataType: "JSON",
 
@@ -120,11 +120,11 @@ function deletesubcategory(id) {
 
 
 function loadsubsubcategories(id) {
-    window.location="http://127.0.0.1:8000/stocks/listsubsubcategories/"+id
+    window.location="/listsubsubcategories/"+id
 }
 
 function editsubsubcategories(id){
-    window.location="http://127.0.0.1:8000/stocks/editsubcategory/"+id
+    window.location="/editsubcategory/"+id
 
 }
 

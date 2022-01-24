@@ -142,7 +142,7 @@
                     <div class="row align-items-center"> 
                         <div class="border-0 mb-4"> 
                             <div class="card-header py-3 no-bg bg-transparent d-flex align-items-center px-0 justify-content-between border-bottom flex-wrap">
-                                <h3 class="fw-bold mb-0">Order Details: #Order-78414</h3>
+                                <h3 class="fw-bold mb-0">Order Details: </h3>
                                 <div class="col-auto d-flex btn-set-task w-sm-100 align-items-center">
                                     <select class="form-select" aria-label="Default select example">
                                         <option selected="">Select Order Id</option>
@@ -165,7 +165,7 @@
                                     <div class="avatar rounded no-thumbnail bg-success text-light"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></div>
                                     <div class="flex-fill ms-3 text-truncate">
                                         <div class="h6 mb-0">Order Created at</div>
-                                        <span class="small">16/03/2021 at 04:23 PM</span>
+                                        <span class="small" id="createdat"></span>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                                     <div class="avatar rounded no-thumbnail bg-danger text-light"><i class="fa fa-user fa-lg" aria-hidden="true"></i></div>
                                     <div class="flex-fill ms-3 text-truncate">
                                         <div class="h6 mb-0">Name</div>
-                                        <span class="small">Gabrielle</span>
+                                        <span id="nameOfCustomer"></span>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                     <div class="avatar rounded no-thumbnail bg-warning text-light"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></div>
                                     <div class="flex-fill ms-3 text-truncate">
                                         <div class="h6 mb-0">Email</div>
-                                        <span class="small">gabrielle.db@gmail.com</span>
+                                        <span class="small" id="emailOfCustomer"></span>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@
                                     <div class="avatar rounded no-thumbnail bg-info text-light"><i class="fa fa-phone-square fa-lg" aria-hidden="true"></i></div>
                                     <div class="flex-fill ms-3 text-truncate">
                                         <div class="h6 mb-0">Contact No</div>
-                                        <span class="small">202-906-12354</span>
+                                        <span class="small" id="customerContact"></span>
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +358,8 @@
                                     <h6 class="mb-0 fw-bold ">Status Orders</h6>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form id="orderUpdate">
+                                        {% csrf_token %}
                                         <div class="row g-3 align-items-center">
                                             {% comment %} <div class="col-md-12">
                                                 <label  class="form-label">Order ID</label>
@@ -382,12 +383,20 @@
                                                     <option selected value="Delivered">Delivered</option>
                                                 </select>
                                             </div>
+                                            <div class="col-md-12">
+                                                <label  class="form-label">Expected Delivery</label>
+                                                <p id="expectedDateView"></p>
+
+                                                <p> <strong>Change :</strong></p>
+                                                <input type="date" class="form-control" id="dateofdelivery" >
+                                            </div>
                                             {% comment %} <div class="col-md-12">
                                                 <label for="comment" class="form-label">Comment</label>
                                                 <textarea  class="form-control" id="comment" rows="4"></textarea>
                                             </div> {% endcomment %}
                                         </div>
-                                        <button type="button" class="btn btn-primary mt-4 text-uppercase">Submit</button>
+                                        <div id="final_msg"><h6  class="text-success">Updated !</h6></div>
+                                        <button type="Submit" class="btn btn-primary mt-4 text-uppercase">Update</button>
                                     </form>
                                 </div>
                             </div>

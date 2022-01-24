@@ -1,5 +1,5 @@
 
-
+from asgiref.sync import sync_to_async
 import json
 from locale import currency
 from unicodedata import category
@@ -456,7 +456,7 @@ class PaymentSuccessView(APIView):
         order = Order.objects.filter(stripe_payment_intent=session.payment_intent)
         for o in order:
             o.has_paid=True
-            o.status="Paid"
+            o.status="Ordered"
             if o.parentcart: 
                 o.parentcart.is_placed=True
                 o.parentcart.save()         

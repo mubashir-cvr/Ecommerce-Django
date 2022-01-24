@@ -12,7 +12,7 @@ function LoadCategories() {
         .remove()
         .draw();
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "/stockapi/admincategories/",
         type: 'GET',
         dataType: "JSON",
 
@@ -53,7 +53,7 @@ $('#categoryform').submit(function (event) {
         csrfmiddlewaretoken: csrf_token1
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "/stockapi/admincategories/",
         type: 'POST',
         dataType: "JSON",
         data: data,
@@ -83,7 +83,7 @@ function deletecategory(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deletecategory/" + id,
+                    url: "/stockapi/deletecategory/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -109,7 +109,7 @@ function deletecategory(id) {
 
 }
 function loadsubcategories(id, name) {
-    window.location = "http://127.0.0.1:8000/stocks/listsubcategories/" + id + "/" + name
+    window.location = "/listsubcategories/" + id + "/" + name
 }
 
 

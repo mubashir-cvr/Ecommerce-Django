@@ -12,7 +12,7 @@ function LoadBrands() {
         .remove()
         .draw();
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        url: "/stockapi/brandlist/",
         type: 'GET',
         dataType: "JSON",
 
@@ -53,7 +53,7 @@ $('#brandform').submit(function (event) {
         csrfmiddlewaretoken: csrf_token1
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        url: "/stockapi/brandlist/",
         type: 'POST',
         data:data,
         dataType: "JSON",
@@ -80,7 +80,7 @@ function deletebrand(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deletebrand/" + id,
+                    url: "/stockapi/deletebrand/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -106,7 +106,7 @@ function deletebrand(id) {
 
 }
 function loadsubbrands(id, name) {
-    // window.location = "http://127.0.0.1:8000/stocks/listsubbrands/" + id + "/" + name
+    // window.location = "/listsubbrands/" + id + "/" + name
 }
 
 

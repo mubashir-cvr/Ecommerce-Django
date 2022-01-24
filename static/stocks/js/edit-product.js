@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 function LoadProducts(id) {
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/" + id,
+        url: "/stockapi/adminproducts/" + id,
         type: 'GET',
 
         success: function (response) {
@@ -75,7 +75,7 @@ $('#editproduct').submit(function (event) {
     data = formData
     id = $('#productID').val()
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/" + id + "/",
+        url: "/stockapi/adminproducts/" + id + "/",
         type: 'PATCH',
         data: formData,
         processData: false,
@@ -92,7 +92,7 @@ $('#editproduct').submit(function (event) {
                     "OfferSAR":$("#OfferSAR").val(),
                 }
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/addoffers/" + response.offerID + "/",
+                    url: "/stockapi/addoffers/" + response.offerID + "/",
                     type: 'PATCH',
                     dataType: "JSON",
                     data: data,
@@ -112,7 +112,7 @@ $('#editproduct').submit(function (event) {
                     "product":response.id,
                 }
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/addoffers/",
+                    url: "/stockapi/addoffers/",
                     type: 'POST',
                     data: data,
                     dataType: 'JSON',

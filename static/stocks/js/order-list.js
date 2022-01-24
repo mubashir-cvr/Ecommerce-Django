@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminorders/",
+        url: "/stockapi/adminorders/",
         type: 'GET',
         dataType: "JSON",
 
@@ -32,6 +32,6 @@ $(document).ready(function(){
 })
 
 function loadOrder(id){
-    window.location = "http://127.0.0.1:8000/stocks/orderdetails/" + id
+    window.location = "/orderdetails/" + id
 
 }

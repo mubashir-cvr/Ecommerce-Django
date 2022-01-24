@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 function Orderdetail(id) {
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminorders/"+id+"/",
+        url: "/stockapi/adminorders/"+id+"/",
         type: 'GET',
         dataType: "JSON",
 
@@ -17,11 +17,16 @@ function Orderdetail(id) {
             console.log(response)
             $('#address').html(response.address)
             $('#pincode').html(response.pincode)
+            $('#nameOfCustomer').html(response.first_name)
+            $('#emailOfCustomer').html(response.email)
+            $('#createdat').html(response.created_on)
+            $('#customerContact').html(response.phone)
             $('#phone').html(response.phone)
             $('#phone').html(response.phone)
             $('#nameofproduct').html(response.product.name)
             $('#quantity').html(response.quantity)
             $('#orderstatus').val(response.status)
+            $('#expectedDateView').html(response.expected_delivery)
             if(response.has_paid){
                 $('#paymentStatus').val("Completed")
             }
@@ -45,3 +50,32 @@ function Orderdetail(id) {
     });
 }
 
+$('#orderUpdate').submit(function (event) {
+    var url = window.location.href;
+    var params = url.split('/');
+    var id = params[params.length - 1]
+    event.preventDefault();
+    var csrf_token1 = $('[name="csrfmiddlewaretoken"]').val();
+        var formData = new FormData(document.getElementById("orderUpdate"));
+        formData.append("expected_delivery", $("#dateofdelivery").val());
+        formData.append("status", $("#orderstatus").val());
+        
+        formData.append("csrfmiddlewaretoken", csrf_token1);
+    $.ajax({
+        url: "/stockapi/adminorders/"+id+"/",
+        type: 'PATCH',
+        data: formData,
+        processData: false,
+        contentType: false,
+        
+        success: function (response) {
+
+            $('#final_msg').fadeIn().delay(1000).fadeOut();
+            Orderdetail(id);
+        },
+        error: function (jqXHR) {
+            console.log(JSON.stringify(jqXHR))
+        }
+
+    });
+});

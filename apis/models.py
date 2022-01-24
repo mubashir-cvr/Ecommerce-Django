@@ -220,14 +220,13 @@ class Order(models.Model):
     updated_on = models.DateTimeField(
         auto_now_add=True,null=True,blank=True
     )
-    status=models.CharField(max_length=50,default='Open',null=True,blank=True)
+    status=models.CharField(max_length=50,default='Attempted',null=True,blank=True)
     amount = models.IntegerField(
         verbose_name='Amount'
     )
     currency=models.CharField(max_length=225,null=True,blank=True)
     
-    expected_delivery=models.DateTimeField(
-        auto_now_add=True,null=True,blank=True
+    expected_delivery=models.DateField(null=True,blank=True
     )
 
 
