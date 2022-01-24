@@ -79,7 +79,6 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.name
     class Meta:
-        unique_together = ['category', 'order']
         ordering = ['order']
 
 
@@ -93,7 +92,6 @@ class SubSubCategory(models.Model):
         return self.name
 
     class Meta:
-        unique_together = ['subcategory', 'order']
         ordering = ['order']
 
 class Brand(models.Model):
@@ -119,7 +117,6 @@ class Products(models.Model):
         return self.name
 
     class Meta:
-        unique_together = ['subsubcategory', 'order']
         ordering = ['order']
 
 
@@ -171,8 +168,7 @@ class WishList(models.Model):
     product = models.ForeignKey(Products,related_name='users', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        unique_together = ['user', 'product']
+
 
 
 class cart(models.Model):
@@ -187,8 +183,6 @@ class cart(models.Model):
         verbose_name='Cart Status'
     )
 
-    class Meta:
-        unique_together = ['user', 'product','size']
 
 
 class Order(models.Model):
