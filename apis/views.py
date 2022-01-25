@@ -185,7 +185,7 @@ class CartViewSet(viewsets.ModelViewSet):
     queryset = cart.objects.all()
     serializer_class = CartSerializer
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(user=self.request.user,is_placed=False)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -371,28 +371,28 @@ class PayementView(APIView):
             
             if Offer.objects.filter(product_id=product).exists():
                 if currency=='USD':
-                    unitprice= Offer.objects.get(product_id=product).OfferEuro
+                    unitprice= (Offer.objects.get(product_id=product).OfferEuro)*100
                 elif currency=='SAR':
-                    unitprice= Offer.objects.get(product_id=product).OfferSAR
+                    unitprice= (Offer.objects.get(product_id=product).OfferSAR)*100
                 elif currency=='GBP':
-                    unitprice= Offer.objects.get(product_id=product).OfferSterling
+                    unitprice= (Offer.objects.get(product_id=product).OfferSterling)*100
                 elif currency=='EUR':
-                    unitprice= Offer.objects.get(product_id=product).OfferEuro
+                    unitprice= (Offer.objects.get(product_id=product).OfferEuro)*100
                 elif currency=='AED':
-                    unitprice= Offer.objects.get(product_id=product).OfferDirham
+                    unitprice= (Offer.objects.get(product_id=product).OfferDirham)*100
                 else:
                     pass
             else:
                 if currency=='USD':
-                    unitprice= Products.objects.get(id=product).productpriceDollar
+                    unitprice= (Products.objects.get(id=product).productpriceDollar)*100
                 elif currency=='SAR':
-                    unitprice= Products.objects.get(id=product).productpriceSar
+                    unitprice= (Products.objects.get(id=product).productpriceSar)*100
                 elif currency=='GBP':
-                    unitprice= Products.objects.get(id=product).productpriceSterling
+                    unitprice= (Products.objects.get(id=product).productpriceSterling)*100
                 elif currency=='EUR':
-                    unitprice= Products.objects.get(id=product).productpriceEuro
+                    unitprice= (Products.objects.get(id=product).productpriceEuro)*100
                 elif currency=='AED':
-                    unitprice= Products.objects.get(id=product).productpriceDirham
+                    unitprice= (Products.objects.get(id=product).productpriceDirham)*100
             productobj=Products.objects.get(id=product)
             itemsPriceDetails=[]
             pricedict=   {
@@ -461,7 +461,7 @@ class PaymentSuccessView(APIView):
                 o.parentcart.is_placed=True
                 o.parentcart.save()         
             o.save()
-        return redirect("http://localhost:4200/settings/orders")
+        return redirect("http://vouicustomer.geany.website/settings/orders")
 
 
 
