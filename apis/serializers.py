@@ -297,6 +297,8 @@ class productLessSerializer(serializers.HyperlinkedModelSerializer):
 class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
     products=productLessSerializer(many=True,read_only=True)
     availablebrands=serializers.SerializerMethodField()
+    availabeColours=serializers.SerializerMethodField()
+    availableSizes=serializers.SerializerMethodField()
     image = VersatileImageFieldSerializer(
         sizes=[
             
@@ -304,12 +306,33 @@ class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubSubCategory
-        fields = ('id','url','name','image','products','availablebrands')
+        fields = ('id','url','name','image','products','availablebrands','availabeColours','availableSizes')
     def get_availablebrands(self,subsubcategory):
         products=Products.objects.filter(subsubcategory=subsubcategory)
         brands=Brand.objects.filter(products__in=products)
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
+    def get_availabeColours(self,subsubcategory):
+        products=Products.objects.filter(subsubcategory=subsubcategory)
+        if Options.objects.filter(product__in=products).exists():
+
+            colors=Options.objects.filter(product__in=products).order_by('color').distinct('color')
+            
+            serializer = ColorSerializerforProduct(colors,many=True)
+            return serializer.data
+        return None
+    def get_availableSizes(self,subsubcategory):
+        products=Products.objects.filter(subsubcategory=subsubcategory)
+        if products.exists():
+            colors=Options.objects.filter(product__in=products)
+            if colors.exists():
+
+                sizes=Sizes.objects.filter(option__in=colors).order_by('size').distinct('size')
+        
+                serializer = SizeSerializerforProduct(sizes,many=True)
+                return serializer.data
+            return None
+        return None
 class SubSubcategoryLessoneSerializer(serializers.HyperlinkedModelSerializer):
     availablebrands=serializers.SerializerMethodField()
     availabeColours=serializers.SerializerMethodField()
@@ -358,6 +381,8 @@ class SubSubcategoryLessSerializer(serializers.HyperlinkedModelSerializer):
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     subsubcategories=SubSubcategoryLessoneSerializer(many=True,read_only=True)
     availablebrands=serializers.SerializerMethodField()
+    availabeColours=serializers.SerializerMethodField()
+    availableSizes=serializers.SerializerMethodField()
     image = VersatileImageFieldSerializer(
         sizes=[
             
@@ -365,7 +390,7 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = SubCategory
-        fields = ('id','url','name','availablebrands','image','subsubcategories')
+        fields = ('id','url','name','image','subsubcategories','availablebrands','availabeColours','availableSizes')
     def get_availablebrands(self,subcategory):
         subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
         products=Products.objects.filter(subsubcategory__in=subsubcategories)
@@ -373,17 +398,75 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
     
+    def get_availabeColours(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        if Options.objects.filter(product__in=products).exists():
+
+            colors=Options.objects.filter(product__in=products).order_by('color').distinct('color')
+            
+            serializer = ColorSerializerforProduct(colors,many=True)
+            return serializer.data
+        return None
+    def get_availableSizes(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        if products.exists():
+            colors=Options.objects.filter(product__in=products)
+            if colors.exists():
+
+                sizes=Sizes.objects.filter(option__in=colors).order_by('size').distinct('size')
+        
+                serializer = SizeSerializerforProduct(sizes,many=True)
+                return serializer.data
+            return None
+        return None
+    
 
 class SubcategoryLessSerializer(serializers.HyperlinkedModelSerializer):
     
     subsubcategories=SubSubcategoryLessSerializer(many=True,read_only=True)
+    availablebrands=serializers.SerializerMethodField()
+    availabeColours=serializers.SerializerMethodField()
+    availableSizes=serializers.SerializerMethodField()
     image = VersatileImageFieldSerializer(
         sizes=[
             ('original', 'url'),
         ])
     class Meta:
         model = SubCategory
-        fields = ('id','url','name','image','subsubcategories')
+        fields = ('id','url','name','image','subsubcategories','availablebrands','availabeColours','availableSizes')
+
+    def get_availablebrands(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        brands=Brand.objects.filter(products__in=products)
+        serializer = BrandSerializerforProduct(brands,many=True)
+        return serializer.data
+    
+    def get_availabeColours(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        if Options.objects.filter(product__in=products).exists():
+
+            colors=Options.objects.filter(product__in=products).order_by('color').distinct('color')
+            
+            serializer = ColorSerializerforProduct(colors,many=True)
+            return serializer.data
+        return None
+    def get_availableSizes(self,subcategory):
+        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+        products=Products.objects.filter(subsubcategory__in=subsubcategories)
+        if products.exists():
+            colors=Options.objects.filter(product__in=products)
+            if colors.exists():
+
+                sizes=Sizes.objects.filter(option__in=colors).order_by('size').distinct('size')
+        
+                serializer = SizeSerializerforProduct(sizes,many=True)
+                return serializer.data
+            return None
+        return None
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     subcategories=SubcategoryLessSerializer(many=True,read_only=True)
