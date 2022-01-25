@@ -309,7 +309,7 @@ class SubSubcategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','url','name','image','products','availablebrands','availabeColours','availableSizes')
     def get_availablebrands(self,subsubcategory):
         products=Products.objects.filter(subsubcategory=subsubcategory)
-        brands=Brand.objects.filter(products__in=products)
+        brands=Brand.objects.filter(products__in=products).order_by('name').distinct('name')
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
     def get_availabeColours(self,subsubcategory):
@@ -347,7 +347,7 @@ class SubSubcategoryLessoneSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id','url','name','image','availablebrands','availabeColours','availableSizes')
     def get_availablebrands(self,subsubcategory):
         products=Products.objects.filter(subsubcategory=subsubcategory)
-        brands=Brand.objects.filter(products__in=products)
+        brands=Brand.objects.filter(products__in=products).order_by('name').distinct('name')
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
     def get_availabeColours(self,subsubcategory):
@@ -394,7 +394,7 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     def get_availablebrands(self,subcategory):
         subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
         products=Products.objects.filter(subsubcategory__in=subsubcategories)
-        brands=Brand.objects.filter(products__in=products)
+        brands=Brand.objects.filter(products__in=products).order_by('name').distinct('name')
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
     
@@ -440,7 +440,7 @@ class SubcategoryLessSerializer(serializers.HyperlinkedModelSerializer):
     def get_availablebrands(self,subcategory):
         subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
         products=Products.objects.filter(subsubcategory__in=subsubcategories)
-        brands=Brand.objects.filter(products__in=products)
+        brands=Brand.objects.filter(products__in=products).order_by('name').distinct('name')
         serializer = BrandSerializerforProduct(brands,many=True)
         return serializer.data
     
