@@ -37,6 +37,9 @@ class AdminoptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Options
         fields = '__all__'
+
+
+
 class AdminproductSerializer(serializers.ModelSerializer):
     OfferEuro=serializers.SerializerMethodField()
     OfferPecentageEuro=serializers.SerializerMethodField()
@@ -155,8 +158,29 @@ class AdminproductSerializer(serializers.ModelSerializer):
         return 0
    
 
+class AdminNewCollectionSerializer(serializers.ModelSerializer):
+    product =AdminproductSerializer()
 
+    class Meta:
+        model = NewCollection
+        fields ='__all__' 
 
+class AdminNewCollectionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewCollection
+        fields ='__all__' 
+class AdminTrendingProductSerializer(serializers.ModelSerializer):
+    product =AdminproductSerializer()
+
+    class Meta:
+        model = BottomProductDisplay
+        fields ='__all__' 
+
+class AdminTrendingProductCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BottomProductDisplay
+        fields ='__all__' 
 class AdminSubSubcategorySerializer(serializers.ModelSerializer):
     products=AdminproductSerializer(many=True,read_only=True)
     image = VersatileImageFieldSerializer(
@@ -335,3 +359,9 @@ class OrderListSerializer(serializers.ModelSerializer):
         model = Order
         fields ='__all__' 
     
+
+
+class ProductsNameIdserializer(serializers.ModelSerializer):
+    class Meta:
+        model=Products
+        fields=('id','name')

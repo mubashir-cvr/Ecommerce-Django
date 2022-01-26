@@ -1,8 +1,11 @@
 
 
+from dataclasses import fields
 from gettext import NullTranslations
+from itertools import product
 from optparse import Option
 import re
+from statistics import mode
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.utils import field_mapping
@@ -194,7 +197,7 @@ class optionsLessSerializer(serializers.HyperlinkedModelSerializer):
         ])
     class Meta:
         model = Options
-        fields = ('id','url','stock','image_one','sizes')
+        fields = ('id','url','stock','color','image_one','sizes')
 class productLessSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsLessSerializer(many=True,read_only=True)
     OfferEuro=serializers.SerializerMethodField()
@@ -699,3 +702,20 @@ class OrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields ='__all__' 
+
+class NewCollectionSerializer(serializers.ModelSerializer):
+    product =productSerializer()
+
+    class Meta:
+        model = NewCollection
+        fields ='__all__' 
+
+
+
+class BottomProductDisplaySerializer(serializers.ModelSerializer):
+    product =productSerializer()
+
+    class Meta:
+        model = BottomProductDisplay
+        fields ='__all__' 
+

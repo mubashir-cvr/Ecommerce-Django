@@ -158,8 +158,6 @@ class Offer(models.Model):
 
 class NewCollection(models.Model):
     product = models.OneToOneField(Products, on_delete=models.CASCADE)
-    endDate=models.DateTimeField(auto_now=True)
-
 
 
 
@@ -224,4 +222,7 @@ class Order(models.Model):
     )
 
 
+
+class BottomProductDisplay(models.Model):
+    product=models.OneToOneField(Products,on_delete=models.CASCADE)
 

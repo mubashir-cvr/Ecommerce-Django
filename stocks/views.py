@@ -94,3 +94,10 @@ def listbrands(request):
 def paymenttest(request):
     return render(request,'stocks/stripe.html')
 
+def listnewarrivals(request):
+    return render(request,'stocks/newarrivals.html')
+
+
+def listtrending(request):
+    return render(request,'stocks/trendingProducts.html')
+

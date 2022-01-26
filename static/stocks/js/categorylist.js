@@ -21,7 +21,7 @@ function LoadCategories() {
             const categories = JSON.parse(JSON.stringify(response));
             for (let i = 0; i < categories.length; i++) {
 
-                table.row.add(['<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].id + '</div>', '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].name + '</div>',
+                table.row.add(['<div onclick=loadsubcategories(' + categories[i].id +   '")>' + categories[i].id + '</div>', '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].name + '</div>',
                 '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>March 13, 2021', 'Published</div>',
                 ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editcategories(' + categories[i].id + ',"' + categories[i].name + '")><i class="icofont-edit text-success"></i></a>\
                         <button id='+ categories[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletecategory(' + categories[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'

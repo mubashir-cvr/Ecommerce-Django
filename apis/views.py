@@ -79,12 +79,18 @@ class OptionsViewset(viewsets.ModelViewSet):
 
 
 
-class NewArrivalsViewset(viewsets.ModelViewSet):
-    time_threshold = datetime.now() - timedelta(days=5)
-    queryset = Products.objects.filter(created_date__gte=time_threshold)
-    # specify serializer to bce used
-    serializer_class = productSerializer
 
+class NewArrivalsViewset(viewsets.ModelViewSet):
+    queryset = NewCollection.objects.all()
+    # specify serializer to bce used
+    serializer_class = NewCollectionSerializer
+
+
+
+class BottomProductViewset(viewsets.ModelViewSet):
+    queryset = BottomProductDisplay.objects.all()
+    # specify serializer to bce used
+    serializer_class = BottomProductDisplaySerializer
 
 
 
@@ -269,29 +275,29 @@ class CheckoutCart(APIView):
             if Offer.objects.filter(product=item.product).exists():
                 print("Collecting Offer Data..........")
                 if currency=='USD':
-                    unitprice= Offer.objects.get(product=item.product).OfferEuro
+                    unitprice= Offer.objects.get(product=item.product).OfferEuro*100
                 elif currency=='SAR':
-                    unitprice= Offer.objects.get(product=item.product).OfferSAR
+                    unitprice= Offer.objects.get(product=item.product).OfferSAR*100
                 elif currency=='GBP':
-                    unitprice= Offer.objects.get(product=item.product).OfferSterling
+                    unitprice= Offer.objects.get(product=item.product).OfferSterling*100
                 elif currency=='EUR':
-                    unitprice= Offer.objects.get(product=item.product).OfferEuro
+                    unitprice= Offer.objects.get(product=item.product).OfferEuro*100
                 elif currency=='AED':
-                    unitprice= Offer.objects.get(product=item.product).OfferDirham
+                    unitprice= Offer.objects.get(product=item.product).OfferDirham*100
                 else:
                     pass
             else:
                 print("Collecting Normal Data..........")
                 if currency=='USD':
-                    unitprice= item.product.productpriceDollar
+                    unitprice= item.product.productpriceDollar*100
                 elif currency=='SAR':
-                    unitprice= item.product.productpriceSar
+                    unitprice= item.product.productpriceSar*100
                 elif currency=='GBP':
-                    unitprice= item.product.productpriceSterling
+                    unitprice= item.product.productpriceSterling*100
                 elif currency=='EUR':
-                    unitprice= item.product.productpriceEuro
+                    unitprice= item.product.productpriceEuro*100
                 elif currency=='AED':
-                    unitprice= item.product.productpriceDirham
+                    unitprice= item.product.productpriceDirham*100
             pricedict= {
                     'price_data': {
                         'currency': currency,
