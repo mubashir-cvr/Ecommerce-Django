@@ -24,6 +24,10 @@ class AdminCategoryViewset(viewsets.ModelViewSet):
         """Create a new object"""
         serializer.save()
     
+    def get_serializer_class(self):
+        if self.action=='retrieve':
+           return AdminCategoryRetriveSerializer
+        return AdminCategorySerializer
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 

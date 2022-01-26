@@ -208,8 +208,13 @@ class AdminSubcategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AdminCategorySerializer(serializers.ModelSerializer):
+
+class AdminCategoryRetriveSerializer(serializers.ModelSerializer):
     subcategories=AdminSubcategorySerializer(many=True,read_only=True)
+    class Meta:
+        model = Category
+        fields = '__all__'
+class AdminCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
