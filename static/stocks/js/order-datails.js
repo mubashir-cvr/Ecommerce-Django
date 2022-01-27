@@ -17,7 +17,7 @@ function Orderdetail(id) {
             console.log(response)
             $('#address').html(response.address)
             $('#pincode').html(response.pincode)
-            $('#nameOfCustomer').html(response.first_name)
+            $('#nameOfCustomer').html(response.firstName)
             $('#emailOfCustomer').html(response.email)
             $('#createdat').html(response.created_on)
             $('#customerContact').html(response.phone)

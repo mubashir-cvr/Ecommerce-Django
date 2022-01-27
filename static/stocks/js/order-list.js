@@ -20,7 +20,7 @@ $(document).ready(function(){
                     payinfo="Pending"
 
                 }
-                table.row.add(['<div onclick=loadOrder(' + order[i].id + ')>' +order[i].id+ '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + order[i].product.name + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + order[i].first_name + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + payinfo + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' +order[i].amount+" "+order[i].currency,order[i].status+ '</div>'])
+                table.row.add(['<div onclick=loadOrder(' + order[i].id + ')>' +order[i].id+ '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + order[i].product.name + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + order[i].firstName + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' + payinfo + '</div>','<div onclick=loadOrder(' + order[i].id + ')>' +order[i].amount+" "+order[i].currency,order[i].status+ '</div>'])
             }
             table.draw();
             

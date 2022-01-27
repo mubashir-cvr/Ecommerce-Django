@@ -260,8 +260,8 @@ class CheckoutCart(APIView):
             city=request.data['city']
             pincode=request.data['pincode']
             country=request.data['country']
-            first_name=request.data['first_name']
-            last_name=request.data['last_name']
+            firstName=request.data['firstName']
+            lastName=request.data['lastName']
             phone=request.data['phone']
             currency=request.data['currency']
             print("Data Good")
@@ -335,11 +335,11 @@ class CheckoutCart(APIView):
             order.address=address
             order.city=city
             order.country=country
-            order.first_name=first_name
+            order.firstName=firstName
             order.phone=phone
             order.email=email
             order.pincode=pincode
-            order.last_name=last_name
+            order.lastName=lastName
             order.stripe_payment_intent=checkout_session['payment_intent']
             order.amount=unitprice*item.quantity
             order.currency=currency
@@ -360,8 +360,8 @@ class PayementView(APIView):
             city=request.data['city']
             pincode=request.data['pincode']
             country=request.data['country']
-            first_name=request.data['first_name']
-            last_name=request.data['last_name']
+            firstName=request.data['firstName']
+            lastName=request.data['lastName']
             phone=request.data['phone']
             currency=request.data['currency']
             product=request.data['product']
@@ -434,11 +434,11 @@ class PayementView(APIView):
             order.address=address
             order.city=city
             order.country=country
-            order.first_name=first_name
+            order.firstName=firstName
             order.phone=phone
             order.email=email
             order.pincode=pincode
-            order.last_name=last_name
+            order.lastName=lastName
             order.stripe_payment_intent=checkout_session['payment_intent']
             order.amount=unitprice*quantity
             order.currency=currency

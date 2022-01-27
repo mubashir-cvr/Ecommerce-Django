@@ -55,8 +55,8 @@ class AddressesOfUser(models.Model):
     city = models.CharField(max_length=225)
     country = models.CharField(max_length=225)
     pincode = models.CharField(max_length=225)
-    first_name = models.CharField(max_length=225)
-    last_name = models.CharField(max_length=225)
+    firstName = models.CharField(max_length=225)
+    lastName = models.CharField(max_length=225)
     phone = models.CharField(max_length=225)
     email = models.EmailField(null=True,blank=True)
 
@@ -194,8 +194,8 @@ class Order(models.Model):
     city = models.CharField(max_length=225,null=True,blank=True)
     country = models.CharField(max_length=225,null=True,blank=True)
     pincode = models.CharField(max_length=225,null=True,blank=True)
-    first_name = models.CharField(max_length=225,null=True,blank=True)
-    last_name = models.CharField(max_length=225,null=True,blank=True)
+    firstName = models.CharField(max_length=225,null=True,blank=True)
+    lastName = models.CharField(max_length=225,null=True,blank=True)
     phone = models.CharField(max_length=225,null=True,blank=True)
     email = models.EmailField(null=True,blank=True)
     stripe_payment_intent=models.CharField(

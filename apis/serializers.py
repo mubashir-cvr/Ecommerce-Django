@@ -579,8 +579,8 @@ class CheckoutCartSerilizer(serializers.Serializer):
     city = models.CharField(max_length=225)
     country = models.CharField(max_length=225)
     pincode = models.CharField(max_length=225)
-    first_name = models.CharField(max_length=225)
-    last_name = models.CharField(max_length=225)
+    firstName = models.CharField(max_length=225)
+    lastName = models.CharField(max_length=225)
     phone = models.CharField(max_length=225)
     email = models.EmailField(null=True,blank=True)
 
