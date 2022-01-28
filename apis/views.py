@@ -24,6 +24,7 @@ from rest_framework.views import APIView
 from .pagination import *
 from .serializers import * 
 from rest_framework.response import Response
+from django.db.models import Q
 
 from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection,cart
 from datetime import datetime,timedelta
@@ -160,12 +161,41 @@ class WhishListViewSet(viewsets.ModelViewSet):
 
 
 
-class OffersaleViewset(viewsets.ModelViewSet):
-    # define queryset
-    
-    queryset = Products.objects.filter(offers__OfferEuro__gt=0)
-    # specify serializer to bce used
-    serializer_class = productSerializer
+class OffersaleViewset(APIView):
+    def get(self, request, format=None):
+        
+        offerProducts=Products.objects.filter(offers__OfferEuro__gt=0)
+        offerProductsSerilizer=productSerializer(offerProducts,many=True,context={"request": request})
+        brandnames=[]
+        colors=[]
+        sizes=[]
+        for product in offerProducts:
+            if product.brand:
+                data={"id":product.brand.id,"name":product.brand.name}
+                if not data in brandnames:
+                    brandnames.append(data)
+            if Options.objects.filter(product=product).exists():
+                options=Options.objects.filter(product=product)
+                for option in options:
+                    data={"color":option.color}
+                    if not data in colors:
+                        colors.append(data)
+                    if Sizes.objects.filter(option=option).exists():
+                        sizeses=Sizes.objects.filter(option=option)
+                        for size in sizeses:
+                            data={"size":size.size}
+                            if not data in sizes:
+                                sizes.append(data)
+            
+        searchdata={
+            "products":offerProductsSerilizer.data,
+            "availablebrands":brandnames,
+            "availabeColours":colors,
+            "availableSizes":sizes
+
+        }
+        
+        return Response(searchdata)
 
 
 
@@ -219,20 +249,78 @@ class SearchView(APIView):
         searchdata=[]
         if self.request.query_params.get('key'):
             key=self.request.query_params.get('key')
-            products=Products.objects.filter(name__icontains=key)
-            subcategories=SubCategory.objects.filter(name__icontains=key)
-            categories=Category.objects.filter(name__icontains=key)
-            subsubcategories=SubSubCategory.objects.filter(name__icontains=key)
+            secondKey=' '+key
+
+            products=Products.objects.filter(Q(name__startswith=key.upper())|Q(name__startswith=key.lower))
+            if not products.exists():
+                products=Products.objects.filter(Q(name__icontains=secondKey.upper())|Q(name__icontains=secondKey.lower()))
+            if not products.exists():
+                if key != 'MEN' or 'men':
+                    products=Products.objects.filter(Q(name__icontains=key.upper())|Q(name__icontains=key.lower()))
+            if not products.exists():
+                subsubcategoryIDs=[]
+                subcategories=SubCategory.objects.filter(Q(name__startswith=key.upper())|Q(name__startswith=key.lower()))
+                if not subcategories.exists:
+                    subcategories=SubCategory.objects.filter(Q(name__icontains=secondKey.upper())|Q(name__icontains=secondKey.lower()))
+                if not subcategories.exists:
+                    subcategories=SubCategory.objects.filter(Q(name__icontains=key.upper())|Q(name__icontains=key.lower()))
+                if subcategories.exists():
+                    for subcategory in subcategories:
+                        subsubcategories=SubSubCategory.objects.filter(subcategory=subcategory)
+                        if subsubcategories.exists():
+                            for subsubcategory in subsubcategories:
+                                subsubcategoryIDs.append(subsubcategory.id)
+                products=Products.objects.filter(subsubcategory__id__in=subsubcategoryIDs)
+                                
+            if not products.exists():
+                subsubcategories=SubSubCategory.objects.filter(Q(name__startswith=key.upper())|Q(name__startswith=key.lower()))
+                if not subsubcategories.exists():
+                    subsubcategories=SubSubCategory.objects.filter(Q(name__icontains=secondKey.upper())|Q(name__icontains=secondKey.lower()))
+                if not subsubcategories.exists():
+                    subsubcategories=SubSubCategory.objects.filter(Q(name__icontains=key.upper())|Q(name__icontains=key.lower()))
+                
+                subsubcategoryIDs=[]
+                if subsubcategories.exists():
+                    for subsubcategory in subsubcategories:
+                        subsubcategoryIDs.append(subsubcategory.id)
+                
+                products=Products.objects.filter(subsubcategory__id__in=subsubcategoryIDs)
+
+
+                    
+            # categories=Category.objects.filter(name__startswith=key)
+            if products.exists():
+                brandnames=[]
+                colors=[]
+                sizes=[]
+                for product in products:
+                    if product.brand:
+                        data={"id":product.brand.id,"name":product.brand.name}
+                        if not data in brandnames:
+                            brandnames.append(data)
+                    if Options.objects.filter(product=product).exists():
+                        options=Options.objects.filter(product=product)
+                        for option in options:
+                            data={"color":option.color}
+                            if not data in colors:
+                                colors.append(data)
+                            if Sizes.objects.filter(option=option).exists():
+                                sizeses=Sizes.objects.filter(option=option)
+                                for size in sizeses:
+                                    data={"size":size.size}
+                                    if not data in sizes:
+                                        sizes.append(data)
             
-            productserializer = ProductSearchSerializer(products,many=True)
-            subcategoryserializer = SubCategorySearchSerializer(subcategories,many=True)
-            categoryserializer = CategorySearchSerializer(categories,many=True)
-            subSubcategorySerializer = SubSubCategorySearchSerializer(subsubcategories,many=True)
+
+            productserializer = productLessSerializer(products,many=True,context={"request": request})
+            # subcategoryserializer = SubCategorySearchSerializer(subcategories,many=True,context={"request": request})
+            # categoryserializer = CategorySearchSerializer(categories,many=True,context={"request": request})
+            # subSubcategorySerializer = SubSubCategorySearchSerializer(subsubcategories,many=True,context={"request": request})
             searchdata={
             "products":productserializer.data,
-            "subcategory":subcategoryserializer.data,
-            "Category":categoryserializer.data,
-            "subsubcategory":subSubcategorySerializer.data,
+            "availablebrands":brandnames,
+            "availabeColours":colors,
+            "availableSizes":sizes
             }
             
         return Response(searchdata)
