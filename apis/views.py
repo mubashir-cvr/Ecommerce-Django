@@ -73,27 +73,52 @@ class OptionsViewset(viewsets.ModelViewSet):
     serializer_class = optionsSerializer
 
 
+class NewArrivalViewset(APIView):
+    def get(self, request, format=None):
+        
+        newCollection=NewCollection.objects.all()
+        productsIDs=[]
+        for new in newCollection:
+            productsIDs.append(new.product.id)
 
+        offerProducts=Products.objects.filter(id__in=productsIDs)
+        offerProductsSerilizer=productSerializer(offerProducts,many=True,context={"request": request})
+        brandnames=[]
+        colors=[]
+        sizes=[]
+        for product in offerProducts:
+            if product.brand:
+                data={"id":product.brand.id,"name":product.brand.name}
+                if not data in brandnames:
+                    brandnames.append(data)
+            if Options.objects.filter(product=product).exists():
+                options=Options.objects.filter(product=product)
+                for option in options:
+                    data={"color":option.color}
+                    if not data in colors:
+                        colors.append(data)
+                    if Sizes.objects.filter(option=option).exists():
+                        sizeses=Sizes.objects.filter(option=option)
+                        for size in sizeses:
+                            data={"size":size.size}
+                            if not data in sizes:
+                                sizes.append(data)
+            
+        searchdata={
+            "products":offerProductsSerilizer.data,
+            "availablebrands":brandnames,
+            "availabeColours":colors,
+            "availableSizes":sizes
 
-
-
-
-
-
-
-class NewArrivalsViewset(viewsets.ModelViewSet):
-    queryset = NewCollection.objects.all()
-    # specify serializer to bce used
-    serializer_class = NewCollectionSerializer
-
+        }
+        
+        return Response(searchdata)
 
 
 class BottomProductViewset(viewsets.ModelViewSet):
     queryset = BottomProductDisplay.objects.all()
     # specify serializer to bce used
     serializer_class = BottomProductDisplaySerializer
-
-
 
 class NewCollectionViewset(viewsets.ModelViewSet):
     # define queryset
@@ -108,15 +133,12 @@ class NewCollectionViewset(viewsets.ModelViewSet):
             for new in newcollection:
                 productIds.append(new.product_id)
         return self.queryset.filter(id__in=productIds)
-
 class ProductsViewset(viewsets.ModelViewSet):
     # define queryset
     
     queryset = Products.objects.all()
     # specify serializer to bce used
     serializer_class = productSerializer
-
-
 
 class BrandViewSet(viewsets.ModelViewSet):
     # define queryset
@@ -125,18 +147,12 @@ class BrandViewSet(viewsets.ModelViewSet):
     
     serializer_class = BrandSerializer
 
-
-
 class SizeViewSet(viewsets.ModelViewSet):
     # define queryset
     queryset = Sizes.objects.all()
     # specify serializer to be used
     
     serializer_class = SizesSerializer
-
-
-
-
 
 class WhishListViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -157,9 +173,6 @@ class WhishListViewSet(viewsets.ModelViewSet):
 
     def perform_create(self,serializer):
         serializer.save(user=self.request.user)
-
-
-
 
 class OffersaleViewset(APIView):
     def get(self, request, format=None):
