@@ -466,11 +466,8 @@ class PayementView(APIView):
             phone=request.data['phone']
             currency=request.data['currency']
             product=request.data['product']
-            try:
-                color=request.data['color']
-                size=request.data['size']
-            except:
-                pass
+            color=request.data['color']
+            size=request.data['size']
             quantity=request.data['quantity']
             unitprice=0
             # cartitems=cart.objects.all()  ##Users
@@ -528,6 +525,7 @@ class PayementView(APIView):
             order=Order()
             order.product=productobj
             order.quantity=quantity
+            order.user=self.request.user
             if size!=0:
                 order.selectedsize=Sizes.objects.get(id=size)
             if color!=0:
@@ -568,7 +566,7 @@ class PaymentSuccessView(APIView):
                 o.parentcart.is_placed=True
                 o.parentcart.save()         
             o.save()
-        return redirect("http://vouicustomer.geany.website/settings/orders")
+        return redirect("http://localhost:4200/settings/orders")
 
 
 
