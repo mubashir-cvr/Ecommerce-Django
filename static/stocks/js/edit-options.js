@@ -10,7 +10,7 @@
 
     function Loadoptions(id){
         $.ajax({
-            url: "http://127.0.0.1:8000/stockapi/adminoptions/"+id,
+            url: "/stockapi/adminoptions/"+id,
             type: 'GET',
             
             success: function (response) {
@@ -59,7 +59,7 @@
         data = formData
         id=$('#OptionID').val()
         $.ajax({
-            url: "http://127.0.0.1:8000/stockapi/adminoptions/"+id+"/",
+            url: "/stockapi/adminoptions/"+id+"/",
             type: 'PATCH',
             data: formData,
             processData: false,

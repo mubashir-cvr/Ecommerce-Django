@@ -122,6 +122,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 CORS_ORIGIN_ALLOW_ALL=True
 
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_ED9cjwAaAIi6XvKCXzwGOu6100MabxSaDJ'
+STRIPE_SECRET_KEY = 'sk_test_UE3TvVSx3UfH6m1h7cHEnB8G000iOTdM1b'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -156,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Kolkata'
+TIME_ZONE = 'Europe/Istanbul'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True

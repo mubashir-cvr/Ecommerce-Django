@@ -1,0 +1,37 @@
+{% extends 'stocks/base.html' %}
+{% load static %}
+{% block content%}
+
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    $(document).ready(function(){
+        
+
+        var stripe = Stripe('pk_test_ED9cjwAaAIi6XvKCXzwGOu6100MabxSaDJ');
+        data={"email":"mbshrcvr@gmail.com",
+        "address":"Vettuvedichalil","city":"Malappuram","country":"India",
+        "pincode":"673645","firstName":"Mubashir","lastName":"V",
+        "phone":"9656248731","currency":"USD","product":27,"color":4,"size":12,"quantity":1,
+        }
+        $.ajax({
+            url: "/api/checkoutcart/",
+            type: 'POST',
+            dataType: "JSON",
+            data: data,
+            success: function (response) {
+                window.location.href=response.url
+            },
+            error:function(response){
+                alert("There is no Items In Cart")
+
+            }
+
+    })});
+</script>
+
+{% endblock %}

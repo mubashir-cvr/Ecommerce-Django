@@ -1,6 +1,7 @@
 from .models import *
 
 
+
 def CalculateOfferPercentage(product):
     offer=Offer.objects.filter(product=product)
     if offer.exists():
@@ -8,3 +9,4 @@ def CalculateOfferPercentage(product):
         percentage=(offPrice)*100/product.price
         return int(percentage)
     return 0
+
