@@ -10,7 +10,7 @@ function Loadsizes() {
     id = params[params.length - 1]
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminoptions/" + id,
+        url: "/stockapi/adminoptions/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -65,7 +65,7 @@ $('#optionform').submit(function (event) {
     data = formData
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminoptions/",
+        url: "/stockapi/adminoptions/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -83,7 +83,7 @@ $('#optionform').submit(function (event) {
                     "option": response.id
                 }
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/sizeslist/",
+                    url: "/stockapi/sizeslist/",
                     type: 'POST',
                     data: data,
                     dataType: "JSON",
@@ -119,7 +119,7 @@ $("img").attr("src","https://dummyimage.com/150x200.gif")
 
 function editsize(id) {
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/sizeslist/" + id,
+        url: "/stockapi/sizeslist/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -146,7 +146,7 @@ $('#sizeeditform').submit(function (event) {
     data = formData
     id=$('#editsizeID').val()
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/sizeslist/"+id+"/",
+        url: "/stockapi/sizeslist/"+id+"/",
         type: 'PATCH',
         data: formData,
         processData: false,
@@ -179,7 +179,7 @@ function deletesize(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deletesize/" + id,
+                    url: "/stockapi/deletesize/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -248,7 +248,7 @@ $('#sizes').find('tr').each(function (i, el) {
         "option": id
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/sizeslist/",
+        url: "/stockapi/sizeslist/",
         type: 'POST',
         data: data,
         dataType: "JSON",

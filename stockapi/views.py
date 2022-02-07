@@ -24,6 +24,10 @@ class AdminCategoryViewset(viewsets.ModelViewSet):
         """Create a new object"""
         serializer.save()
     
+    def get_serializer_class(self):
+        if self.action=='retrieve':
+           return AdminCategoryRetriveSerializer
+        return AdminCategorySerializer
     def put(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
@@ -99,9 +103,28 @@ class AdminOffersaleViewset(viewsets.ModelViewSet):
 
 
 class AdminNewArrivalsViewset(viewsets.ModelViewSet):
-    time_threshold = datetime.now() - timedelta(days=5)
-    queryset = Products.objects.filter(created_date__gte=time_threshold)
-    serializer_class = AdminproductSerializer
+    queryset = NewCollection.objects.all()
+    serializer_class = AdminNewCollectionSerializer
+
+    def get_queryset(self):
+        
+        return self.queryset.all()
+
+    def perform_create(self, serializer):
+        """Create a new object"""
+        serializer.save()
+    def get_serializer_class(self):
+          if self.action == 'create':
+              return AdminNewCollectionCreateSerializer
+          return AdminNewCollectionSerializer
+    
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+
+class AdminTrendingProductViewset(viewsets.ModelViewSet):
+    queryset = BottomProductDisplay.objects.all()
+    serializer_class = AdminTrendingProductSerializer
 
     def get_queryset(self):
         """Return objects for the current authenticated user only"""
@@ -110,6 +133,10 @@ class AdminNewArrivalsViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Create a new object"""
         serializer.save()
+    def get_serializer_class(self):
+          if self.action == 'create':
+              return AdminTrendingProductCreateSerializer
+          return AdminTrendingProductSerializer
     
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
@@ -280,3 +307,24 @@ class AdminAddOfferViewSet(viewsets.ModelViewSet):
     # specify serializer to be used
     
     serializer_class = AdminAddOfferSerializer
+
+
+class AdminOrderViewSet(viewsets.ModelViewSet):
+     queryset = Order.objects.all()
+    # specify serializer to be used
+    
+     serializer_class = OrderListSerializer
+
+
+     def get_serializer_class(self):
+        if self.action == 'list':
+            return OrderListSerializer
+        ## Need Optimization
+
+        return OrderListSerializer
+
+
+
+class ProductsNameIdViewset(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductsNameIdserializer

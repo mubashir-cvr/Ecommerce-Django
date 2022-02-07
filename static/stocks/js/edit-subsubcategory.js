@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 function Loadsubsubcategories(id){
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/"+id,
+        url: "/stockapi/adminsubsubcategories/"+id,
         type: 'GET',
         
         success: function (response) {
@@ -57,7 +57,7 @@ $('#editsubsubcategory').submit(function (event) {
     data = formData
     id=$('#subsubcatID').val()
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/"+id+"/",
+        url: "/stockapi/adminsubsubcategories/"+id+"/",
         type: 'PATCH',
         data: formData,
         processData: false,

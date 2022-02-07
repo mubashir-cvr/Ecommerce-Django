@@ -18,11 +18,13 @@ router.register('adminsubsubcategories', AdminSubSubcategoryViewset)
 router.register('adminproducts', AdminProductsViewset)
 router.register('adminoptions', AdminOptionsViewset)
 router.register('adminoffersale', AdminOffersaleViewset)
-router.register('adminnewcollection', AdminNewCollectionViewset)
 router.register('adminnewarrivals', AdminNewArrivalsViewset)
+router.register('trendingproducts', AdminTrendingProductViewset)
 router.register('brandlist', AdminBrandViewSet)
 router.register('sizeslist', AdminSizeViewSet)
 router.register('addoffers', AdminAddOfferViewSet)
+router.register('adminorders', AdminOrderViewSet)
+router.register('productlist', ProductsNameIdViewset)
 app_name = 'stockapi'
   
 # specify URL Path for rest_framework

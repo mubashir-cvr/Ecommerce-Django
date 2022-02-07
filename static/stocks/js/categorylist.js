@@ -12,7 +12,7 @@ function LoadCategories() {
         .remove()
         .draw();
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "/stockapi/admincategories/",
         type: 'GET',
         dataType: "JSON",
 
@@ -21,7 +21,7 @@ function LoadCategories() {
             const categories = JSON.parse(JSON.stringify(response));
             for (let i = 0; i < categories.length; i++) {
 
-                table.row.add(['<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].id + '</div>', '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].name + '</div>',
+                table.row.add(['<div onclick=loadsubcategories(' + categories[i].id +   '")>' + categories[i].id + '</div>', '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>' + categories[i].name + '</div>',
                 '<div onclick=loadsubcategories(' + categories[i].id + ',"' + categories[i].name + '")>March 13, 2021', 'Published</div>',
                 ' <div class="btn-group" role="group" aria-label="Basic outlined example"><a class="btn btn-outline-secondary" onclick=editcategories(' + categories[i].id + ',"' + categories[i].name + '")><i class="icofont-edit text-success"></i></a>\
                         <button id='+ categories[i].id + ' type="button" class="btn btn-outline-secondary deleterow" onclick=deletecategory(' + categories[i].id + ')><i class="icofont-ui-delete text-danger"></i></button></div>'
@@ -53,7 +53,7 @@ $('#categoryform').submit(function (event) {
         csrfmiddlewaretoken: csrf_token1
     }
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/admincategories/",
+        url: "/stockapi/admincategories/",
         type: 'POST',
         dataType: "JSON",
         data: data,
@@ -83,7 +83,7 @@ function deletecategory(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deletecategory/" + id,
+                    url: "/stockapi/deletecategory/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -109,7 +109,7 @@ function deletecategory(id) {
 
 }
 function loadsubcategories(id, name) {
-    window.location = "http://127.0.0.1:8000/stocks/listsubcategories/" + id + "/" + name
+    window.location = "/listsubcategories/" + id + "/" + name
 }
 
 

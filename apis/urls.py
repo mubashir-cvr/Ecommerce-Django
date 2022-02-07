@@ -21,15 +21,14 @@ router.register('subsubcategories', SubSubcategoryViewset)
 router.register('subsubcategories', SubSubcategoryViewset)
 router.register('products', ProductsViewset)
 router.register('options', OptionsViewset)
-router.register('offersale', OffersaleViewset)
-router.register('newcollection', NewCollectionViewset)
-router.register('newarrivals', NewArrivalsViewset)
+router.register('bottmProducts', BottomProductViewset)
 router.register('brandlist', BrandViewSet)
 router.register('sizeslist', SizeViewSet)
 router.register('wishlists', WhishListViewSet)
 router.register('adressofuser', AddressesViewSet)
 router.register('cart',CartViewSet)
 router.register('get-user',UserDetails)
+router.register('get-orders',CustomerOrderViewset)
   
 # specify URL Path for rest_framework
 urlpatterns = [
@@ -39,6 +38,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('createuser/', CreateUserView.as_view(), name='createuser'),
     path('search/', SearchView.as_view(), name='search'),
+    path('offersale/', OffersaleViewset.as_view(), name='offers'),
+    path('newarrivals/', NewArrivalViewset.as_view(), name='newarrivals'),
     path('checkoutproduct/', PayementView.as_view(), name='checkoutproduct'),
     path('checkoutcart/', CheckoutCart.as_view(), name='CheckoutCart'),
     path('success/', PaymentSuccessView.as_view(), name='success'),

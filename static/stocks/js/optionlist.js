@@ -8,7 +8,7 @@ function LoadOptions() {
     id = params[params.length - 1]
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/" + id,
+        url: "/stockapi/adminproducts/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -66,7 +66,7 @@ $('#optionform').submit(function (event) {
     data = formData
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminoptions/",
+        url: "/stockapi/adminoptions/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -84,7 +84,7 @@ $('#optionform').submit(function (event) {
                     "option": response.id
                 }
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/sizeslist/",
+                    url: "/stockapi/sizeslist/",
                     type: 'POST',
                     data: data,
                     dataType: "JSON",
@@ -113,7 +113,7 @@ $("img").attr("src","https://dummyimage.com/150x200.gif")
 
 
 function editoption(id) {
-    window.location = "http://127.0.0.1:8000/stocks/editoptions/" + id;
+    window.location = "/editoptions/" + id;
 }
 function deleteoption(id) {
     swal({
@@ -126,7 +126,7 @@ function deleteoption(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deleteoption/" + id,
+                    url: "/stockapi/deleteoption/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -182,7 +182,7 @@ $("#optionimagethree").change(function () {
 });
 
 function loadsizes(id) {
-    window.location = "http://127.0.0.1:8000/stocks/listsizes/" + id
+    window.location = "/listsizes/" + id
 }
 
 

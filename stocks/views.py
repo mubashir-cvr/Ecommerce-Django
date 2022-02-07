@@ -40,7 +40,7 @@ def editcategory(request):
 def orderlist(request):
     return render(request,'stocks/orderlist.html')
 
-def orderdetails(request):
+def orderdetails(request,id):
     return render(request,'stocks/orderdetails.html')
 
 def listsubcategories(request,**args):
@@ -93,4 +93,11 @@ def listbrands(request):
 
 def paymenttest(request):
     return render(request,'stocks/stripe.html')
+
+def listnewarrivals(request):
+    return render(request,'stocks/newarrivals.html')
+
+
+def listtrending(request):
+    return render(request,'stocks/trendingProducts.html')
 

@@ -7,7 +7,7 @@ function Loadproducts() {
     var params = url.split('/');
     id = params[params.length - 1]
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminsubsubcategories/" + id,
+        url: "/stockapi/adminsubsubcategories/" + id,
         type: 'GET',
         dataType: "JSON",
 
@@ -47,7 +47,7 @@ function Loadproducts() {
         }
     });
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/brandlist/",
+        url: "/stockapi/brandlist/",
         type: 'GET',
         dataType: "JSON",
 
@@ -87,7 +87,7 @@ $('#productform').submit(function (event) {
     data = formData
 
     $.ajax({
-        url: "http://127.0.0.1:8000/stockapi/adminproducts/",
+        url: "/stockapi/adminproducts/",
         type: 'POST',
         data: formData,
         processData: false,
@@ -109,7 +109,7 @@ $('#productform').submit(function (event) {
                     "product": response.id,
                 }
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/addoffers/",
+                    url: "/stockapi/addoffers/",
                     type: 'POST',
                     data: data,
                     dataType: 'JSON',
@@ -157,7 +157,7 @@ function deleteproduct(id) {
         .then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: "http://127.0.0.1:8000/stockapi/deleteproduct/" + id,
+                    url: "/stockapi/deleteproduct/" + id,
                     type: 'DELETE',
                     dataType: "JSON",
 
@@ -189,7 +189,7 @@ function deleteproduct(id) {
 
 
 function loadoptions(id) {
-    window.location = "http://127.0.0.1:8000/stocks/listoptions/" + id
+    window.location = "/listoptions/" + id
 }
 
 $("#productimage").change(function () {
@@ -205,5 +205,5 @@ $("#productimage").change(function () {
 
 
 function editproduct(id) {
-    window.location = "http://127.0.0.1:8000/stocks/editproducts/" + id
+    window.location = "/editproducts/" + id
 }

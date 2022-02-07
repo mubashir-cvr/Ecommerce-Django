@@ -29,7 +29,7 @@
                 </a>
                 <!-- Menu: main ul -->
                 <ul class="menu-list flex-grow-1 mt-3">
-                    <li><a class="m-link active" href="{% url 'stock:listproductgrid' %}"       <i class="icofont-home fs-5"></i> <span>Dashboard</span></a></li>
+                    <li><a class="m-link active" href="{% url 'stock:listcategories' %}"       <i class="icofont-home fs-5"></i> <span>Dashboard</span></a></li>
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#categories" href="#">
                             <i class="icofont-chart-flow fs-5"></i> <span>Categories</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
@@ -48,7 +48,23 @@
                             <li><a class="ms-link"  href=" {% url 'stock:listbrands' %}">Add Brand</a></li>
                         </ul>
                     </li> 
-<!--                     
+                    <li class="collapsed">
+                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-newarrivals" href="#">
+                            <i class="icofont-brand-general-electric"></i> <span>New Arrivals</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+                        <!-- Menu: Sub menu ul -->
+                        <ul class="sub-menu collapse" id="menu-newarrivals">
+                            <li><a class="ms-link"  href=" {% url 'stock:listnewarrivals' %}">Add New Arrivals</a></li>
+                        </ul>
+                    </li> 
+                    <li class="collapsed">
+                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-trendingproduct" href="#">
+                            <i class="icofont-brand-general-electric"></i> <span>Trending Products</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
+                        <!-- Menu: Sub menu ul -->
+                        <ul class="sub-menu collapse" id="menu-trendingproduct">
+                            <li><a class="ms-link"  href=" {% url 'stock:listtrending' %}">Add Trending Products</a></li>
+                        </ul>
+                    </li> 
+                    <!--                     
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu-product" href="#">
                             <i class="icofont-truck-loaded fs-5"></i> <span>Products</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
@@ -67,10 +83,10 @@
                         <!-- Menu: Sub menu ul -->
                         <ul class="sub-menu collapse" id="menu-order">
                             <li><a class="ms-link" href=" {% url 'stock:orderlist' %}">Orders List</a></li>
-                            <li><a class="ms-link" href=" {% url 'stock:orderdetails' %}">Order Details</a></li>
+                            {% comment %} <li><a class="ms-link" href=" {% url 'stock:orderdetails' %}">Order Details</a></li> {% endcomment %}
                         </ul>
                     </li>
-                    <li class="collapsed">
+                    {% comment %} <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#customers-info" href="#">
                         <i class="icofont-funky-man fs-5"></i> <span>Customers</span> <span class="arrow icofont-rounded-down ms-auto text-end fs-5"></span></a>
                         <!-- Menu: Sub menu ul -->
@@ -78,7 +94,7 @@
                             <li><a class="ms-link" href="customers.html">Customers List</a></li>
                             <li><a class="ms-link" href="customer-detail.html">Customers Details</a></li>
                         </ul>
-                    </li>
+                    </li> {% endcomment %}
                     
                     
                    
