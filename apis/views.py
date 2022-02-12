@@ -70,9 +70,11 @@ class SubSubcategoryAPIView(APIView):
         serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
         return Response(serializer.data)
     
-    def post(self, request, format=None):
-        filter=request.POST['filter']
-        filterIDs=json.loads(filter)
+    def post(self, request):
+        
+        filterIDs=json.loads(request.data['filter'])
+            
+        
         subsubcategories=SubSubCategory.objects.filter(id__in=filterIDs)
         serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
         return Response(serializer.data)
