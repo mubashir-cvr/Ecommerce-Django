@@ -17,11 +17,9 @@ router = routers.DefaultRouter()
 # define the router path and viewset to be used
 router.register('categories', CategoryViewset)
 router.register('subcategories', SubcategoryViewset)
-router.register('subsubcategories', SubSubcategoryViewset)
-router.register('subsubcategories', SubSubcategoryViewset)
+router.register('subsubcategorieses', SubSubcategoryViewset)
 router.register('products', ProductsViewset)
 router.register('options', OptionsViewset)
-router.register('bottmProducts', BottomProductViewset)
 router.register('brandlist', BrandViewSet)
 router.register('sizeslist', SizeViewSet)
 router.register('wishlists', WhishListViewSet)
@@ -43,5 +41,8 @@ urlpatterns = [
     path('checkoutproduct/', PayementView.as_view(), name='checkoutproduct'),
     path('checkoutcart/', CheckoutCart.as_view(), name='CheckoutCart'),
     path('success/', PaymentSuccessView.as_view(), name='success'),
+    path('bottmProducts/', BottomProductAPIView.as_view(), name='bottmProducts'),
+    path('subsubcategories/', SubSubcategoryAPIView.as_view()),
+    path('subsubcategories/<int:pk>/', SubSubcategoryDetailAPIView.as_view()),
     path('failed/', PayementView.as_view(), name='failed'),
 ]
