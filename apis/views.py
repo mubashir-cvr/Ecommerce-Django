@@ -69,9 +69,39 @@ class SubSubcategoryAPIView(APIView):
         if self.request.query_params.get('filter'):
             key=self.request.query_params.get('filter')
             filterIDs=json.loads(key)
-            subsubcategories=SubSubCategory.objects.filter(id__in=filterIDs)
-            serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
-            return Response(serializer.data)
+            
+            filterProducts=Products.objects.filter(subsubcategory__id__in=filterIDs)
+            filterProductsSerilizer=productSerializer(filterProducts,many=True,context={"request": request})
+            brandnames=[]
+            colors=[]
+            sizes=[]
+            for product in filterProducts:
+                if product.brand:
+                    data={"id":product.brand.id,"name":product.brand.name}
+                    if not data in brandnames:
+                        brandnames.append(data)
+                if Options.objects.filter(product=product).exists():
+                    options=Options.objects.filter(product=product)
+                    for option in options:
+                        data={"color":option.color}
+                        if not data in colors:
+                            colors.append(data)
+                        if Sizes.objects.filter(option=option).exists():
+                            sizeses=Sizes.objects.filter(option=option)
+                            for size in sizeses:
+                                data={"size":size.size}
+                                if not data in sizes:
+                                    sizes.append(data)
+                
+            data={
+                "products":filterProductsSerilizer.data,
+                "availablebrands":brandnames,
+                "availabeColours":colors,
+                "availableSizes":sizes
+
+            }
+            
+            return Response(data)
         subsubcategories=SubSubCategory.objects.all()
         serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
         return Response(serializer.data)
