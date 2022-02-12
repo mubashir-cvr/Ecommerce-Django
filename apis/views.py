@@ -66,18 +66,18 @@ class SubSubcategoryViewset(viewsets.ModelViewSet):
 
 class SubSubcategoryAPIView(APIView):
     def get(self, request, format=None):
+        if self.request.query_params.get('filter'):
+            key=self.request.query_params.get('filter')
+            filterIDs=json.loads(key)
+            subsubcategories=SubSubCategory.objects.filter(id__in=filterIDs)
+            serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
+            return Response(serializer.data)
         subsubcategories=SubSubCategory.objects.all()
         serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
         return Response(serializer.data)
-    
-    def post(self, request):
         
-        filterIDs=json.loads(request.data['filter'])
-            
         
-        subsubcategories=SubSubCategory.objects.filter(id__in=filterIDs)
-        serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
-        return Response(serializer.data)
+        
     
 
 class SubSubcategoryDetailAPIView(APIView):
