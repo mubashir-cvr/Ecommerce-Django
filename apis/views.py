@@ -25,6 +25,7 @@ from .pagination import *
 from .serializers import * 
 from rest_framework.response import Response
 from django.db.models import Q
+from rest_framework import status
 
 from .models import Category, SubCategory,SubSubCategory,Options,Products,NewCollection,cart
 from datetime import datetime,timedelta
@@ -63,8 +64,35 @@ class SubSubcategoryViewset(viewsets.ModelViewSet):
     serializer_class = SubSubcategorySerializer
 
 
+class SubSubcategoryAPIView(APIView):
+    def get(self, request, format=None):
+        subsubcategories=SubSubCategory.objects.all()
+        serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
+        return Response(serializer.data)
+    
+    def post(self, request, format=None):
+        filter=request.POST['filter']
+        filterIDs=json.loads(filter)
+        subsubcategories=SubSubCategory.objects.filter(id__in=filterIDs)
+        serializer=SubSubcategorySerializer(subsubcategories,many=True,context={'request': request})
+        return Response(serializer.data)
+    
 
+class SubSubcategoryDetailAPIView(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return SubSubCategory.objects.get(pk=pk)
+        except SubSubCategory.DoesNotExist:
+            raise Http404
 
+    def get(self, request, pk, format=None):
+        subsubcategory = self.get_object(pk)
+        serializer = SubSubcategorySerializer(subsubcategory,context={'request': request})
+        return Response(serializer.data)
+    
 
 class OptionsViewset(viewsets.ModelViewSet):
     # define queryset
@@ -115,10 +143,6 @@ class NewArrivalViewset(APIView):
         return Response(searchdata)
 
 
-class BottomProductViewset(viewsets.ModelViewSet):
-    queryset = BottomProductDisplay.objects.all()
-    # specify serializer to bce used
-    serializer_class = BottomProductDisplaySerializer
 
 class NewCollectionViewset(viewsets.ModelViewSet):
     # define queryset
@@ -577,3 +601,55 @@ class CustomerOrderViewset(viewsets.ModelViewSet):
     serializer_class = OrdersSerializer
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+
+
+
+class BottomProductViewset(viewsets.ModelViewSet):
+    queryset = BottomProductDisplay.objects.all()
+    # specify serializer to bce used
+    serializer_class = BottomProductDisplaySerializer
+
+class BottomProductAPIView(APIView):
+    def get(self, request, format=None):
+        bproducts=BottomProductDisplay.objects.all()
+        if bproducts.exists():
+            productIDs=[]
+            for product in bproducts:
+                productIDs.append(product.product.id)
+                
+            
+            bottomProducts=Products.objects.filter(id__in=productIDs)
+            bottomProductsSerilizer=productSerializer(bottomProducts,many=True,context={"request": request})
+            brandnames=[]
+            colors=[]
+            sizes=[]
+            for product in bottomProducts:
+                if product.brand:
+                    data={"id":product.brand.id,"name":product.brand.name}
+                    if not data in brandnames:
+                        brandnames.append(data)
+                if Options.objects.filter(product=product).exists():
+                    options=Options.objects.filter(product=product)
+                    for option in options:
+                        data={"color":option.color}
+                        if not data in colors:
+                            colors.append(data)
+                        if Sizes.objects.filter(option=option).exists():
+                            sizeses=Sizes.objects.filter(option=option)
+                            for size in sizeses:
+                                data={"size":size.size}
+                                if not data in sizes:
+                                    sizes.append(data)
+                
+            data={
+                "products":bottomProductsSerilizer.data,
+                "availablebrands":brandnames,
+                "availabeColours":colors,
+                "availableSizes":sizes
+
+            }
+            
+            return Response(data)
+        return Response({"message":"Not Found"},status=status.HTTP_404_NOT_FOUND)
+        
