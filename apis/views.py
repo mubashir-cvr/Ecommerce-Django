@@ -154,7 +154,7 @@ class NewArrivalViewset(APIView):
             if Options.objects.filter(product=product).exists():
                 options=Options.objects.filter(product=product)
                 for option in options:
-                    data={"color":option.color}
+                    data={"color":option.color,"colorhash":option.colorhash}
                     if not data in colors:
                         colors.append(data)
                     if Sizes.objects.filter(option=option).exists():
@@ -246,7 +246,7 @@ class OffersaleViewset(APIView):
             if Options.objects.filter(product=product).exists():
                 options=Options.objects.filter(product=product)
                 for option in options:
-                    data={"color":option.color}
+                    data={"color":option.color,"colorhash":option.colorhash}
                     if not data in colors:
                         colors.append(data)
                     if Sizes.objects.filter(option=option).exists():
@@ -664,7 +664,7 @@ class BottomProductAPIView(APIView):
                 if Options.objects.filter(product=product).exists():
                     options=Options.objects.filter(product=product)
                     for option in options:
-                        data={"color":option.color}
+                        data={"color":option.color,"colorhash":option.colorhash}
                         if not data in colors:
                             colors.append(data)
                         if Sizes.objects.filter(option=option).exists():
