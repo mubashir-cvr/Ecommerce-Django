@@ -56,7 +56,7 @@ class BrandSerializerforProduct(serializers.ModelSerializer):
 class ColorSerializerforProduct(serializers.ModelSerializer):
     class Meta:
         model=Options
-        fields = ('color',)
+        fields = ('color','colorhash')
 
 
 class SizeSerializerforProduct(serializers.ModelSerializer):
