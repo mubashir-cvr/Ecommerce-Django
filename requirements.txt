@@ -10,7 +10,7 @@ django-versatileimagefield==2.2
 djangorestframework==3.12.4
 djangorestframework-simplejwt==5.0.0
 httpie==2.6.0
-idna==3.3
+idna==3.3     
 importlib-metadata==4.8.2
 Markdown==3.3.6
 Pillow==8.4.0
