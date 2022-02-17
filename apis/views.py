@@ -622,7 +622,7 @@ class PaymentSuccessView(APIView):
                 o.parentcart.is_placed=True
                 o.parentcart.save()         
             o.save()
-        return redirect("http://localhost:4200/settings/orders")
+        return redirect("http://voui.fr/settings/orders")
 
 
 
