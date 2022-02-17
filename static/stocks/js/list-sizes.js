@@ -77,6 +77,9 @@ $('#optionform').submit(function (event) {
 
                 size = $(this).find("td:eq(0) input[type='text']").val();
                 stock = $(this).find("td:eq(1) input[type='text']").val();
+                if (size==''){
+                    continue;
+                }
                 data = {
                     "stock": stock,
                     "size": size,

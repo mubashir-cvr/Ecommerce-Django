@@ -27,6 +27,7 @@ router.register('adressofuser', AddressesViewSet)
 router.register('cart',CartViewSet)
 router.register('get-user',UserDetails)
 router.register('get-orders',CustomerOrderViewset)
+router.register('addreviews',ProductReviewCreateViewSet)
   
 # specify URL Path for rest_framework
 urlpatterns = [

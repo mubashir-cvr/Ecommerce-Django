@@ -83,7 +83,7 @@ class SubSubcategoryAPIView(APIView):
                 if Options.objects.filter(product=product).exists():
                     options=Options.objects.filter(product=product)
                     for option in options:
-                        data={"color":option.color}
+                        data={"color":option.color,"colorhash":option.colorhash}
                         if not data in colors:
                             colors.append(data)
                         if Sizes.objects.filter(option=option).exists():
@@ -685,3 +685,21 @@ class BottomProductAPIView(APIView):
             return Response(data)
         return Response({"message":"Not Found"},status=status.HTTP_404_NOT_FOUND)
         
+
+class ProductReviewCreateViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    # define queryset
+    queryset = ProductReview.objects.all()
+    # specify serializer to be used
+    
+    serializer_class = ProductReviewSerializer
+
+    def get_serializer_class(self):
+        if self.action=="create":
+            return ProductReviewSerializer
+        return self.serializer_class
+    
+
+    def perform_create(self,serializer):
+        serializer.save(user=self.request.user)
+    

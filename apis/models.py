@@ -142,6 +142,9 @@ class Sizes(models.Model):
     option = models.ForeignKey(Options, related_name='sizes', on_delete=models.CASCADE)
     size=models.CharField(max_length = 200,null=True,blank=True)
     stock=models.IntegerField(null=True)
+    
+    def __str__(self):
+        return self.size
 
 
 class Offer(models.Model):
@@ -226,3 +229,9 @@ class Order(models.Model):
 class BottomProductDisplay(models.Model):
     product=models.OneToOneField(Products,on_delete=models.CASCADE)
 
+
+class ProductReview(models.Model):
+    product=models.ForeignKey(Products,related_name="productreviews",on_delete=models.CASCADE)
+    customer=models.ForeignKey(User,related_name="productreviews",on_delete=models.CASCADE)
+    rating=models.IntegerField()
+    comment=models.TextField()

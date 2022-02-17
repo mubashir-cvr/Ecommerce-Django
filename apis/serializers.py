@@ -87,6 +87,21 @@ class optionsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Options
         fields = ('id','url','color','colorhash','stock','image_one','image_two','image_three','sizes')
+        
+        
+class ProductReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductReview
+        fields ='__all__' 
+        read_only_fields =('customer',)
+        
+class ProductReviewListSerializer(serializers.ModelSerializer):
+    customer=UserSerializer()
+    class Meta:
+        model = ProductReview
+        fields ='__all__' 
+        read_only_fields =('customer',)
+        
 class productSerializer(serializers.HyperlinkedModelSerializer):
     options=optionsSerializer(many=True,read_only=True)
 
@@ -104,8 +119,9 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
 
     OfferSAR=serializers.SerializerMethodField()
     OfferPecentageSAR=serializers.SerializerMethodField()
-
-
+    productRating=serializers.SerializerMethodField()
+    productreviews=ProductReviewListSerializer(many=True)
+    
     brand=BrandSerializerforProduct()
     image = VersatileImageFieldSerializer(
         sizes=[
@@ -131,6 +147,9 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
             'OfferSAR',
             'OfferPecentageSAR',
             'options','created_date',
+            'productreviews',
+            'productRating',
+            
             )
     
     def get_OfferEuro(self, obj):
@@ -188,6 +207,18 @@ class productSerializer(serializers.HyperlinkedModelSerializer):
             euroOffPrice=offer.first().OfferSAR
             return CalculateOfferPercentage(euroOffPrice,obj.productpriceEuro)
         return 0
+    def get_productRating(self, obj):
+        if ProductReview.objects.filter(product=obj).exists():
+            oneRating=ProductReview.objects.filter(product=obj,rating=1).count()
+            twoRating=ProductReview.objects.filter(product=obj,rating=2).count()
+            threeRating=ProductReview.objects.filter(product=obj,rating=3).count()
+            fourRating=ProductReview.objects.filter(product=obj,rating=4).count()
+            fiveRating=ProductReview.objects.filter(product=obj,rating=5).count()
+            total_rating=oneRating+twoRating+threeRating+fourRating+fiveRating
+            avarage_rating=(1*oneRating+2*twoRating+3*threeRating+4*fourRating+5*fiveRating)/total_rating
+            return avarage_rating
+        return 0
+    
 class optionsLessSerializer(serializers.HyperlinkedModelSerializer):
     sizes=SizesSerializer(many=True,read_only=True)
     image_one = VersatileImageFieldSerializer(
@@ -719,3 +750,5 @@ class BottomProductDisplaySerializer(serializers.ModelSerializer):
         model = BottomProductDisplay
         fields ='__all__' 
 
+
+        
